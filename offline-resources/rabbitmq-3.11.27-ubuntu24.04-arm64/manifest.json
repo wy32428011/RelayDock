@@ -1,0 +1,467 @@
+{
+  "schema": 1,
+  "appId": "rabbitmq",
+  "version": "3.11.27",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "arm64",
+  "source": "rabbitmq-official-and-erlang-deps",
+  "files": [
+    {
+      "path": "Packages",
+      "size": 58276,
+      "sha256": "0609d123b1486d03a4eb0b3bf99921df766d315dea20ea3ab20be16998a0c887",
+      "dependencies": []
+    },
+    {
+      "path": "adduser_3.137ubuntu1_all.deb",
+      "size": 100872,
+      "sha256": "542aff2395eb912a56833e11a78076342779689d8fede7adcf08d1d6b0d0cd8b",
+      "dependencies": []
+    },
+    {
+      "path": "cron-daemon-common_3.0pl1-184ubuntu2_all.deb",
+      "size": 13578,
+      "sha256": "289604310fb1e92b9dae924161f94194533af1fccef3b156f970e5365848ff34",
+      "dependencies": []
+    },
+    {
+      "path": "cron_3.0pl1-184ubuntu2_arm64.deb",
+      "size": 83950,
+      "sha256": "f29126ccb78db3e21b54bb1e351a830bc90e1a0c8eff0a1eb77233384c9cbcf8",
+      "dependencies": []
+    },
+    {
+      "path": "debconf_1.5.86ubuntu1_all.deb",
+      "size": 124096,
+      "sha256": "bb390da466a7461bfc87aa3e6b7cd145dae84af3e26bf437f2c0c218ba226294",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-asn1_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 905172,
+      "sha256": "cb9ca0fd10f24152f9644a3a0739b0c0bb150919077dff88c830533e823bede8",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-base_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 10761696,
+      "sha256": "a8e67e8d6944e8b66f36620193d7d94f6cf206fe174b456e170dcf12cd59d50c",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-crypto_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 176560,
+      "sha256": "ba34053cc83691f276ed106cd4d90f5aabc33dbd777af58606741b3c09f88f76",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-eldap_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 133500,
+      "sha256": "10de165145cc48357f23132b6571cdf74c41a05bb8bc2c5e5387650c4c9e5e7d",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-ftp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 103208,
+      "sha256": "f18783288c1e0d0d98a0ad2d4f98f4dac0e16267d640bd6326162fb882412862",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-inets_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 636280,
+      "sha256": "3acf559ecac5c1dd9b54e0bc51fea318c6358333c6c7d0af1c7a15c9d463b8d5",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-mnesia_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 888008,
+      "sha256": "4fbadb94bed54c32c235f6a62c57b0784545206766aaff77b62b10f554576e18",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-os-mon_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 104864,
+      "sha256": "ab435e8019e16045bd7b98af99fe2f57bc06f424275e60620317cd41899a499f",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-parsetools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 204904,
+      "sha256": "6df1d96358f426366e9727fbcafd7a3c648475657128c1cbc10f667db81a7d61",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-public-key_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 799150,
+      "sha256": "aaaa7a9c333206625d3ad29590d83175e7ef7d7bae9aea50ae35fbc408bd4757",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-runtime-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 217344,
+      "sha256": "ab7a1ded658fe2f59cae8a023ae557a6e81d06f992fba84ab626b870d8c4796f",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-snmp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 1859586,
+      "sha256": "02ed281f1d8fa1fec3f517acc08b1a4253ce8ca83a8eec4d48b84e2e670430b6",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-ssl_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 1724010,
+      "sha256": "8bed996af8eb53e3dc639542c5dd1318ab5fd16395b34c64439990305a36facc",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-syntax-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 311434,
+      "sha256": "ab19073faa95a7970b6763e210f89d9765eda9524c3a9f6425f56449167a82a8",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-tftp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 110426,
+      "sha256": "01bb7991b2d6902b54b57b2e38912de1a28a0185999769a3c1edcd1b2abbe25d",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 584606,
+      "sha256": "f6d606e7b438d45cd4a8676b55d180612bc7e37c66fbde5f91b9196b7f28e6d9",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-xmerl_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb",
+      "size": 1367836,
+      "sha256": "6f0d622589de2c5e5f79ecf3decb516903ec872441a52772975649e3ebd09bcf",
+      "dependencies": []
+    },
+    {
+      "path": "gcc-14-base_14.2.0-4ubuntu2~24.04.1_arm64.deb",
+      "size": 50984,
+      "sha256": "bddbe21061fdc73a23e7de79ece91693bf61aa22d634d1c69c5048385c114968",
+      "dependencies": []
+    },
+    {
+      "path": "libacl1_2.3.2-1build1.1_arm64.deb",
+      "size": 17050,
+      "sha256": "ebc53ded654fcf4449df250cb563ff05f10d851e904e638f698dc7e921ffa47b",
+      "dependencies": []
+    },
+    {
+      "path": "libapparmor1_4.0.1really4.0.1-0ubuntu0.24.04.7_arm64.deb",
+      "size": 51764,
+      "sha256": "9ef26597509d4fa1d446c84a8a7639e7a6f3a6c471795d72df169fecbb835147",
+      "dependencies": []
+    },
+    {
+      "path": "libargon2-1_0~20190702+dfsg-4build1_arm64.deb",
+      "size": 20456,
+      "sha256": "3914bb94008149aae3874d14185f9a2e0e3a87cdb284702a85818fd6c33b8685",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit-common_3.1.2-2.1build1.1_all.deb",
+      "size": 5824,
+      "sha256": "c8ab5bed96f9781daab7c36fcbe4b12c3f3247a37256c0e341dc827db1e9a010",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit1_3.1.2-2.1build1.1_arm64.deb",
+      "size": 47524,
+      "sha256": "6cca04d5483a634ff2ed78a31897bad1941226b8b6fc13030d8bb1d688ef2583",
+      "dependencies": []
+    },
+    {
+      "path": "libblkid1_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 123386,
+      "sha256": "23415b36b03986f5babdae894254b125420da66e59b6fefe12d7766dea21085d",
+      "dependencies": []
+    },
+    {
+      "path": "libbz2-1.0_1.0.8-5.1ubuntu0.1_arm64.deb",
+      "size": 35936,
+      "sha256": "1a92811105f89bf948a629de99715ef23941ef93c901e0942883029069db3f94",
+      "dependencies": []
+    },
+    {
+      "path": "libcap-ng0_0.8.4-2build2_arm64.deb",
+      "size": 14850,
+      "sha256": "ffaaedcfab1d1cc48997f09e88b6664f2cc7cba1c7e15bf1078084f512697d4d",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2_2.66-5ubuntu2.4_arm64.deb",
+      "size": 30676,
+      "sha256": "3c4459762b9ee61c773209bc45db1ca7cf34e1254cc047260d309a8db11b3490",
+      "dependencies": []
+    },
+    {
+      "path": "libcrypt1_4.4.36-4build1_arm64.deb",
+      "size": 85888,
+      "sha256": "5cd73ba112507dabd8e43b528ca9f530719a370e014b8e3e797770e6e940cccf",
+      "dependencies": []
+    },
+    {
+      "path": "libcryptsetup12_2.7.0-1ubuntu4.2_arm64.deb",
+      "size": 261226,
+      "sha256": "b54d9a76910dbe14699ec2b351e676437b9632fb801e11eea52ee8089b90fac2",
+      "dependencies": []
+    },
+    {
+      "path": "libdb5.3t64_5.3.28+dfsg2-7_arm64.deb",
+      "size": 732284,
+      "sha256": "b04d246b871e2e745538fa71ce2d1a127dfd65e7b1438bc6b8e2bb86538f519e",
+      "dependencies": []
+    },
+    {
+      "path": "libdevmapper1.02.1_1.02.185-3ubuntu3.2_arm64.deb",
+      "size": 128226,
+      "sha256": "fb2c1c7f78fac39eb3191cfd30093d57a8ce2ae6b0942972f117706877f17d92",
+      "dependencies": []
+    },
+    {
+      "path": "libfdisk1_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 142308,
+      "sha256": "6b22d5206008740e96057c9394b7d8af990730fe616a33adb020bffc339db8c4",
+      "dependencies": []
+    },
+    {
+      "path": "libgcc-s1_14.2.0-4ubuntu2~24.04.1_arm64.deb",
+      "size": 61884,
+      "sha256": "5b191f79ad985a9a653dbba45214619f729f9178a9bdf92f7c68db06c50d070b",
+      "dependencies": []
+    },
+    {
+      "path": "libgcrypt20_1.10.3-2ubuntu0.1_arm64.deb",
+      "size": 471602,
+      "sha256": "81ca7c907a2d35f00a9bf0514e1b484821a125f8cd1c8503f1a808d143e4c87f",
+      "dependencies": []
+    },
+    {
+      "path": "libgpg-error0_1.47-3build2.1_arm64.deb",
+      "size": 70050,
+      "sha256": "cb14ae76d098421ee58c0b6796ce836a9fd386fa4824894a029089062b485b09",
+      "dependencies": []
+    },
+    {
+      "path": "libjson-c5_0.17-1build1_arm64.deb",
+      "size": 36390,
+      "sha256": "959fbcbc05817cdf9191b73d8d78ac0b8919559c4c3b4e9d0bbf157b39716652",
+      "dependencies": []
+    },
+    {
+      "path": "libkmod2_31+20240202-2ubuntu7.2_arm64.deb",
+      "size": 51958,
+      "sha256": "c7d5bb0969bb3ddbdf7a169657378d13fb6fef91f2f17bc219f36ba63cef1bbd",
+      "dependencies": []
+    },
+    {
+      "path": "liblz4-1_1.9.4-1build1.1_arm64.deb",
+      "size": 64172,
+      "sha256": "65ab8cfe4aeb8205ef4f980500d2c8cb397cb49901ef12efad59f4ed7685cbe0",
+      "dependencies": []
+    },
+    {
+      "path": "liblzma5_5.6.1+really5.4.5-1ubuntu0.3_arm64.deb",
+      "size": 125976,
+      "sha256": "2f58fd7de725efd0dbebe9d4442049fdacd7c2e8242f4288a13a688d50507245",
+      "dependencies": []
+    },
+    {
+      "path": "libmount1_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 132882,
+      "sha256": "13f0e4cd6c28071a5350d605d00a49c20c1b2f3d17cd3c0c277ab93cc12e5507",
+      "dependencies": []
+    },
+    {
+      "path": "libncursesw6_6.4+20240113-1ubuntu2.2_arm64.deb",
+      "size": 145566,
+      "sha256": "70c7edddf49520a7d0e620ad7d82da8e4b8c2ba7bd8caf156d5666ea19836e94",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules-bin_1.5.3-5ubuntu5.5_arm64.deb",
+      "size": 50434,
+      "sha256": "d8cf22a326c08715f3deab7ee90f7dc2ea4f22a87fec2c203ccc67d4593b737f",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules_1.5.3-5ubuntu5.5_arm64.deb",
+      "size": 285192,
+      "sha256": "d7bdcf2d1370d82b090df1dc524589d6a25323c8711b5f31243c2dc953ae4f46",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-runtime_1.5.3-5ubuntu5.5_all.deb",
+      "size": 40754,
+      "sha256": "f637c92621811f238f185f9072f9a03090e783e91eaa4817ef148822ffc952d0",
+      "dependencies": []
+    },
+    {
+      "path": "libpam0g_1.5.3-5ubuntu5.7_arm64.deb",
+      "size": 68430,
+      "sha256": "00c9618121e9b040748db3b1ad2e42c08898c567044a7f6ccde3627e3650588c",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.42-4ubuntu2.1_arm64.deb",
+      "size": 211856,
+      "sha256": "7581764969752953aa1f991ce143bea594d2c5d0c36c2cc98c3c614c172aba93",
+      "dependencies": []
+    },
+    {
+      "path": "libpopt0_1.19+dfsg-1build1_arm64.deb",
+      "size": 28400,
+      "sha256": "7b2d243bb9bcb7348328c5b9f64f267dca67ac37a07f8e43219e64405febe22e",
+      "dependencies": []
+    },
+    {
+      "path": "libproc2-0_4.0.4-4ubuntu3.3_arm64.deb",
+      "size": 58470,
+      "sha256": "670adcf3084f58d5d81045f6edba8c47c5b13a9cbd7fdfb00f25946bec7cf0de",
+      "dependencies": []
+    },
+    {
+      "path": "libseccomp2_2.5.5-1ubuntu3.1_arm64.deb",
+      "size": 51170,
+      "sha256": "2feac77a129e336960734586ccdb16eefb040adfe7b662369549e41b82ba0a1b",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.5-2ubuntu2.1_arm64.deb",
+      "size": 79946,
+      "sha256": "56630c4f009754e76808bf755072e634f8785a4dfbc8b1445213149e682f1502",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage-common_3.5-1build5_all.deb",
+      "size": 10144,
+      "sha256": "e10cd93f0b6941566de04b860b723df57ca3fe4a9255a73b2be0d1dc7df2850e",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage2_3.5-1build5_arm64.deb",
+      "size": 90806,
+      "sha256": "d353aa63f68f7ef84e43d6d032535a6f3a2aaeb48d5dfb22fa8ab480dc52922d",
+      "dependencies": []
+    },
+    {
+      "path": "libsepol2_3.5-2build1_arm64.deb",
+      "size": 290818,
+      "sha256": "43339b502a91d0900b2e96ba9c30a3cc0175797a916d4d91dae26870f6d4655a",
+      "dependencies": []
+    },
+    {
+      "path": "libsmartcols1_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 65238,
+      "sha256": "f99cddae09c2e37b5c16dcc5ab47a67196d5be1d5cce875578728f8e9bbd6d3d",
+      "dependencies": []
+    },
+    {
+      "path": "libssl3t64_3.0.13-0ubuntu3.11_arm64.deb",
+      "size": 1798598,
+      "sha256": "0cb6e139be61990a5fd8a8c17a428a8035c5870b11e359c93a088c22fc637a49",
+      "dependencies": []
+    },
+    {
+      "path": "libstdc++6_14.2.0-4ubuntu2~24.04.1_arm64.deb",
+      "size": 750976,
+      "sha256": "f84a05ac45a6884109b6527e911081a38263b89e042fc94a338cf975f61a330c",
+      "dependencies": []
+    },
+    {
+      "path": "libsystemd-shared_255.4-1ubuntu8.16_arm64.deb",
+      "size": 2019720,
+      "sha256": "72eb297686d15700977b181d52218c4ed56c858a7bd49a79ca6b32de9fba6c68",
+      "dependencies": []
+    },
+    {
+      "path": "libsystemd0_255.4-1ubuntu8.16_arm64.deb",
+      "size": 427088,
+      "sha256": "4a4705570bbfcc279dc7a82419b412e3594f53697903ad8c72c4bcee1b4c2033",
+      "dependencies": []
+    },
+    {
+      "path": "libtinfo6_6.4+20240113-1ubuntu2.1_arm64.deb",
+      "size": 104560,
+      "sha256": "bb907b0a9735c08ebc94b3c7a9f725e501cb515ea8b08611566b17135ce3722b",
+      "dependencies": []
+    },
+    {
+      "path": "libudev1_255.4-1ubuntu8.16_arm64.deb",
+      "size": 175646,
+      "sha256": "c1dde76354c2b4553e7342801a2ccad4fd9b3af1c41d040f0df93eeee277567b",
+      "dependencies": []
+    },
+    {
+      "path": "libuuid1_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 36224,
+      "sha256": "4456b14c7573a8f3fd3b068d08edd7459d16968bfcc0cb39e154ac8afe431c7b",
+      "dependencies": []
+    },
+    {
+      "path": "libzstd1_1.5.5+dfsg2-2build1.1_arm64.deb",
+      "size": 271278,
+      "sha256": "ea7d6e9fde577ea14dbf07fdfb74d6287eb09c6cba4a9d63abdcb87b0ec54bcc",
+      "dependencies": []
+    },
+    {
+      "path": "logrotate_3.21.0-2build1_arm64.deb",
+      "size": 50866,
+      "sha256": "7e9b29e0d7e4da187aae4d6fe117ee5c8b53d0b789f76b61fd8b8d0d67b3fe9b",
+      "dependencies": []
+    },
+    {
+      "path": "mount_2.39.3-9ubuntu6.5_arm64.deb",
+      "size": 116074,
+      "sha256": "e713e8d2bcb6ea1a08a36456754698d0932d0d02d38135becb1c25f80307abfa",
+      "dependencies": []
+    },
+    {
+      "path": "passwd_4.13+dfsg1-4ubuntu3.2_arm64.deb",
+      "size": 838406,
+      "sha256": "c9a84e67f4f84e7c6a24787e81e124fb76c829eec35c3ec46f609e1937073816",
+      "dependencies": []
+    },
+    {
+      "path": "procps_4.0.4-4ubuntu3.3_arm64.deb",
+      "size": 707418,
+      "sha256": "3469d8c55aea7e0b2df478b33ff14423c2f0c7ef11f0db28b243a0f14eb8072a",
+      "dependencies": []
+    },
+    {
+      "path": "rabbitmq-server_3.11.27-1_all.deb",
+      "size": 15622760,
+      "sha256": "1251808693bdeadeb2249a9084ce51a288add95ffc96eeb63f918b1f3460b097",
+      "dependencies": []
+    },
+    {
+      "path": "sensible-utils_0.0.22_all.deb",
+      "size": 22462,
+      "sha256": "410c29ff82c6916d14e235b511287e67a45cb78d509b19aab48608acdc941254",
+      "dependencies": []
+    },
+    {
+      "path": "systemd-dev_255.4-1ubuntu8.16_all.deb",
+      "size": 106408,
+      "sha256": "5101b12b0ac1a29ae213335138627530fa2c0b4f554f68f1b84fdb7a57ba540f",
+      "dependencies": []
+    },
+    {
+      "path": "systemd_255.4-1ubuntu8.16_arm64.deb",
+      "size": 3407776,
+      "sha256": "37f1261b595eb485464e29ced7182110cec8eb5f47c88cbe6b0fd6b50b5f0550",
+      "dependencies": []
+    },
+    {
+      "path": "zlib1g_1.3.dfsg-3.1ubuntu2.2_arm64.deb",
+      "size": 61898,
+      "sha256": "e55ab3b4fb7b6edc4a628e28ec13f8780b08abe427d33ae148f030d8586d0e9a",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "jdk11",
+  "version": "11.0.27_6",
+  "os": "windows",
+  "osVersion": "10",
+  "arch": "amd64",
+  "source": "adoptium-temurin-official",
+  "entrypoint": "OpenJDK11U-jdk_x64_windows_hotspot_11.0.27_6.zip",
+  "files": [
+    {
+      "path": "OpenJDK11U-jdk_x64_windows_hotspot_11.0.27_6.zip",
+      "size": 199236422,
+      "sha256": "8503478995c81926db7154e3fbf3fce3ea214b1062c0a3391db52b0798640f5c",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "appId": "nginx",
+  "version": "1.24.0",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "amd64",
+  "source": "nginx-official-and-distro-deps",
+  "files": [
+    {
+      "path": "deps/glibc-2.17-326.el7_9.x86_64.rpm",
+      "size": 3817244,
+      "sha256": "58dd6ecca9f9c38c402d46c56efacaf2a8739de21c64f22dfb3f9887f2de6c94",
+      "dependencies": []
+    },
+    {
+      "path": "deps/openssl-libs-1.0.2k-26.el7_9.x86_64.rpm",
+      "size": 1256452,
+      "sha256": "658486f1d946fc518624c59a2badf6990f524bb7d5d660d1e34420cc78dcfe62",
+      "dependencies": []
+    },
+    {
+      "path": "deps/pcre2-10.23-2.el7.x86_64.rpm",
+      "size": 206176,
+      "sha256": "98748b0fdbb7877414ce6f7d868011bd3fe28904515abc38007aeba3c42fff61",
+      "dependencies": []
+    },
+    {
+      "path": "deps/procps-ng-3.3.10-28.el7.x86_64.rpm",
+      "size": 298092,
+      "sha256": "c3acdc7803c9973b51194f5631cbf4c28a33df6c00226d12b5c393e713f40843",
+      "dependencies": []
+    },
+    {
+      "path": "deps/shadow-utils-4.6-5.el7.x86_64.rpm",
+      "size": 1250180,
+      "sha256": "c15500133ecdeae9a4cb95383e541b4ed537f11c970477eef0ac3c40a6354528",
+      "dependencies": []
+    },
+    {
+      "path": "deps/systemd-219-78.el7_9.9.x86_64.rpm",
+      "size": 5326256,
+      "sha256": "518634909b8077578379878100a6cc50c82ef6ffa0726ef538f628609f07e436",
+      "dependencies": []
+    },
+    {
+      "path": "nginx-1.24.0-1.el7.ngx.x86_64.rpm",
+      "size": 823020,
+      "sha256": "2be50dab2bd47742190815ec578caa51f63c91ba132bc02433fdf485fa6861aa",
+      "dependencies": []
+    }
+  ]
+}

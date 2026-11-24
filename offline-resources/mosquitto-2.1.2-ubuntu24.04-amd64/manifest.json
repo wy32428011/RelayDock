@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "appId": "mosquitto",
+  "version": "2.1.2",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "amd64",
+  "source": "eclipse-mosquitto-official-and-distro-deps",
+  "files": [
+    {
+      "path": "libcjson1_1.7.17-1_amd64.deb",
+      "size": 24762,
+      "sha256": "43d758e214612877ec9029f2384bdbb0a6eeba6e74bb2cd3e7a60f4108947c41",
+      "dependencies": []
+    },
+    {
+      "path": "libmicrohttpd12t64_1.0.0-2.1ubuntu2_amd64.deb",
+      "size": 107152,
+      "sha256": "4996c7f73860c9cdd3caf419ada425cf49133becf8ee52b0b08c1ee443e8272c",
+      "dependencies": []
+    },
+    {
+      "path": "libmosquitto1_2.1.2-0mosquitto1~noble1_amd64.deb",
+      "size": 112666,
+      "sha256": "31803f22434e822dab3ee9555b502c3235f50ba3adb8a4f304c5a5b676cb029b",
+      "dependencies": []
+    },
+    {
+      "path": "mosquitto-clients_2.1.2-0mosquitto1~noble1_amd64.deb",
+      "size": 150044,
+      "sha256": "33bb00a6cdc53d23928120d454d593fb86859b83933d91caa36adc5c0be96a4c",
+      "dependencies": []
+    },
+    {
+      "path": "mosquitto_2.1.2-0mosquitto1~noble1_amd64.deb",
+      "size": 515936,
+      "sha256": "91efd6392731e5a6eeede7eb3ed33d074fcffc03d4a559644bdbc0b5daa79373",
+      "dependencies": []
+    }
+  ]
+}

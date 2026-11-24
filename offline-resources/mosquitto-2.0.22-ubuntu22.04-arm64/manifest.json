@@ -1,0 +1,341 @@
+{
+  "schema": 1,
+  "appId": "mosquitto",
+  "version": "2.0.22",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "eclipse-mosquitto-official-and-distro-deps",
+  "files": [
+    {
+      "path": "Packages",
+      "size": 29920,
+      "sha256": "dd3e3292123e03f82462c0fa491477937d13547ee93ca5a7e3e709e836005a83",
+      "dependencies": []
+    },
+    {
+      "path": "adduser_3.118ubuntu5_all.deb",
+      "size": 155528,
+      "sha256": "53c30389227d4d16f1108a1df7ae1540c890378318335d1dc7ee95b7257f1f17",
+      "dependencies": []
+    },
+    {
+      "path": "debconf_1.5.79ubuntu1_all.deb",
+      "size": 126202,
+      "sha256": "395a65b3a9539304391456d4d0e5531f4249f297b6e67eb0fcaf2ff77ddc3dc3",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit-common_3.0.7-1ubuntu0.1_all.deb",
+      "size": 4720,
+      "sha256": "3e4e8586db5f57f431954a9125556fe6df86610592c0cf46ba1127fae8871e3f",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit1_3.0.7-1ubuntu0.1_arm64.deb",
+      "size": 46764,
+      "sha256": "963474b42258e8caa15eec1db61d8424fd6b7ef717ca4e371b3240506854b3fe",
+      "dependencies": []
+    },
+    {
+      "path": "libbz2-1.0_1.0.8-5ubuntu0.1_arm64.deb",
+      "size": 36102,
+      "sha256": "facd10a2446b6c75a95fcbaedf2303126ac2f669413f423dabda41047539f8a9",
+      "dependencies": []
+    },
+    {
+      "path": "libcap-ng0_0.7.9-2.2build3_arm64.deb",
+      "size": 11212,
+      "sha256": "884c8bc87da241abaa2b0ca80162486cf66eff67dfc545bea56622e1170e9ee5",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2_2.44-1ubuntu0.22.04.3_arm64.deb",
+      "size": 18544,
+      "sha256": "7a8eb6549355a16f327ede574f12e6ebed983b52ab38ce4a618e6e9274b9d4f5",
+      "dependencies": []
+    },
+    {
+      "path": "libcjson1_1.7.15-1ubuntu0.1_arm64.deb",
+      "size": 16076,
+      "sha256": "a62ac771b680a3b948e2f3e99df5a3f024d72e070107acf7863172c61b22633b",
+      "dependencies": []
+    },
+    {
+      "path": "libcom-err2_1.46.5-2ubuntu1.1_arm64.deb",
+      "size": 8974,
+      "sha256": "75a281df2ba36d4935d90dd12c07a47f36d1f914412e5c99933dce84b102da3e",
+      "dependencies": []
+    },
+    {
+      "path": "libcrypt1_4.4.27-1_arm64.deb",
+      "size": 86850,
+      "sha256": "fb5f8d59de95bbb118a635e83e2a92077e13c6d297980dae3119df057bf88111",
+      "dependencies": []
+    },
+    {
+      "path": "libdb5.3_5.3.28+dfsg1-0.8ubuntu3_arm64.deb",
+      "size": 713828,
+      "sha256": "e5b672aeaca690b3b7ee97b03dbc07ddb49be7b6ea0a770fa6707666ca1cef59",
+      "dependencies": []
+    },
+    {
+      "path": "libev4_4.33-1_arm64.deb",
+      "size": 27432,
+      "sha256": "726d2812a46778e3f9129d56e139e8d91ec36a87315cf9c1d62496fa3e244efe",
+      "dependencies": []
+    },
+    {
+      "path": "libffi8_3.4.2-4_arm64.deb",
+      "size": 21338,
+      "sha256": "a0cdf938e8da19bd2252c681f80268609a32d06496a1f8d0ebe1fa41debec697",
+      "dependencies": []
+    },
+    {
+      "path": "libgcrypt20_1.9.4-3ubuntu3.2_arm64.deb",
+      "size": 458094,
+      "sha256": "a96022726f0d4dc4f60431c2975d198a045f8e19eda5821b92ce41a086c92565",
+      "dependencies": []
+    },
+    {
+      "path": "libgmp10_6.2.1+dfsg-3ubuntu1_arm64.deb",
+      "size": 240242,
+      "sha256": "32233a3bf7c8b19e86ef3629334f0bece716bb163605d12e0d3a443d57a401d7",
+      "dependencies": []
+    },
+    {
+      "path": "libgnutls30_3.7.3-4ubuntu1.9_arm64.deb",
+      "size": 926354,
+      "sha256": "cce4bf33fa79446ddee42a992e569f12a57c1a6f8916a2e8349249be0f7ad655",
+      "dependencies": []
+    },
+    {
+      "path": "libgpg-error0_1.43-3_arm64.deb",
+      "size": 69370,
+      "sha256": "ffa9029cdeb2786e0db1f614f3d2205f75f466a66b25e22aa89ecdf814491875",
+      "dependencies": []
+    },
+    {
+      "path": "libgssapi-krb5-2_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 142076,
+      "sha256": "b3c80583687b29b0d77d00fd5354771b2898b639a95351ae282e3c55b5d661c7",
+      "dependencies": []
+    },
+    {
+      "path": "libhogweed6_3.7.3-1build2_arm64.deb",
+      "size": 197036,
+      "sha256": "844e5d093dd3982a85c134d47a9e22b129123fb817eb3eea96e936805b0f5170",
+      "dependencies": []
+    },
+    {
+      "path": "libidn2-0_2.3.2-2build1_arm64.deb",
+      "size": 66964,
+      "sha256": "aeb29cc8deedc0710a97e44088ef0271dfe1197e77c0a0fc0c5602e14aeb938f",
+      "dependencies": []
+    },
+    {
+      "path": "libk5crypto3_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 91818,
+      "sha256": "1c40940deb3cb2842bcf8d907e1307abdbabbe1368e704835bf1beddc4377043",
+      "dependencies": []
+    },
+    {
+      "path": "libkeyutils1_1.6.1-2ubuntu3_arm64.deb",
+      "size": 10140,
+      "sha256": "fc26b34c487ea5187585ee0f2c67c738b97e8bae434cca4b546d86743b9e6c80",
+      "dependencies": []
+    },
+    {
+      "path": "libkrb5-3_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 356612,
+      "sha256": "e756885855f5410fe27fdd282fd4a7f958044d8fbdf65ec865b50f0b2f58059f",
+      "dependencies": []
+    },
+    {
+      "path": "libkrb5support0_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 32744,
+      "sha256": "34093e3f5a23f62d56edbc7391dbbb6929f3c28af4d695443dc93b7f277ac5b2",
+      "dependencies": []
+    },
+    {
+      "path": "liblz4-1_1.9.3-2build2_arm64.deb",
+      "size": 57640,
+      "sha256": "3e2274893e0963c758f0d18ba80d033736909373247a7deb211e9ff590a09133",
+      "dependencies": []
+    },
+    {
+      "path": "liblzma5_5.2.5-2ubuntu1.1_arm64.deb",
+      "size": 98352,
+      "sha256": "97f4c7e360aa229d3bf0a5b56b204652ce4f1704536dc0256c0e2537b356f397",
+      "dependencies": []
+    },
+    {
+      "path": "libmicrohttpd12_0.9.75-3ubuntu1_arm64.deb",
+      "size": 74878,
+      "sha256": "1f767b443f1b8b84f285611fba8f2757dbd2c96919e22333b0eee85e6f736b32",
+      "dependencies": []
+    },
+    {
+      "path": "libmosquitto1_2.0.22-0mosquitto1~jammy1_arm64.deb",
+      "size": 98684,
+      "sha256": "319cc4efc1f005ca3f6d4321526858e3b28139b36c510f6e43079ba306933a5c",
+      "dependencies": []
+    },
+    {
+      "path": "libnettle8_3.7.3-1build2_arm64.deb",
+      "size": 169784,
+      "sha256": "bcd667d9a51c2474f7ffc52807ab4a24f8b877b6da1a6f5b75e50e48ec4d634a",
+      "dependencies": []
+    },
+    {
+      "path": "libnsl2_1.3.0-2build2_arm64.deb",
+      "size": 41420,
+      "sha256": "ab2e58eed36da75635f248fad08a2dd3fbe92c9d1f5e44eb68a99db083e9a9c3",
+      "dependencies": []
+    },
+    {
+      "path": "libp11-kit0_0.24.0-6build1_arm64.deb",
+      "size": 231434,
+      "sha256": "541bdd2f81d5caaa83465c1b524ed94e8e5851eba5469a8dce23b92e8e90a0cc",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules-bin_1.4.0-11ubuntu2.8_arm64.deb",
+      "size": 38586,
+      "sha256": "c5ca3189e072d07d2f16a11bee8183de6fc5a4d60c0f0b6ded58bcea1dacd201",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules_1.4.0-11ubuntu2.8_arm64.deb",
+      "size": 278970,
+      "sha256": "a22db45b743fde8a2275cbaf64984baa055b277006bad1089a7c6fb28a677a01",
+      "dependencies": []
+    },
+    {
+      "path": "libpam0g_1.4.0-11ubuntu2.8_arm64.deb",
+      "size": 59800,
+      "sha256": "f61ae0342dfba2b6c6b61f3d46925371434a4719a251f7585f9baa1341fcc9e2",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb",
+      "size": 201806,
+      "sha256": "b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.3-1build2_arm64.deb",
+      "size": 74408,
+      "sha256": "3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage-common_3.3-1build2_all.deb",
+      "size": 9874,
+      "sha256": "bb60d1049ed3d7838b395785cab09f2210c04878fcae9391ea3499f62d04ec2d",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage2_3.3-1build2_arm64.deb",
+      "size": 89298,
+      "sha256": "5f8792ee2ba7a3a8f455db43d8f76f575eb6966127bf94a40e247d969b8fac20",
+      "dependencies": []
+    },
+    {
+      "path": "libsepol2_3.3-1build1_arm64.deb",
+      "size": 274326,
+      "sha256": "b4b44d8e1b6520217b7123f9a15073ab38704480fa8bf8949db988f21203c3d4",
+      "dependencies": []
+    },
+    {
+      "path": "libssl3_3.0.2-0ubuntu1.25_arm64.deb",
+      "size": 1773404,
+      "sha256": "a3762f83646ce0a5d1ef8d15966a0eed58612268b6731f26df196a7bbf02aa31",
+      "dependencies": []
+    },
+    {
+      "path": "libsystemd0_249.11-0ubuntu3.21_arm64.deb",
+      "size": 312340,
+      "sha256": "f543fd6dc960b7bddf7c70cf67946ff1b1547273353a4f8d6c124930a6a54c6a",
+      "dependencies": []
+    },
+    {
+      "path": "libtasn1-6_4.18.0-4ubuntu0.2_arm64.deb",
+      "size": 43202,
+      "sha256": "d9f0ed3ca0cb86f6116bb59388aea92b021c05797b4fba7451a2fed594cb1e1e",
+      "dependencies": []
+    },
+    {
+      "path": "libtirpc-common_1.3.2-2ubuntu0.1_all.deb",
+      "size": 7766,
+      "sha256": "cd7b220447999402e87d75f7cedcfad159a2e5d4236927a414d77f2932219bee",
+      "dependencies": []
+    },
+    {
+      "path": "libtirpc3_1.3.2-2ubuntu0.1_arm64.deb",
+      "size": 82416,
+      "sha256": "64b3eb9a689049c99e02d447b630879c5b2e0db50a18fe6c5dbf1db06d0833ec",
+      "dependencies": []
+    },
+    {
+      "path": "libunistring2_1.0-1_arm64.deb",
+      "size": 543770,
+      "sha256": "59e4af5c1fac70d1fbc19f3c732331ace8449f1f7112887e7b56b8370bd8942b",
+      "dependencies": []
+    },
+    {
+      "path": "libuv1_1.43.0-1ubuntu0.1_arm64.deb",
+      "size": 90064,
+      "sha256": "ea701716a1bd471cc137e2de26846112321117c8c90cdedc52efaab1e8d99080",
+      "dependencies": []
+    },
+    {
+      "path": "libwebsockets16_4.0.20-2ubuntu1.1_arm64.deb",
+      "size": 183984,
+      "sha256": "5c64b21493b4a6a1279b6aa169332f4cbde7683bb7b0e09399dc7ae90e17e98c",
+      "dependencies": []
+    },
+    {
+      "path": "libwrap0_7.6.q-31build2_arm64.deb",
+      "size": 47910,
+      "sha256": "8383eba4771b6027a9c7dd887db2a0b1b08b23cd88e0df8332d65e9f4345623f",
+      "dependencies": []
+    },
+    {
+      "path": "libzstd1_1.4.8+dfsg-3build1_arm64.deb",
+      "size": 311026,
+      "sha256": "0102eb80384c2432c4be819663341a1c4e511d05f13ec1467643696531ec6491",
+      "dependencies": []
+    },
+    {
+      "path": "lsb-base_11.1.0ubuntu4_all.deb",
+      "size": 12350,
+      "sha256": "23ac3e99b0c2cd0179a7f40fa5a24248345e16c515f222164dad2a638b4f04cf",
+      "dependencies": []
+    },
+    {
+      "path": "mosquitto-clients_2.0.22-0mosquitto1~jammy1_arm64.deb",
+      "size": 119040,
+      "sha256": "dcf65369c40954d3c7697880b2b111c0694f09cd5eeae8066361c1a1acc82291",
+      "dependencies": []
+    },
+    {
+      "path": "mosquitto_2.0.22-0mosquitto1~jammy1_arm64.deb",
+      "size": 284266,
+      "sha256": "c835e59f4f1999337044e8693cb57496519f4c5007e21caf1ae08ea8b1e844a4",
+      "dependencies": []
+    },
+    {
+      "path": "passwd_4.8.1-2ubuntu2.2_arm64.deb",
+      "size": 762878,
+      "sha256": "1c394cdd41704354c2bbeede9f77fed814bb6025e1d61e8e4aa6d312d51b51c3",
+      "dependencies": []
+    },
+    {
+      "path": "zlib1g_1.2.11.dfsg-2ubuntu9.2_arm64.deb",
+      "size": 57006,
+      "sha256": "cfd99d1ca41e710fdd3f68bfdc4d36dd24e14377656764f00b215b89cf6976e8",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "appId": "jdk11",
+  "version": "11.0.27_6",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "adoptium-temurin-official",
+  "entrypoint": "OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.27_6.tar.gz",
+  "files": [
+    {
+      "path": "OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.27_6.tar.gz",
+      "size": 192149738,
+      "sha256": "4decd2e5caf4667144091cf723458b14148dc990730b3ecb34bba5eb1aa4ad5d",
+      "dependencies": []
+    },
+    {
+      "path": "gzip_1.10-4ubuntu4.2_arm64.deb",
+      "size": 95054,
+      "sha256": "110a5ab591e9d34f42f8e0963188823eda73eaf73a560831b654c9523ab0a4ed",
+      "dependencies": []
+    },
+    {
+      "path": "libacl1_2.3.1-1_arm64.deb",
+      "size": 16088,
+      "sha256": "328e91b2d6e8ee44ad669fc7276b74f208bc781baf1ecdd7dbf5f092f8b41712",
+      "dependencies": []
+    },
+    {
+      "path": "liblzma5_5.2.5-2ubuntu1.1_arm64.deb",
+      "size": 98352,
+      "sha256": "97f4c7e360aa229d3bf0a5b56b204652ce4f1704536dc0256c0e2537b356f397",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb",
+      "size": 201806,
+      "sha256": "b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.3-1build2_arm64.deb",
+      "size": 74408,
+      "sha256": "3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c",
+      "dependencies": []
+    },
+    {
+      "path": "tar_1.34+dfsg-1ubuntu0.1.22.04.6_arm64.deb",
+      "size": 290852,
+      "sha256": "a6e8a42c2be5fdabf51578cc416714cca62f099cde841c3143178919150bda0f",
+      "dependencies": []
+    },
+    {
+      "path": "xz-utils_5.2.5-2ubuntu1.1_arm64.deb",
+      "size": 84276,
+      "sha256": "56d827c92f6bf3b8d96c7500001d808ae482c1025109228023987130f72a1d09",
+      "dependencies": []
+    }
+  ]
+}

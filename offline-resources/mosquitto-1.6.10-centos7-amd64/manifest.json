@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "appId": "mosquitto",
+  "version": "1.6.10",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "amd64",
+  "source": "eclipse-mosquitto-official-and-distro-deps",
+  "files": [
+    {
+      "path": "libuv-1.44.2-1.el7.x86_64.rpm",
+      "size": 147257,
+      "sha256": "32dfc1a728c6482e6795054e50583a1284e2a9b2339b981f499c1ade27675f91",
+      "dependencies": []
+    },
+    {
+      "path": "libwebsockets-3.0.1-2.el7.x86_64.rpm",
+      "size": 119613,
+      "sha256": "5b5cb5f27396c23e87b5b8c5a008a97287a15af26d2be2f406f8cd19fc33fa7c",
+      "dependencies": []
+    },
+    {
+      "path": "mosquitto-1.6.10-1.el7.x86_64.rpm",
+      "size": 292848,
+      "sha256": "750d46d72f83393c0e98103cfbdcd9bf052f1654961ecef321f37e838fc568f1",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,527 @@
+{
+  "schema": 1,
+  "appId": "mariadb",
+  "version": "11.4.7",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "mariadb-official-and-distro-deps",
+  "files": [
+    {
+      "path": "Packages",
+      "size": 70330,
+      "sha256": "2f7e68a3712b86edac1cab460ce99fca056d7d0f22ade44fde7701e4a8714e0e",
+      "dependencies": []
+    },
+    {
+      "path": "adduser_3.118ubuntu5_all.deb",
+      "size": 155528,
+      "sha256": "53c30389227d4d16f1108a1df7ae1540c890378318335d1dc7ee95b7257f1f17",
+      "dependencies": []
+    },
+    {
+      "path": "debconf_1.5.79ubuntu1_all.deb",
+      "size": 126202,
+      "sha256": "395a65b3a9539304391456d4d0e5531f4249f297b6e67eb0fcaf2ff77ddc3dc3",
+      "dependencies": []
+    },
+    {
+      "path": "debianutils_5.5-1ubuntu2_arm64.deb",
+      "size": 106468,
+      "sha256": "829460c98c24183696042b201cbe2f813421c1d3d5d3f6e1cf819b392e4920d1",
+      "dependencies": []
+    },
+    {
+      "path": "galera-4_26.4.22-ubu2204_arm64.deb",
+      "size": 10164192,
+      "sha256": "526c998fa946d5916045c41d8c0924511e796ec65bf236023818caf7eead68fc",
+      "dependencies": []
+    },
+    {
+      "path": "gawk_5.1.0-1ubuntu0.1_arm64.deb",
+      "size": 426474,
+      "sha256": "a0f71a3d47da417a3eb6e7d93945f72e6b0025c5ad2d61c1e3ea49f5ae3d1843",
+      "dependencies": []
+    },
+    {
+      "path": "gcc-12-base_12.3.0-1ubuntu1~22.04.3_arm64.deb",
+      "size": 215822,
+      "sha256": "b2bc566681989941dd059d6391b01c41854857f26d83c53358287d620dfb0fd4",
+      "dependencies": []
+    },
+    {
+      "path": "iproute2_5.15.0-1ubuntu2.2_arm64.deb",
+      "size": 1082504,
+      "sha256": "41e9e6853de7ab859e1fb7a7662e717a0a328bd2f78988ab38a737fb2017ae74",
+      "dependencies": []
+    },
+    {
+      "path": "libacl1_2.3.1-1_arm64.deb",
+      "size": 16088,
+      "sha256": "328e91b2d6e8ee44ad669fc7276b74f208bc781baf1ecdd7dbf5f092f8b41712",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit-common_3.0.7-1build1_all.deb",
+      "size": 4726,
+      "sha256": "86697036d05c956b5b42339bf61ecf3743f7c6fd4d59a67ab16add9a2cd7802a",
+      "dependencies": []
+    },
+    {
+      "path": "libaudit1_3.0.7-1build1_arm64.deb",
+      "size": 46174,
+      "sha256": "9503b5a374b079d5da38514afa2052bffb2ec07c3a997274622535ff224a60ec",
+      "dependencies": []
+    },
+    {
+      "path": "libbpf0_0.5.0-1ubuntu22.04.1_arm64.deb",
+      "size": 140268,
+      "sha256": "f5af5e4e32d29c2dce882374bffe2d10e6b3b1d2332085d1a4dc8676b0cf40e7",
+      "dependencies": []
+    },
+    {
+      "path": "libbsd0_0.11.5-1_arm64.deb",
+      "size": 43662,
+      "sha256": "19703bfe6fde9a161e42f5107451a46cc182a62dd0621a55d06aec7dc372991d",
+      "dependencies": []
+    },
+    {
+      "path": "libbz2-1.0_1.0.8-5build1_arm64.deb",
+      "size": 36016,
+      "sha256": "30fe3f2d662bb1c87a4b77e5b8f17a67dfcadfec319d0da2ece6cba98f9f8cb5",
+      "dependencies": []
+    },
+    {
+      "path": "libcap-ng0_0.7.9-2.2build3_arm64.deb",
+      "size": 11212,
+      "sha256": "884c8bc87da241abaa2b0ca80162486cf66eff67dfc545bea56622e1170e9ee5",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2-bin_2.44-1ubuntu0.22.04.3_arm64.deb",
+      "size": 25512,
+      "sha256": "71eee97adfee4eb34d6ace5c9e52a690318ef3d8b1152a3fd055c223f951ae37",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2_2.44-1ubuntu0.22.04.3_arm64.deb",
+      "size": 18544,
+      "sha256": "7a8eb6549355a16f327ede574f12e6ebed983b52ab38ce4a618e6e9274b9d4f5",
+      "dependencies": []
+    },
+    {
+      "path": "libcom-err2_1.46.5-2ubuntu1.1_arm64.deb",
+      "size": 8974,
+      "sha256": "75a281df2ba36d4935d90dd12c07a47f36d1f914412e5c99933dce84b102da3e",
+      "dependencies": []
+    },
+    {
+      "path": "libconfig-inifiles-perl_3.000003-1ubuntu0.1_all.deb",
+      "size": 41530,
+      "sha256": "ca58b0ca4dbd583d61a9cdce880eefbc895e82a003d1d2033ef32a8f75100354",
+      "dependencies": []
+    },
+    {
+      "path": "libcrypt1_4.4.27-1_arm64.deb",
+      "size": 86850,
+      "sha256": "fb5f8d59de95bbb118a635e83e2a92077e13c6d297980dae3119df057bf88111",
+      "dependencies": []
+    },
+    {
+      "path": "libdb5.3_5.3.28+dfsg1-0.8ubuntu3_arm64.deb",
+      "size": 713828,
+      "sha256": "e5b672aeaca690b3b7ee97b03dbc07ddb49be7b6ea0a770fa6707666ca1cef59",
+      "dependencies": []
+    },
+    {
+      "path": "libdbi-perl_1.643-3ubuntu0.1_arm64.deb",
+      "size": 738294,
+      "sha256": "e8502500d4d1b6778020a437524c94accd6847299c316fd9efdea15ee91e7e8c",
+      "dependencies": []
+    },
+    {
+      "path": "libedit2_3.1-20210910-1build1_arm64.deb",
+      "size": 95970,
+      "sha256": "7445804608b7feef2484dd217203574323c49f2a6530d92b78bd65a2e5ab4657",
+      "dependencies": []
+    },
+    {
+      "path": "libelf1_0.186-1ubuntu0.1_arm64.deb",
+      "size": 50802,
+      "sha256": "6184340bfaadbbc8895622b7737fdcac08e74f99efa7f416a187709993bc0a8b",
+      "dependencies": []
+    },
+    {
+      "path": "libgcc-s1_12.3.0-1ubuntu1~22.04.3_arm64.deb",
+      "size": 39702,
+      "sha256": "46626e1af6b159061e055f843654ee1f0f1e65fa280331ed47ee76ba1b1f6045",
+      "dependencies": []
+    },
+    {
+      "path": "libgcrypt20_1.9.4-3ubuntu3.2_arm64.deb",
+      "size": 458094,
+      "sha256": "a96022726f0d4dc4f60431c2975d198a045f8e19eda5821b92ce41a086c92565",
+      "dependencies": []
+    },
+    {
+      "path": "libgdbm-compat4_1.23-1_arm64.deb",
+      "size": 6294,
+      "sha256": "819cc2c04e24caff921b3ceb349b1476675648e035b43f86f8a7a81322ba95c8",
+      "dependencies": []
+    },
+    {
+      "path": "libgdbm6_1.23-1_arm64.deb",
+      "size": 34070,
+      "sha256": "66551e3d26e5c401b2aa69ff2093150893ea8df400edc4540673f3985f0b7cab",
+      "dependencies": []
+    },
+    {
+      "path": "libgmp10_6.2.1+dfsg-3ubuntu1_arm64.deb",
+      "size": 240242,
+      "sha256": "32233a3bf7c8b19e86ef3629334f0bece716bb163605d12e0d3a443d57a401d7",
+      "dependencies": []
+    },
+    {
+      "path": "libgpg-error0_1.43-3_arm64.deb",
+      "size": 69370,
+      "sha256": "ffa9029cdeb2786e0db1f614f3d2205f75f466a66b25e22aa89ecdf814491875",
+      "dependencies": []
+    },
+    {
+      "path": "libgssapi-krb5-2_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 142076,
+      "sha256": "b3c80583687b29b0d77d00fd5354771b2898b639a95351ae282e3c55b5d661c7",
+      "dependencies": []
+    },
+    {
+      "path": "libk5crypto3_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 91818,
+      "sha256": "1c40940deb3cb2842bcf8d907e1307abdbabbe1368e704835bf1beddc4377043",
+      "dependencies": []
+    },
+    {
+      "path": "libkeyutils1_1.6.1-2ubuntu3_arm64.deb",
+      "size": 10140,
+      "sha256": "fc26b34c487ea5187585ee0f2c67c738b97e8bae434cca4b546d86743b9e6c80",
+      "dependencies": []
+    },
+    {
+      "path": "libkrb5-3_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 356612,
+      "sha256": "e756885855f5410fe27fdd282fd4a7f958044d8fbdf65ec865b50f0b2f58059f",
+      "dependencies": []
+    },
+    {
+      "path": "libkrb5support0_1.19.2-2ubuntu0.7_arm64.deb",
+      "size": 32744,
+      "sha256": "34093e3f5a23f62d56edbc7391dbbb6929f3c28af4d695443dc93b7f277ac5b2",
+      "dependencies": []
+    },
+    {
+      "path": "liblz4-1_1.9.3-2build2_arm64.deb",
+      "size": 57640,
+      "sha256": "3e2274893e0963c758f0d18ba80d033736909373247a7deb211e9ff590a09133",
+      "dependencies": []
+    },
+    {
+      "path": "liblzma5_5.2.5-2ubuntu1.1_arm64.deb",
+      "size": 98352,
+      "sha256": "97f4c7e360aa229d3bf0a5b56b204652ce4f1704536dc0256c0e2537b356f397",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadb3_11.4.7+maria~ubu2204_arm64.deb",
+      "size": 167954,
+      "sha256": "1ae60361682bf702ae23d6ec82ce65dd47562c594c09cf972cdf44bc7b77551d",
+      "dependencies": []
+    },
+    {
+      "path": "libmd0_1.0.4-1build1_arm64.deb",
+      "size": 23844,
+      "sha256": "6f87f19f71411a94ae370f7f9bcf4c7dfb5d4393f11de99634ac3137448ad678",
+      "dependencies": []
+    },
+    {
+      "path": "libmnl0_1.0.4-3build2_arm64.deb",
+      "size": 12908,
+      "sha256": "225e80ab05283fca43a3d6c717d33f92703893c4fb725a3c4c6c6ced536c31e2",
+      "dependencies": []
+    },
+    {
+      "path": "libmpfr6_4.1.0-3build3_arm64.deb",
+      "size": 245284,
+      "sha256": "cef55f2fe8a149d8d460140a10b8e8539ada9f7fbfa3a44f77ac2a049b3baaa2",
+      "dependencies": []
+    },
+    {
+      "path": "libncurses6_6.3-2ubuntu0.2_arm64.deb",
+      "size": 106486,
+      "sha256": "1269a0a90a6b9ab074ada65d8eed43636ec58ac9974e9c600a56469702be0bd4",
+      "dependencies": []
+    },
+    {
+      "path": "libncursesw6_6.3-2ubuntu0.2_arm64.deb",
+      "size": 142304,
+      "sha256": "0482cf8c655afe1e9539cbf4aa7605df8aa5976583e07987cb54d4e395d8d4bb",
+      "dependencies": []
+    },
+    {
+      "path": "libnsl2_1.3.0-2build2_arm64.deb",
+      "size": 41420,
+      "sha256": "ab2e58eed36da75635f248fad08a2dd3fbe92c9d1f5e44eb68a99db083e9a9c3",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules-bin_1.4.0-11ubuntu2.6_arm64.deb",
+      "size": 38624,
+      "sha256": "75d12cccbf4a228d221e347ff2d57c19ba058e7569a2c1ddbdd1226f7be94a7f",
+      "dependencies": []
+    },
+    {
+      "path": "libpam-modules_1.4.0-11ubuntu2.6_arm64.deb",
+      "size": 279430,
+      "sha256": "5414078ad4aebb3926258aac72dc109ac6fd8c1b18b3e7c727d893704c7476ea",
+      "dependencies": []
+    },
+    {
+      "path": "libpam0g_1.4.0-11ubuntu2.8_arm64.deb",
+      "size": 59800,
+      "sha256": "f61ae0342dfba2b6c6b61f3d46925371434a4719a251f7585f9baa1341fcc9e2",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb",
+      "size": 201806,
+      "sha256": "b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91",
+      "dependencies": []
+    },
+    {
+      "path": "libperl5.34_5.34.0-3ubuntu1.9_arm64.deb",
+      "size": 4723626,
+      "sha256": "3334cbd477ad9da552dd534759f8cd7350c91f1b6573e58c9b17f69b493b7787",
+      "dependencies": []
+    },
+    {
+      "path": "libpopt0_1.18-3build1_arm64.deb",
+      "size": 27970,
+      "sha256": "51849f7ce42215d7eed5a60729cd809bd65037ecab5aa387624d84f3dfcb7118",
+      "dependencies": []
+    },
+    {
+      "path": "libprocps8_3.3.17-6ubuntu2.1_arm64.deb",
+      "size": 35332,
+      "sha256": "af989708c63833697b9bbd4da9704399919cc0f0d6ac337ce876e51a24f85c1a",
+      "dependencies": []
+    },
+    {
+      "path": "libreadline8_8.1.2-1_arm64.deb",
+      "size": 153336,
+      "sha256": "54291f2dd185d3a759227b31b7de4269e495a084fdad89e24a9cc4d0d20888a7",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.3-1build2_arm64.deb",
+      "size": 74408,
+      "sha256": "3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage-common_3.3-1build2_all.deb",
+      "size": 9874,
+      "sha256": "bb60d1049ed3d7838b395785cab09f2210c04878fcae9391ea3499f62d04ec2d",
+      "dependencies": []
+    },
+    {
+      "path": "libsemanage2_3.3-1build2_arm64.deb",
+      "size": 89298,
+      "sha256": "5f8792ee2ba7a3a8f455db43d8f76f575eb6966127bf94a40e247d969b8fac20",
+      "dependencies": []
+    },
+    {
+      "path": "libsepol2_3.3-1build1_arm64.deb",
+      "size": 274326,
+      "sha256": "b4b44d8e1b6520217b7123f9a15073ab38704480fa8bf8949db988f21203c3d4",
+      "dependencies": []
+    },
+    {
+      "path": "libsigsegv2_2.13-1ubuntu3_arm64.deb",
+      "size": 14486,
+      "sha256": "9dc299e9a38ce5d496bcd61764aa4610870cd3b26b29f688068c5cb581cbfe4a",
+      "dependencies": []
+    },
+    {
+      "path": "libssl3_3.0.2-0ubuntu1.25_arm64.deb",
+      "size": 1773404,
+      "sha256": "a3762f83646ce0a5d1ef8d15966a0eed58612268b6731f26df196a7bbf02aa31",
+      "dependencies": []
+    },
+    {
+      "path": "libstdc++6_12.3.0-1ubuntu1~22.04.3_arm64.deb",
+      "size": 660980,
+      "sha256": "59d244119e6129c7e9c0897491c0e210e925d15881b2dedcf8965ceb4fbf1aa3",
+      "dependencies": []
+    },
+    {
+      "path": "libsystemd0_249.11-0ubuntu3.21_arm64.deb",
+      "size": 312340,
+      "sha256": "f543fd6dc960b7bddf7c70cf67946ff1b1547273353a4f8d6c124930a6a54c6a",
+      "dependencies": []
+    },
+    {
+      "path": "libtinfo6_6.3-2ubuntu0.2_arm64.deb",
+      "size": 103658,
+      "sha256": "4884d3f3a3bfd86440e8f2c81c69fc893b43d230719c2a5ff25529f4157650fb",
+      "dependencies": []
+    },
+    {
+      "path": "libtirpc-common_1.3.2-2ubuntu0.1_all.deb",
+      "size": 7766,
+      "sha256": "cd7b220447999402e87d75f7cedcfad159a2e5d4236927a414d77f2932219bee",
+      "dependencies": []
+    },
+    {
+      "path": "libtirpc3_1.3.2-2ubuntu0.1_arm64.deb",
+      "size": 82416,
+      "sha256": "64b3eb9a689049c99e02d447b630879c5b2e0db50a18fe6c5dbf1db06d0833ec",
+      "dependencies": []
+    },
+    {
+      "path": "liburing2_2.1-2build1_arm64.deb",
+      "size": 10042,
+      "sha256": "a9221f0d47fd32819558f7a91677e97c72bd88646d38d369ffa70720ac49c27d",
+      "dependencies": []
+    },
+    {
+      "path": "libwrap0_7.6.q-31build2_arm64.deb",
+      "size": 47910,
+      "sha256": "8383eba4771b6027a9c7dd887db2a0b1b08b23cd88e0df8332d65e9f4345623f",
+      "dependencies": []
+    },
+    {
+      "path": "libxtables12_1.8.7-1ubuntu5.2_arm64.deb",
+      "size": 30916,
+      "sha256": "1e224fa12afd5bf4c8b5afe1803c6af04fd296ecd081fdd6a2df0e8dbe2027e1",
+      "dependencies": []
+    },
+    {
+      "path": "libxxhash0_0.8.1-1_arm64.deb",
+      "size": 20106,
+      "sha256": "b8a08b708e903ca865ad74b8236e0e7092bbfd5b3754d862ff553ca8b4a6c95b",
+      "dependencies": []
+    },
+    {
+      "path": "libzstd1_1.4.8+dfsg-3build1_arm64.deb",
+      "size": 311026,
+      "sha256": "0102eb80384c2432c4be819663341a1c4e511d05f13ec1467643696531ec6491",
+      "dependencies": []
+    },
+    {
+      "path": "lsb-base_11.1.0ubuntu4_all.deb",
+      "size": 12350,
+      "sha256": "23ac3e99b0c2cd0179a7f40fa5a24248345e16c515f222164dad2a638b4f04cf",
+      "dependencies": []
+    },
+    {
+      "path": "lsof_4.93.2+dfsg-1.1build2_arm64.deb",
+      "size": 250886,
+      "sha256": "06413ee98a2c56fd7e1d72bcd03998055daf5f6626d43c282b9de8ca28e79080",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-client-core_11.4.7+maria~ubu2204_arm64.deb",
+      "size": 1121462,
+      "sha256": "9c3f2408725889acee5ea1c1d415ce90e4bc64c89dcedab68fc862cc732dc8de",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-client_11.4.7+maria~ubu2204_arm64.deb",
+      "size": 1993020,
+      "sha256": "143ed390c4b5fcca5eab1ab48c676cc0a5ba24062db22522ed7589e4c881ac4c",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-common_11.4.7+maria~ubu2204_all.deb",
+      "size": 4080,
+      "sha256": "e0f4dc53b7a93444aaf3b19d2133445a272ee5ab081f65e7c4959531c71cbe5a",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-server-core_11.4.7+maria~ubu2204_arm64.deb",
+      "size": 7607718,
+      "sha256": "2fa3bca2f052aff38645e703cf7069f943f05197990e7bd4be8719b30e24adeb",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-server_11.4.7+maria~ubu2204_arm64.deb",
+      "size": 3410194,
+      "sha256": "952fc979ffdfef9dcbd12999fbb6c760c09705d5d137b84f81b07901d03e7939",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-common_11.4.7+maria~ubu2204_all.deb",
+      "size": 2912,
+      "sha256": "0109b54dd43d4c3ad6802b82e3df1f26bb20f2b0194fca5c46c9adf96163e7ef",
+      "dependencies": []
+    },
+    {
+      "path": "passwd_4.8.1-2ubuntu2.2_arm64.deb",
+      "size": 762878,
+      "sha256": "1c394cdd41704354c2bbeede9f77fed814bb6025e1d61e8e4aa6d312d51b51c3",
+      "dependencies": []
+    },
+    {
+      "path": "perl-base_5.34.0-3ubuntu1.9_arm64.deb",
+      "size": 1711140,
+      "sha256": "9e276fc3089df7aa2f4404f1450c06fd261a907aecf7237577c01d5bb4ef99cb",
+      "dependencies": []
+    },
+    {
+      "path": "perl-modules-5.34_5.34.0-3ubuntu1.9_all.deb",
+      "size": 2976512,
+      "sha256": "2a8600951e595a55f8b7517fe1124ca117ef85f3e4e864593bb25c698248e6fc",
+      "dependencies": []
+    },
+    {
+      "path": "perl_5.34.0-3ubuntu1.9_arm64.deb",
+      "size": 231682,
+      "sha256": "45462203a753c4b1ca519749a80c90d067aca528180dfdbe8b8f13bad4efce86",
+      "dependencies": []
+    },
+    {
+      "path": "procps_3.3.17-6ubuntu2.1_arm64.deb",
+      "size": 381392,
+      "sha256": "1427d78e933d0b47b562ffba54f21c8eb4b3141ca1d6d4ca97e649fda5693608",
+      "dependencies": []
+    },
+    {
+      "path": "psmisc_23.4-2build3_arm64.deb",
+      "size": 118272,
+      "sha256": "3b5ef54be2e3f4e915b73921b2a1792208305ece4124d97918825e153279405d",
+      "dependencies": []
+    },
+    {
+      "path": "readline-common_8.1.2-1_all.deb",
+      "size": 53544,
+      "sha256": "a78d02935f6107a12d3d349c25ce4f92fcdcbf6b65e37f1f5a13a9054b5b9e94",
+      "dependencies": []
+    },
+    {
+      "path": "rsync_3.2.7-0ubuntu0.22.04.7_arm64.deb",
+      "size": 437534,
+      "sha256": "32ab339e6cdcefea3d6b30b3ed0654a74eff49d6578c7b805dda08f7f7165028",
+      "dependencies": []
+    },
+    {
+      "path": "socat_1.7.4.1-3ubuntu4_arm64.deb",
+      "size": 347672,
+      "sha256": "ed68d45dd410b13bbeef40cd1a97d6ac287401dd0eb2e2467a17ef88636640fe",
+      "dependencies": []
+    },
+    {
+      "path": "zlib1g_1.2.11.dfsg-2ubuntu9.2_arm64.deb",
+      "size": 57006,
+      "sha256": "cfd99d1ca41e710fdd3f68bfdc4d36dd24e14377656764f00b215b89cf6976e8",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "appId": "nginx",
+  "version": "1.24.0",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "arm64",
+  "source": "nginx-official-and-distro-deps",
+  "files": [
+    {
+      "path": "Packages",
+      "size": 12062,
+      "sha256": "fbeebf81c79295b0c2b9ed3afa7267ff483f795c8d92ff6b295bbdd534a2d223",
+      "dependencies": []
+    },
+    {
+      "path": "debconf_1.5.86ubuntu1_all.deb",
+      "size": 124096,
+      "sha256": "bb390da466a7461bfc87aa3e6b7cd145dae84af3e26bf437f2c0c218ba226294",
+      "dependencies": []
+    },
+    {
+      "path": "gcc-14-base_14.2.0-4ubuntu2~24.04.1_arm64.deb",
+      "size": 50984,
+      "sha256": "bddbe21061fdc73a23e7de79ece91693bf61aa22d634d1c69c5048385c114968",
+      "dependencies": []
+    },
+    {
+      "path": "iproute2_6.1.0-1ubuntu6.4_arm64.deb",
+      "size": 1125726,
+      "sha256": "5cc0bfac0a176309c10c6ef2796c550c6a0ecfc53b9f428b4a632b4f4a2ce8df",
+      "dependencies": []
+    },
+    {
+      "path": "libbpf1_1.3.0-2build2_arm64.deb",
+      "size": 167516,
+      "sha256": "bd7e0d87cdf6363691abd7b4470b5e43dc8cb91b874f054f6efd9421a7a88099",
+      "dependencies": []
+    },
+    {
+      "path": "libc6_2.39-0ubuntu8.7_arm64.deb",
+      "size": 2776586,
+      "sha256": "7d25b6ffc4df6deefd1a48efff5792d6a6bd89ac064a2a8b88e796d3d533e095",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2-bin_2.66-5ubuntu2.4_arm64.deb",
+      "size": 33472,
+      "sha256": "6c9cac86db2d4e0d7eebe8a79ceade3623ab91670a5a348a6efb7abed0abce06",
+      "dependencies": []
+    },
+    {
+      "path": "libcap2_2.66-5ubuntu2.4_arm64.deb",
+      "size": 30676,
+      "sha256": "3c4459762b9ee61c773209bc45db1ca7cf34e1254cc047260d309a8db11b3490",
+      "dependencies": []
+    },
+    {
+      "path": "libcrypt1_4.4.36-4build1_arm64.deb",
+      "size": 85888,
+      "sha256": "5cd73ba112507dabd8e43b528ca9f530719a370e014b8e3e797770e6e940cccf",
+      "dependencies": []
+    },
+    {
+      "path": "libdb5.3t64_5.3.28+dfsg2-7_arm64.deb",
+      "size": 732284,
+      "sha256": "b04d246b871e2e745538fa71ce2d1a127dfd65e7b1438bc6b8e2bb86538f519e",
+      "dependencies": []
+    },
+    {
+      "path": "libelf1t64_0.190-1.1ubuntu0.1_arm64.deb",
+      "size": 58420,
+      "sha256": "ba200bd93e3a1ade40e2c71540f55e7016c60f11e1b9fe1a76ef975de99b87f5",
+      "dependencies": []
+    },
+    {
+      "path": "libgcc-s1_14.2.0-4ubuntu2~24.04.1_arm64.deb",
+      "size": 61884,
+      "sha256": "5b191f79ad985a9a653dbba45214619f729f9178a9bdf92f7c68db06c50d070b",
+      "dependencies": []
+    },
+    {
+      "path": "libmnl0_1.0.5-2build1_arm64.deb",
+      "size": 12372,
+      "sha256": "9442f15a4bbc6148e527045adaf85c86ae3ffe159176d6a5f3b471b49150e470",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.42-4ubuntu2.1_arm64.deb",
+      "size": 211856,
+      "sha256": "7581764969752953aa1f991ce143bea594d2c5d0c36c2cc98c3c614c172aba93",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.5-2ubuntu2.1_arm64.deb",
+      "size": 79946,
+      "sha256": "56630c4f009754e76808bf755072e634f8785a4dfbc8b1445213149e682f1502",
+      "dependencies": []
+    },
+    {
+      "path": "libssl3t64_3.0.13-0ubuntu3.11_arm64.deb",
+      "size": 1798598,
+      "sha256": "0cb6e139be61990a5fd8a8c17a428a8035c5870b11e359c93a088c22fc637a49",
+      "dependencies": []
+    },
+    {
+      "path": "libxtables12_1.8.10-3ubuntu2_arm64.deb",
+      "size": 35914,
+      "sha256": "72cd6add0f8eaaa45f44dd5c0903df083ab3847091d0633b4e46e8f80443718a",
+      "dependencies": []
+    },
+    {
+      "path": "libzstd1_1.5.5+dfsg2-2build1.1_arm64.deb",
+      "size": 271278,
+      "sha256": "ea7d6e9fde577ea14dbf07fdfb74d6287eb09c6cba4a9d63abdcb87b0ec54bcc",
+      "dependencies": []
+    },
+    {
+      "path": "nginx-common_1.24.0-2ubuntu7.13_all.deb",
+      "size": 44536,
+      "sha256": "b0c1be18c58986c4488bafc13074b14a51480d61bdd0220eba19205441283761",
+      "dependencies": []
+    },
+    {
+      "path": "nginx_1.24.0-2ubuntu7.13_arm64.deb",
+      "size": 519360,
+      "sha256": "63f9dfaf7f807b70e3bf8ff3e1d7a21e3a0c5ef71666e0ae19054d24e4686395",
+      "dependencies": []
+    },
+    {
+      "path": "zlib1g_1.3.dfsg-3.1ubuntu2.1_arm64.deb",
+      "size": 61736,
+      "sha256": "cbe3d39ec32d3cc27c021ae4af11e7c67bdf9d700d573207e0941d4038056278",
+      "dependencies": []
+    }
+  ]
+}

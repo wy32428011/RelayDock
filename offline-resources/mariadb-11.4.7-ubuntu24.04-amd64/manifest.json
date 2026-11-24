@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "appId": "mariadb",
+  "version": "11.4.7",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "amd64",
+  "source": "mariadb-official-and-distro-deps",
+  "files": [
+    {
+      "path": "galera-4_26.4.22-ubu2404_amd64.deb",
+      "size": 10142804,
+      "sha256": "4b342f7f74d1dc3514c8c156f60c1ab0403be4385811e97a85e55aacb5f1105d",
+      "dependencies": []
+    },
+    {
+      "path": "galera-arbitrator-4_26.4.22-ubu2404_amd64.deb",
+      "size": 6929272,
+      "sha256": "2d2aa4bdd3f43aa8356e47b8c786da4ca3e6187ed5d077121f02b9aed3b8b4b4",
+      "dependencies": []
+    },
+    {
+      "path": "libconfig-inifiles-perl_3.000003-2_all.deb",
+      "size": 39366,
+      "sha256": "7945252fea17c49e0977bdfe6c050d1beee82d82197219efddffd95ddcae5886",
+      "dependencies": []
+    },
+    {
+      "path": "libdbi-perl_1.643-4build3_amd64.deb",
+      "size": 720722,
+      "sha256": "173b4eaed8ee6413446cf98f48d3324acdaa5ede13c8195db81ffc27c44af0bc",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadb-dev-compat_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 3084,
+      "sha256": "95a2813981df66e5f2247e75f4fc3366e83bd05be0bf2dd1ab7d9e5e568dec5a",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadb-dev_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 269346,
+      "sha256": "6c695124f9565f7e973a1403e99bb3418f339828b5d5aceb4f5e320eb855dede",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadb3-compat_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 2754,
+      "sha256": "5795dfdc318127899475aae9d51e1bce0cbecea1eb9ec94e8490aee876f8c480",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadb3_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 171710,
+      "sha256": "c27c0be93a23a2b134f7c8ff2bd3997482301045d62d3cdec50bb121d71077f7",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadbclient18_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 2706,
+      "sha256": "da6759d78eb4600f3e11c61660d7ded7f398321f8bbc239c6adaa04cf08e59fd",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadbd-dev_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 7518140,
+      "sha256": "8a5388a0e96b7a2c62c2106386eeaa59e6e1459e1675c2621f90c0ebd607e475",
+      "dependencies": []
+    },
+    {
+      "path": "libmariadbd19_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 5925752,
+      "sha256": "a3b2a8aeefe3b02323a22fb8b185f06ebd28f393a39945931f8b0985ae7b83d2",
+      "dependencies": []
+    },
+    {
+      "path": "libmysqlclient18_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 2718,
+      "sha256": "4b3db5e39d4f85435cb67b5203a9b34bc3285c07b90000e3ff7b9231dd10ae61",
+      "dependencies": []
+    },
+    {
+      "path": "libncurses6_6.5-2_amd64.deb",
+      "size": 111756,
+      "sha256": "1233c9c5572d3f5e31ed7239238b54a646c78bb842ad6f30b2f4319d49bb9cbb",
+      "dependencies": []
+    },
+    {
+      "path": "libtinfo6_6.5-2_amd64.deb",
+      "size": 108216,
+      "sha256": "ac28aac905a28eea26cf54c81a32ced7925725880049288d0427378d232b06a7",
+      "dependencies": []
+    },
+    {
+      "path": "lsof_4.95.0-1build3_amd64.deb",
+      "size": 246736,
+      "sha256": "46165f06b9568f9e2718f1fdd3d3a8db46aa597f5ff163c1d21c0d1daa12191d",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-backup_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 7166118,
+      "sha256": "83597ce38cd7dcd61645f6be68cc64037968fe840bb06e5e2ef0716c79560c63",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-client-compat_11.4.7+maria~ubu2404_all.deb",
+      "size": 4518,
+      "sha256": "c649f019edf896e46422df537604dbc655755ee69fbe737714473edec3748579",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-client-core_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 1122694,
+      "sha256": "5a92474bf83d66540ecd4f38e379a8124ad7c6d7b63ecc939fc4c03ecc211fea",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-client_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 2019122,
+      "sha256": "b36f389669978a0ffacb370b22c9d67e743f83688c846976f312879be6299a45",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-columnstore-cmapi_23.10.0_amd64.deb",
+      "size": 80196892,
+      "sha256": "a4207e711460275db499fba727a3d876e7b2a64eadd8678d5de3124d098a3d90",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-common_11.4.7+maria~ubu2404_all.deb",
+      "size": 4096,
+      "sha256": "9d882a3490eea7e82fcf751c864741e7eeafdf2386e62ef59611b564f525b34a",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-columnstore_11.4.7-23.10.3+maria~ubu2404_amd64.deb",
+      "size": 9147202,
+      "sha256": "6048c9d9ad9840b3f154dbdebe38359676270de5156f9c9e33e65ebeb8c45670",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-connect-jdbc_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 10202,
+      "sha256": "a7c1ffc498244f369040f96fbb50a7cffc6344221fbb61de139991959ec94e24",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-connect_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 563658,
+      "sha256": "8befcbf0e19ab55d15919e3e05d1d41bf3c9c98ff083a504f47dead8b5cad8bb",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-cracklib-password-check_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 5172,
+      "sha256": "88c2d074ccaac5b4de08fa4c7d9894107c47ab79298f4afe3b7b0d9778ce7c89",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-gssapi-client_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 5928,
+      "sha256": "d336cae08e5058448bd0aceaf0d4c524ecebe6eeec44d09a82646d5d92f0cde4",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-gssapi-server_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 7570,
+      "sha256": "7ee07469e4a8c350ce13005ae1326fdcdf7d82bd7ed6ee397f107495874808e2",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-hashicorp-key-management_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 19212,
+      "sha256": "c0bd7059aeb3af119b7e033584142bb3cbcb8207ae38ade031185758a670ec95",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-mroonga_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 1325416,
+      "sha256": "ca572167110e64213112aedd3df2357a73f63418e0fd8cd739732764cef16d13",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-oqgraph_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 57518,
+      "sha256": "858016629e7536b0f3d9b99432b7a8bc1c42af877f4bafb51548c2d67811e241",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-provider-bzip2_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 4776,
+      "sha256": "f47f7d5428b6accc8955f97d8b9f1d4c01ae6d4333cabdc93446cefefdef0d17",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-provider-lz4_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 4690,
+      "sha256": "419af534642a9a7e08853c341adee547ffcb677f08a86a6d92bfb30c1a987259",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-provider-lzma_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 4760,
+      "sha256": "6dcf2957fd0480c9722e903f7c9f6c23bafab4aeb5a87a96d34cb97587bcf5ee",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-provider-lzo_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 4676,
+      "sha256": "8748ac7a94f548803403fb641359e3a52aa85ddff2246f16a72f39f3a4df25c2",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-provider-snappy_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 4710,
+      "sha256": "e780e5358fd838df18a1cb7134b7f6b9cc471627429f1cf39d4c32adf9d7b120",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-rocksdb_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 3453962,
+      "sha256": "9cdecf359b640f0e97309a4f0c8a1963197df14b9a10841b6402d35f7e2ac3ac",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-s3_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 156976,
+      "sha256": "b28e1bfce8d747806f1781a8fd6a8f65310d45d2a13806b5ef67767020df460a",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-plugin-spider_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 353754,
+      "sha256": "9c96a7469eb5c65f8a71eeddd3fbdfd24398a90bc379382c5dd347a8d4b13c81",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-server-compat_11.4.7+maria~ubu2404_all.deb",
+      "size": 3354,
+      "sha256": "4b10b8fb5f6b4252008109e94ec12642a8630942228b08dcdbf1dc57fd0465be",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-server-core_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 7782866,
+      "sha256": "e6fabc8f57564c1c86073f943a58d902efc8f75a99e0ca804826c0707635460b",
+      "dependencies": []
+    },
+    {
+      "path": "mariadb-server_11.4.7+maria~ubu2404_amd64.deb",
+      "size": 3280368,
+      "sha256": "696d6adb0649e831c16cda386dc348daacb7030084bf17562732d8581b9eccba",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-common_11.4.7+maria~ubu2404_all.deb",
+      "size": 2930,
+      "sha256": "db3c43784188e5da6af0fd899fa04f72c0ae6e282d218e8d7992c6b08307ebd2",
+      "dependencies": []
+    },
+    {
+      "path": "rsync_3.2.7-1ubuntu1.4_amd64.deb",
+      "size": 442294,
+      "sha256": "a2c92fc69ef4f646f2b267dacb456dbfec022bd32d5394e819c147548059627f",
+      "dependencies": []
+    }
+  ]
+}

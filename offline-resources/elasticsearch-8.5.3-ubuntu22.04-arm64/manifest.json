@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "appId": "elasticsearch",
+  "version": "8.5.3",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "elastic-official",
+  "entrypoint": "elasticsearch-8.5.3-linux-aarch64.tar.gz",
+  "files": [
+    {
+      "path": "elasticsearch-8.5.3-linux-aarch64.tar.gz",
+      "size": 382122455,
+      "sha256": "1aa21e0987f556a62ba6cd81178e162cca948b72991ad1f3bea52a7d0c39d8b1",
+      "dependencies": []
+    },
+    {
+      "path": "gzip_1.10-4ubuntu4.2_arm64.deb",
+      "size": 95054,
+      "sha256": "110a5ab591e9d34f42f8e0963188823eda73eaf73a560831b654c9523ab0a4ed",
+      "dependencies": []
+    },
+    {
+      "path": "libacl1_2.3.1-1_arm64.deb",
+      "size": 16088,
+      "sha256": "328e91b2d6e8ee44ad669fc7276b74f208bc781baf1ecdd7dbf5f092f8b41712",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb",
+      "size": 201806,
+      "sha256": "b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91",
+      "dependencies": []
+    },
+    {
+      "path": "libselinux1_3.3-1build2_arm64.deb",
+      "size": 74408,
+      "sha256": "3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c",
+      "dependencies": []
+    },
+    {
+      "path": "tar_1.34+dfsg-1ubuntu0.1.22.04.6_arm64.deb",
+      "size": 290852,
+      "sha256": "a6e8a42c2be5fdabf51578cc416714cca62f099cde841c3143178919150bda0f",
+      "dependencies": []
+    }
+  ]
+}

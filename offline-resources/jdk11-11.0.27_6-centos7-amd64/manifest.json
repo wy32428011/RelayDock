@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "jdk11",
+  "version": "11.0.27_6",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "amd64",
+  "source": "adoptium-temurin-official",
+  "entrypoint": "OpenJDK11U-jdk_x64_linux_hotspot_11.0.27_6.tar.gz",
+  "files": [
+    {
+      "path": "OpenJDK11U-jdk_x64_linux_hotspot_11.0.27_6.tar.gz",
+      "size": 195348986,
+      "sha256": "dc6136eaa8c1898cbf8973bb1e203e1f653f4c9166be0f5bebe0b02c5f3b5ae3",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "consul",
+  "version": "1.22.6",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "amd64",
+  "source": "hashicorp-official",
+  "entrypoint": "consul_1.22.6_linux_amd64.zip",
+  "files": [
+    {
+      "path": "consul_1.22.6_linux_amd64.zip",
+      "size": 66624575,
+      "sha256": "5c2d67c6a364512b3dd0646eaf8bb58fa2fd6b9c890e2f374475deab2a6ec648",
+      "dependencies": []
+    }
+  ]
+}

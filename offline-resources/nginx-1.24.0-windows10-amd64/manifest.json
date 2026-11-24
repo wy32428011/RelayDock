@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "nginx",
+  "version": "1.24.0",
+  "os": "windows",
+  "osVersion": "10",
+  "arch": "amd64",
+  "source": "nginx-official-and-distro-deps",
+  "entrypoint": "nginx-1.24.0.zip",
+  "files": [
+    {
+      "path": "nginx-1.24.0.zip",
+      "size": 1759722,
+      "sha256": "69a36bfd2a61d7a736fafd392708bd0fb6cf15d741f8028fe6d8bb5ebd670eb9",
+      "dependencies": []
+    }
+  ]
+}

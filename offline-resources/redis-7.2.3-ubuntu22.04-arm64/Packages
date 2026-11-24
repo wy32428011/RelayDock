@@ -1,0 +1,746 @@
+Package: adduser
+Version: 3.118ubuntu5
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 608
+Depends: passwd, debconf (>= 0.5) | debconf-2.0
+Suggests: liblocale-gettext-perl, perl, ecryptfs-utils (>= 67-1)
+Filename: adduser_3.118ubuntu5_all.deb
+Size: 155528
+SHA256: 53c30389227d4d16f1108a1df7ae1540c890378318335d1dc7ee95b7257f1f17
+Description: add and remove users and groups
+
+Package: debconf
+Version: 1.5.79ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 512
+Provides: debconf-2.0
+Pre-Depends: perl-base (>= 5.20.1-3~)
+Recommends: apt-utils (>= 0.5.1), debconf-i18n
+Suggests:
+ debconf-doc, debconf-utils, whiptail | dialog, libterm-readline-gnu-perl,
+ libgtk3-perl, libnet-ldap-perl, perl, debconf-kde-helper (>=
+ 0.1+git20110702)
+Conflicts:
+ apt (<< 0.3.12.1), cdebconf (<< 0.96), debconf-tiny, debconf-utils (<<
+ 1.3.22), dialog (<< 0.9b-20020814-1), menu (<= 2.1.3-1), whiptail (<<
+ 0.51.4-11), whiptail-utf8 (<= 0.50.17-13)
+Breaks:
+ apt-listchanges (<< 3.14), ubiquity (<< 17.10.2), update-notifier-common
+ (<< 3.187~)
+Replaces: debconf-tiny
+Filename: debconf_1.5.79ubuntu1_all.deb
+Size: 126202
+SHA256: 395a65b3a9539304391456d4d0e5531f4249f297b6e67eb0fcaf2ff77ddc3dc3
+Description: Debian configuration management system
+
+Package: gcc-12-base
+Version: 12.3.0-1ubuntu1~22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 272
+Breaks: gnat (<< 7)
+Filename: gcc-12-base_12.3.0-1ubuntu1~22.04.3_arm64.deb
+Size: 215822
+SHA256: b2bc566681989941dd059d6391b01c41854857f26d83c53358287d620dfb0fd4
+Homepage: http://gcc.gnu.org/
+Description: GCC, the GNU Compiler Collection (base package)
+Source: gcc-12
+
+Package: libatomic1
+Version: 12.3.0-1ubuntu1~22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 48
+Depends: gcc-12-base (= 12.3.0-1ubuntu1~22.04.3), libc6 (>= 2.17)
+Filename: libatomic1_12.3.0-1ubuntu1~22.04.3_arm64.deb
+Size: 10718
+SHA256: 936154d57c566aebc0842cf0451b694539e61ca65617d707aa89b4db07285eb1
+Homepage: http://gcc.gnu.org/
+Description: support library providing __atomic built-in functions
+Source: gcc-12
+
+Package: libaudit-common
+Version: 1:3.0.7-1ubuntu0.1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 23
+Filename: libaudit-common_3.0.7-1ubuntu0.1_all.deb
+Size: 4720
+SHA256: 3e4e8586db5f57f431954a9125556fe6df86610592c0cf46ba1127fae8871e3f
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing - common files
+
+Package: libaudit1
+Version: 1:3.0.7-1ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends:
+ libaudit-common (>= 1:3.0.7-1ubuntu0.1), libc6 (>= 2.33), libcap-ng0 (>=
+ 0.7.9)
+Filename: libaudit1_3.0.7-1ubuntu0.1_arm64.deb
+Size: 46764
+SHA256: 963474b42258e8caa15eec1db61d8424fd6b7ef717ca4e371b3240506854b3fe
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing
+
+Package: libbz2-1.0
+Version: 1.0.8-5ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 95
+Depends: libc6 (>= 2.17)
+Filename: libbz2-1.0_1.0.8-5ubuntu0.1_arm64.deb
+Size: 36102
+SHA256: facd10a2446b6c75a95fcbaedf2303126ac2f669413f423dabda41047539f8a9
+Homepage: https://sourceware.org/bzip2/
+Description: high-quality block-sorting file compressor library - runtime
+
+Package: libcap-ng0
+Version: 0.7.9-2.2build3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 41
+Depends: libc6 (>= 2.33)
+Filename: libcap-ng0_0.7.9-2.2build3_arm64.deb
+Size: 11212
+SHA256: 884c8bc87da241abaa2b0ca80162486cf66eff67dfc545bea56622e1170e9ee5
+Homepage: http://people.redhat.com/sgrubb/libcap-ng
+Description: An alternate POSIX capabilities library
+
+Package: libcap2
+Version: 1:2.44-1ubuntu0.22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 60
+Depends: libc6 (>= 2.33)
+Filename: libcap2_2.44-1ubuntu0.22.04.3_arm64.deb
+Size: 18544
+SHA256: 7a8eb6549355a16f327ede574f12e6ebed983b52ab38ce4a618e6e9274b9d4f5
+Homepage: https://sites.google.com/site/fullycapable/
+Description: POSIX 1003.1e capabilities (library)
+
+Package: libcom-err2
+Version: 1.46.5-2ubuntu1.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 96
+Provides: libcomerr2 (= 1.46.5-2ubuntu1.2)
+Depends: libc6 (>= 2.17)
+Breaks: libcomerr2 (<< 1.43.9-1~)
+Replaces: libcomerr2 (<< 1.43.9-1~)
+Filename: libcom-err2_1.46.5-2ubuntu1.2_arm64.deb
+Size: 9108
+SHA256: 3a7b6a2b34c2171b7c8f9ddae58c93b6e416fcd9ac4fa8eb5a15a1a8f3f99afa
+Homepage: http://e2fsprogs.sourceforge.net
+Description: common error description library
+
+Package: libcrypt1
+Version: 1:4.4.27-1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 212
+Depends: libc6 (>= 2.25)
+Conflicts: libpam0g (<< 1.4.0-10)
+Replaces: libc6 (<< 2.29-4)
+Filename: libcrypt1_4.4.27-1_arm64.deb
+Size: 86850
+SHA256: fb5f8d59de95bbb118a635e83e2a92077e13c6d297980dae3119df057bf88111
+Description: libcrypt shared library
+
+Package: libdb5.3
+Version: 5.3.28+dfsg1-0.8ubuntu3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1626
+Depends: libc6 (>= 2.34)
+Filename: libdb5.3_5.3.28+dfsg1-0.8ubuntu3_arm64.deb
+Size: 713828
+SHA256: e5b672aeaca690b3b7ee97b03dbc07ddb49be7b6ea0a770fa6707666ca1cef59
+Homepage:
+ http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html
+Description: Berkeley v5.3 Database Libraries [runtime]
+
+Package: libgcrypt20
+Version: 1.9.4-3ubuntu3.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 965
+Depends: libc6 (>= 2.33), libgpg-error0 (>= 1.27)
+Suggests: rng-tools
+Filename: libgcrypt20_1.9.4-3ubuntu3.2_arm64.deb
+Size: 458094
+SHA256: a96022726f0d4dc4f60431c2975d198a045f8e19eda5821b92ce41a086c92565
+Homepage: https://directory.fsf.org/project/libgcrypt/
+Description: LGPL Crypto library - runtime library
+
+Package: libgpg-error0
+Version: 1.43-3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 180
+Depends: libc6 (>= 2.34)
+Recommends: libgpg-error-l10n
+Filename: libgpg-error0_1.43-3_arm64.deb
+Size: 69370
+SHA256: ffa9029cdeb2786e0db1f614f3d2205f75f466a66b25e22aa89ecdf814491875
+Homepage: https://www.gnupg.org/related_software/libgpg-error/
+Description: GnuPG development runtime library
+Source: libgpg-error
+
+Package: libgssapi-krb5-2
+Version: 1.19.2-2ubuntu0.10
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 440
+Depends:
+ libc6 (>= 2.33), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.16),
+ libkrb5-3 (= 1.19.2-2ubuntu0.10), libkrb5support0 (>= 1.15~beta1)
+Suggests: krb5-doc, krb5-user
+Breaks: moonshot-gss-eap (<= 1.0)
+Filename: libgssapi-krb5-2_1.19.2-2ubuntu0.10_arm64.deb
+Size: 141622
+SHA256: e1001bffd91dd306498ec1824a8330014399a0e0889a562069003726348d7f55
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - krb5 GSS-API Mechanism
+
+Package: libjemalloc2
+Version: 5.2.1-4ubuntu1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: universe/libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 452
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 4.4)
+Filename: libjemalloc2_5.2.1-4ubuntu1_arm64.deb
+Size: 179412
+SHA256: f68a6a003d0fabc42ee395110cf926ec3b998a1eb07f5e390b74c51ae18ec7db
+Homepage: http://jemalloc.net/
+Description: general-purpose scalable concurrent malloc(3) implementation
+Source: jemalloc
+
+Package: libk5crypto3
+Version: 1.19.2-2ubuntu0.10
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 289
+Depends: libc6 (>= 2.33), libkrb5support0 (>= 1.16)
+Suggests: krb5-doc, krb5-user
+Breaks: libgssapi-krb5-2 (<= 1.18~), libkrb5-3 (<= 1.18~)
+Filename: libk5crypto3_1.19.2-2ubuntu0.10_arm64.deb
+Size: 91882
+SHA256: e51d72b346813b57f26c09827f96eb856adb9b553814fbc61a5e8c8a25d292a3
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - Crypto Library
+
+Package: libkeyutils1
+Version: 1.6.1-2ubuntu3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 42
+Depends: libc6 (>= 2.17)
+Filename: libkeyutils1_1.6.1-2ubuntu3_arm64.deb
+Size: 10140
+SHA256: fc26b34c487ea5187585ee0f2c67c738b97e8bae434cca4b546d86743b9e6c80
+Homepage: https://people.redhat.com/~dhowells/keyutils/
+Description: Linux Key Management Utilities (library)
+
+Package: libkrb5-3
+Version: 1.19.2-2ubuntu0.10
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1020
+Depends:
+ libc6 (>= 2.34), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.18.2),
+ libkeyutils1 (>= 1.5.9), libkrb5support0 (= 1.19.2-2ubuntu0.10), libssl3
+ (>= 3.0.0~~alpha1)
+Recommends: krb5-locales
+Suggests: krb5-doc, krb5-user
+Breaks:
+ libapache2-mod-auth-kerb (<= 5.4-2.4), libsmbclient (<= 2:3.6.1-2), sssd
+ (<= 1.2.1-4.3)
+Filename: libkrb5-3_1.19.2-2ubuntu0.10_arm64.deb
+Size: 356046
+SHA256: 8de066e35be457bf0c53c995f8baa270ad61566dcd892d0a7cc3c0438ff513b7
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries
+
+Package: libkrb5support0
+Version: 1.19.2-2ubuntu0.10
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 165
+Depends: libc6 (>= 2.34)
+Breaks:
+ libgssapi-krb5-2 (<< 1.13~alpha1-1), libk5crypto3 (<< 1.16),
+ libkadm5clnt-mit9 (<< 1.13~alpha1-1), libkadm5srv-mit9 (<< 1.13~alpha1-1),
+ libkdb5-8 (<< 1.16)
+Filename: libkrb5support0_1.19.2-2ubuntu0.10_arm64.deb
+Size: 32906
+SHA256: c535d5ccf5ea99fb63d86b33082c5ed553a6aa8c7cbf3fed1ef0dac1d7b7dcd6
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - Support library
+
+Package: liblz4-1
+Version: 1.9.3-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 132
+Depends: libc6 (>= 2.17)
+Breaks: liblz4-1a
+Replaces: liblz4-1a
+Filename: liblz4-1_1.9.3-2build2_arm64.deb
+Size: 57640
+SHA256: 3e2274893e0963c758f0d18ba80d033736909373247a7deb211e9ff590a09133
+Homepage: https://github.com/Cyan4973/lz4
+Description: Fast LZ compression algorithm library - runtime
+Source: lz4
+
+Package: liblzf1
+Version: 3.6-3
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: universe/libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 28
+Depends: libc6 (>= 2.17)
+Filename: liblzf1_3.6-3_arm64.deb
+Size: 7076
+SHA256: c8e7e08907e17c355f22342742a3657783d311b2d7ce585b7cdabf363b1ebdde
+Homepage: http://software.schmorp.de/pkg/liblzf.html
+Description: Very small data compression library
+Source: liblzf
+
+Package: liblzma5
+Version: 5.2.5-2ubuntu1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 278
+Depends: libc6 (>= 2.34)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+Filename: liblzma5_5.2.5-2ubuntu1.1_arm64.deb
+Size: 98352
+SHA256: 97f4c7e360aa229d3bf0a5b56b204652ce4f1704536dc0256c0e2537b356f397
+Homepage: https://tukaani.org/xz/
+Description: XZ-format compression library
+Source: xz-utils
+
+Package: libnsl2
+Version: 1.3.0-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 118
+Depends: libc6 (>= 2.33), libtirpc3 (>= 1.0.2)
+Filename: libnsl2_1.3.0-2build2_arm64.deb
+Size: 41420
+SHA256: ab2e58eed36da75635f248fad08a2dd3fbe92c9d1f5e44eb68a99db083e9a9c3
+Homepage: https://github.com/thkukuk/libnsl
+Description: Public client interface for NIS(YP) and NIS+
+
+Package: libpam-modules-bin
+Version: 1.4.0-11ubuntu2.8
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 222
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~)
+Replaces: libpam-modules (<< 1.1.3-8)
+Filename: libpam-modules-bin_1.4.0-11ubuntu2.8_arm64.deb
+Size: 38586
+SHA256: c5ca3189e072d07d2f16a11bee8183de6fc5a4d60c0f0b6ded58bcea1dacd201
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM - helper binaries
+
+Package: libpam-modules
+Version: 1.4.0-11ubuntu2.8
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 938
+Provides: libpam-mkhomedir, libpam-motd, libpam-umask
+Pre-Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libdb5.3,
+ libnsl2 (>= 1.0), libpam0g (>= 1.3.2), libselinux1 (>= 3.1~), libtirpc3
+ (>= 1.0.2), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (=
+ 1.4.0-11ubuntu2.8)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Replaces: libpam-umask, libpam0g-util
+Filename: libpam-modules_1.4.0-11ubuntu2.8_arm64.deb
+Size: 278970
+SHA256: a22db45b743fde8a2275cbaf64984baa055b277006bad1089a7c6fb28a677a01
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM
+
+Package: libpam0g
+Version: 1.4.0-11ubuntu2.8
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 221
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Suggests: libpam-doc
+Replaces: libpam0g-util
+Filename: libpam0g_1.4.0-11ubuntu2.8_arm64.deb
+Size: 59800
+SHA256: f61ae0342dfba2b6c6b61f3d46925371434a4719a251f7585f9baa1341fcc9e2
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules library
+
+Package: libpcre2-8-0
+Version: 10.39-3ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 541
+Depends: libc6 (>= 2.17)
+Filename: libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb
+Size: 201806
+SHA256: b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91
+Homepage: https://pcre.org/
+Description:
+ New Perl Compatible Regular Expression Library- 8 bit runtime files
+
+Package: libselinux1
+Version: 3.3-1build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 203
+Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.22)
+Filename: libselinux1_3.3-1build2_arm64.deb
+Size: 74408
+SHA256: 3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c
+Homepage: https://selinuxproject.org
+Description: SELinux runtime shared libraries
+
+Package: libsemanage-common
+Version: 3.3-1build2
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 37
+Filename: libsemanage-common_3.3-1build2_all.deb
+Size: 9874
+SHA256: bb60d1049ed3d7838b395785cab09f2210c04878fcae9391ea3499f62d04ec2d
+Homepage: https://selinuxproject.org
+Description: Common files for SELinux policy management libraries
+
+Package: libsemanage2
+Version: 3.3-1build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 279
+Depends:
+ libsemanage-common (>= 3.3-1build2), libaudit1 (>= 1:2.2.1), libbz2-1.0,
+ libc6 (>= 2.33), libselinux1 (>= 3.3), libsepol2 (>= 3.3)
+Breaks: policycoreutils (<< 3.0)
+Filename: libsemanage2_3.3-1build2_arm64.deb
+Size: 89298
+SHA256: 5f8792ee2ba7a3a8f455db43d8f76f575eb6966127bf94a40e247d969b8fac20
+Homepage: https://selinuxproject.org
+Description: SELinux policy management library
+
+Package: libsepol2
+Version: 3.3-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 699
+Depends: libc6 (>= 2.33)
+Filename: libsepol2_3.3-1build1_arm64.deb
+Size: 274326
+SHA256: b4b44d8e1b6520217b7123f9a15073ab38704480fa8bf8949db988f21203c3d4
+Homepage: https://selinuxproject.org
+Description: SELinux library for manipulating binary security policies
+
+Package: libssl3
+Version: 3.0.2-0ubuntu1.25
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 5360
+Depends: libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Filename: libssl3_3.0.2-0ubuntu1.25_arm64.deb
+Size: 1773404
+SHA256: a3762f83646ce0a5d1ef8d15966a0eed58612268b6731f26df196a7bbf02aa31
+Homepage: https://www.openssl.org/
+Description: Secure Sockets Layer toolkit - shared libraries
+Source: openssl
+
+Package: libsystemd0
+Version: 249.11-0ubuntu3.21
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1006
+Pre-Depends:
+ libc6 (>= 2.34), libcap2 (>= 1:2.24-9~), libgcrypt20 (>= 1.9.0), liblz4-1
+ (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614), libzstd1 (>= 1.4.0)
+Filename: libsystemd0_249.11-0ubuntu3.21_arm64.deb
+Size: 312340
+SHA256: f543fd6dc960b7bddf7c70cf67946ff1b1547273353a4f8d6c124930a6a54c6a
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd utility library
+Source: systemd
+
+Package: libtirpc-common
+Version: 1.3.2-2ubuntu0.1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 32
+Breaks: libtirpc1, libtirpc3 (<< 1.1.4-0.1~)
+Replaces: libtirpc1, libtirpc3 (<< 1.1.4-0.1~)
+Filename: libtirpc-common_1.3.2-2ubuntu0.1_all.deb
+Size: 7766
+SHA256: cd7b220447999402e87d75f7cedcfad159a2e5d4236927a414d77f2932219bee
+Homepage: http://sourceforge.net/projects/libtirpc
+Description: transport-independent RPC library - common files
+
+Package: libtirpc3
+Version: 1.3.2-2ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 215
+Depends:
+ libc6 (>= 2.34), libgssapi-krb5-2 (>= 1.17), libtirpc-common (>=
+ 1.3.2-2ubuntu0.1)
+Breaks: nfs-common (<< 1:1.2.8-7), nfs-kernel-server (<< 1:1.2.8-7)
+Filename: libtirpc3_1.3.2-2ubuntu0.1_arm64.deb
+Size: 82416
+SHA256: 64b3eb9a689049c99e02d447b630879c5b2e0db50a18fe6c5dbf1db06d0833ec
+Homepage: http://sourceforge.net/projects/libtirpc
+Description: transport-independent RPC library
+
+Package: libzstd1
+Version: 1.4.8+dfsg-3build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 737
+Depends: libc6 (>= 2.17)
+Filename: libzstd1_1.4.8+dfsg-3build1_arm64.deb
+Size: 311026
+SHA256: 0102eb80384c2432c4be819663341a1c4e511d05f13ec1467643696531ec6491
+Homepage: https://github.com/facebook/zstd
+Description: fast lossless compression algorithm
+Source: libzstd
+
+Package: lsb-base
+Version: 11.1.0ubuntu4
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 58
+Filename: lsb-base_11.1.0ubuntu4_all.deb
+Size: 12350
+SHA256: 23ac3e99b0c2cd0179a7f40fa5a24248345e16c515f222164dad2a638b4f04cf
+Homepage: https://wiki.linuxfoundation.org/lsb/start
+Description: Linux Standard Base init script functionality
+
+Package: passwd
+Version: 1:4.8.1-2ubuntu2.2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2193
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.1.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsemanage2 (>= 2.0.3),
+ libpam-modules
+Recommends: sensible-utils
+Filename: passwd_4.8.1-2ubuntu2.2_arm64.deb
+Size: 762878
+SHA256: 1c394cdd41704354c2bbeede9f77fed814bb6025e1d61e8e4aa6d312d51b51c3
+Homepage: https://github.com/shadow-maint/shadow
+Description: change and administer password and group data
+
+Package: redis-server
+Version: 6:7.2.3-1rl1~jammy1
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: Redis Core Team <redis@redis.io>
+Installed-Size: 188
+Depends: lsb-base (>= 3.2-14), redis-tools (= 6:7.2.3-1rl1~jammy1)
+Filename: redis-server_7.2.3-1rl1~jammy1_arm64.deb
+Size: 81778
+SHA256: 0d8381b439e3def7a205fe7f50b9c6bf1eb32a5b275eaf3346bce285871b0817
+Homepage: https://redis.io/
+Description:
+ Persistent key-value database with network interface Redis is a key-value
+ database in a similar vein to memcache but the dataset is non-volatile.
+ Redis additionally provides native support for atomically manipulating and
+ querying data structures such as lists and sets. . The dataset is stored
+ entirely in memory and periodically flushed to disk.
+Source: redis
+
+Package: redis-tools
+Version: 6:7.2.3-1rl1~jammy1
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: Redis Core Team <redis@redis.io>
+Installed-Size: 8679
+Depends: adduser, libc6 (>= 2.34), libssl3 (>= 3.0.0~~alpha1), libsystemd0
+Suggests: ruby-redis
+Breaks: redis-server (<< 2:2.6.16-1)
+Replaces: redis-server (<< 2:2.6.16-1)
+Filename: redis-tools_7.2.3-1rl1~jammy1_arm64.deb
+Size: 1634206
+SHA256: 12e40ac0b4d2da5aa73cc2978bb2bb032421198fcab9c121bd43effee7f4ac71
+Homepage: https://redis.io/
+Description:
+ Persistent key-value database with network interface (client) Redis is a
+ key-value database in a similar vein to memcache but the dataset is
+ non-volatile. Redis additionally provides native support for atomically
+ manipulating and querying data structures such as lists and sets. . This
+ package contains the command line client and other tools.
+Source: redis
+
+Package: sysvinit-utils
+Version: 3.01-1ubuntu1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 59
+Depends: lsb-base (>= 11.0.0~), libc6 (>= 2.34)
+Filename: sysvinit-utils_3.01-1ubuntu1_arm64.deb
+Size: 20346
+SHA256: d243e2acaba5c676a5110f6f47d933b305a2a930808bcb8e09a187bfc3f25b17
+Homepage: https://savannah.nongnu.org/projects/sysvinit
+Description: System-V-like utilities
+Source: sysvinit

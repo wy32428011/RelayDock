@@ -1,0 +1,787 @@
+Package: adduser
+Version: 3.137ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 452
+Depends: passwd
+Suggests:
+ liblocale-gettext-perl, perl, cron, quota, ecryptfs-utils (>= 67-1)
+Filename: adduser_3.137ubuntu1_all.deb
+Size: 100872
+SHA256: 542aff2395eb912a56833e11a78076342779689d8fede7adcf08d1d6b0d0cd8b
+Description: add and remove users and groups
+
+Package: debconf
+Version: 1.5.86ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 493
+Provides: debconf-2.0
+Recommends: apt-utils, debconf-i18n
+Suggests:
+ debconf-doc, debconf-kde-helper, debconf-utils, libgtk3-perl,
+ libnet-ldap-perl, libterm-readline-gnu-perl, perl, whiptail | dialog
+Conflicts: debconf-tiny, whiptail-utf8 (<= 0.50.17-13)
+Replaces: debconf-tiny
+Filename: debconf_1.5.86ubuntu1_all.deb
+Size: 124096
+SHA256: bb390da466a7461bfc87aa3e6b7cd145dae84af3e26bf437f2c0c218ba226294
+Description: Debian configuration management system
+
+Package: libaudit-common
+Version: 1:3.1.2-2.1ubuntu0.1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 18
+Filename: libaudit-common_3.1.2-2.1ubuntu0.1_all.deb
+Size: 5948
+SHA256: b1b6fca3f7ed86db971c073352a6741f1f60f4a94eeb2c1eb0aca8a7e4b11660
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing - common files
+
+Package: libaudit1
+Version: 1:3.1.2-2.1ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends:
+ libaudit-common (>= 1:3.1.2-2.1ubuntu0.1), libc6 (>= 2.38), libcap-ng0 (>=
+ 0.7.9)
+Filename: libaudit1_3.1.2-2.1ubuntu0.1_arm64.deb
+Size: 47626
+SHA256: 0230419be4e85736d7bb45f981f08d1eb62cd9c37f386bccec6d6a42a882a56d
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing
+
+Package: libbsd0
+Version: 0.12.1-1build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 179
+Depends: libc6 (>= 2.38), libmd0 (>= 1.0.3-2)
+Filename: libbsd0_0.12.1-1build1.1_arm64.deb
+Size: 40970
+SHA256: cdf9ff601244e64482584d9d9b98aa54a573c081ab5956227c737307196c1ce3
+Homepage: https://libbsd.freedesktop.org/
+Description: utility functions from BSD systems - shared library
+Source: libbsd
+
+Package: libbz2-1.0
+Version: 1.0.8-5.1ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 86
+Depends: libc6 (>= 2.17)
+Filename: libbz2-1.0_1.0.8-5.1ubuntu0.1_arm64.deb
+Size: 35936
+SHA256: 1a92811105f89bf948a629de99715ef23941ef93c901e0942883029069db3f94
+Homepage: https://sourceware.org/bzip2/
+Description: high-quality block-sorting file compressor library - runtime
+
+Package: libcap-ng0
+Version: 0.8.4-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 150
+Depends: libc6 (>= 2.38)
+Filename: libcap-ng0_0.8.4-2build2_arm64.deb
+Size: 14850
+SHA256: ffaaedcfab1d1cc48997f09e88b6664f2cc7cba1c7e15bf1078084f512697d4d
+Homepage: https://people.redhat.com/sgrubb/libcap-ng
+Description: alternate POSIX capabilities library
+
+Package: libcap2
+Version: 1:2.66-5ubuntu2.4
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 157
+Depends: libc6 (>= 2.38)
+Filename: libcap2_2.66-5ubuntu2.4_arm64.deb
+Size: 30676
+SHA256: 3c4459762b9ee61c773209bc45db1ca7cf34e1254cc047260d309a8db11b3490
+Homepage: https://sites.google.com/site/fullycapable/
+Description: POSIX 1003.1e capabilities (library)
+
+Package: libcjson1
+Version: 1.7.17-1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: universe/libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 152
+Depends: libc6 (>= 2.17)
+Filename: libcjson1_1.7.17-1_arm64.deb
+Size: 25102
+SHA256: abfd20e8ff027fc6620e4c2398bafd75c66ed90094a1091b1d5b187b023103db
+Homepage: https://github.com/DaveGamble/cJSON
+Description: Ultralightweight JSON parser in ANSI C
+Source: cjson
+
+Package: libcrypt1
+Version: 1:4.4.36-4build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 225
+Depends: libc6 (>= 2.38)
+Conflicts: libpam0g (<< 1.4.0-10)
+Replaces: libc6 (<< 2.29-4)
+Filename: libcrypt1_4.4.36-4build1_arm64.deb
+Size: 85888
+SHA256: 5cd73ba112507dabd8e43b528ca9f530719a370e014b8e3e797770e6e940cccf
+Description: libcrypt shared library
+
+Package: libdb5.3t64
+Version: 5.3.28+dfsg2-7
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1701
+Provides: libdb5.3 (= 5.3.28+dfsg2-7)
+Depends: libc6 (>= 2.38)
+Breaks: libdb5.3 (<< 5.3.28+dfsg2-7)
+Replaces: libdb5.3
+Filename: libdb5.3t64_5.3.28+dfsg2-7_arm64.deb
+Size: 732284
+SHA256: b04d246b871e2e745538fa71ce2d1a127dfd65e7b1438bc6b8e2bb86538f519e
+Homepage:
+ http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html
+Description: Berkeley v5.3 Database Libraries [runtime]
+
+Package: libedit2
+Version: 3.1-20230828-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: standard
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 302
+Depends: libbsd0 (>= 0.1.3), libc6 (>= 2.38), libtinfo6 (>= 6)
+Replaces: libedit-dev (<< 3.1-20180525-2~)
+Filename: libedit2_3.1-20230828-1build1_arm64.deb
+Size: 97526
+SHA256: cf642fec16d86517e0e715520c3a7cdaee650e7ae8a4993f82d0e1e7a5883efb
+Homepage: https://www.thrysoee.dk/editline/
+Description: BSD editline and history libraries
+Source: libedit
+
+Package: libffi8
+Version: 3.4.6-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 92
+Provides: libffi8ubuntu1 (= 3.4.6-1build1)
+Depends: libc6 (>= 2.34)
+Breaks: libffi8ubuntu1 (<< 3.4.2-1)
+Replaces: libffi8ubuntu1 (<< 3.4.2-1)
+Filename: libffi8_3.4.6-1build1_arm64.deb
+Size: 22716
+SHA256: a4d4607144bc599328a913d7312761fd8f4a650d67c7d5058f1f3667d771d37c
+Homepage: https://sourceware.org/libffi/
+Description: Foreign Function Interface library runtime
+Source: libffi
+
+Package: libgcrypt20
+Version: 1.10.3-2ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1064
+Depends: libc6 (>= 2.38), libgpg-error0 (>= 1.27)
+Suggests: rng-tools
+Filename: libgcrypt20_1.10.3-2ubuntu0.1_arm64.deb
+Size: 471602
+SHA256: 81ca7c907a2d35f00a9bf0514e1b484821a125f8cd1c8503f1a808d143e4c87f
+Homepage: https://gnupg.org/software/libgcrypt/
+Description: LGPL Crypto library - runtime library
+
+Package: libgmp10
+Version: 2:6.3.0+dfsg-2ubuntu6.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 535
+Depends: libc6 (>= 2.38)
+Breaks: postgresql-pgmp (<< 1.0.3-1)
+Filename: libgmp10_6.3.0+dfsg-2ubuntu6.1_arm64.deb
+Size: 243166
+SHA256: 5a783429ec1a29fb74a9a59c1699579dd9742bd35722280b9ce10e1f3916b003
+Homepage: https://gmplib.org/
+Description: Multiprecision arithmetic library
+Source: gmp
+
+Package: libgnutls30t64
+Version: 3.8.3-1.1ubuntu3.6
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2464
+Provides: libgnutls30 (= 3.8.3-1.1ubuntu3.6)
+Depends:
+ libc6 (>= 2.38), libgmp10 (>= 2:6.3.0+dfsg), libhogweed6t64 (>= 3.6),
+ libidn2-0 (>= 2.0.0), libnettle8t64 (>= 3.9~), libp11-kit0 (>= 0.25.1),
+ libtasn1-6 (>= 4.14), libunistring5 (>= 1.1)
+Suggests: gnutls-bin
+Breaks: libgnutls30 (<< 3.8.3-1.1ubuntu3.6)
+Replaces: libgnutls30
+Filename: libgnutls30t64_3.8.3-1.1ubuntu3.6_arm64.deb
+Size: 941922
+SHA256: 18482c85067bcc8e2b3802d7c3bb87bd54acf4da228e760054e88ef1e125d80a
+Homepage: https://www.gnutls.org/
+Description: GNU TLS library - main runtime library
+Source: gnutls28
+
+Package: libgpg-error0
+Version: 1.47-3build2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 232
+Depends: libc6 (>= 2.38)
+Recommends: libgpg-error-l10n
+Filename: libgpg-error0_1.47-3build2.1_arm64.deb
+Size: 70050
+SHA256: cb14ae76d098421ee58c0b6796ce836a9fd386fa4824894a029089062b485b09
+Homepage: https://www.gnupg.org/related_software/libgpg-error/
+Description: GnuPG development runtime library
+Source: libgpg-error
+
+Package: libhogweed6t64
+Version: 3.9.1-2.2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 376
+Provides: libhogweed6 (= 3.9.1-2.2build1.1)
+Depends: libc6 (>= 2.17), libgmp10 (>= 2:6.3.0+dfsg), libnettle8t64
+Breaks: libhogweed6 (<< 3.9.1-2.2build1.1)
+Replaces: libhogweed6
+Filename: libhogweed6t64_3.9.1-2.2build1.1_arm64.deb
+Size: 198784
+SHA256: 1c252dfe2c1e458c47c6e674285c043e7940555581574a96c49defae26126883
+Homepage: http://www.lysator.liu.se/~nisse/nettle/
+Description: low level cryptographic library (public-key cryptos)
+Source: nettle
+
+Package: libidn2-0
+Version: 2.3.7-2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 224
+Depends: libc6 (>= 2.17), libunistring5 (>= 1.1)
+Filename: libidn2-0_2.3.7-2build1.1_arm64.deb
+Size: 67242
+SHA256: 5d21e1ff26d44b762efc8f94df2e1e1944c1d288a29059b3cf5e76e3bfdf2968
+Homepage: https://www.gnu.org/software/libidn/#libidn2
+Description: Internationalized domain names (IDNA2008/TR46) library
+Source: libidn2
+
+Package: liblz4-1
+Version: 1.9.4-1build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends: libc6 (>= 2.17)
+Breaks: liblz4-1a
+Replaces: liblz4-1a
+Filename: liblz4-1_1.9.4-1build1.1_arm64.deb
+Size: 64172
+SHA256: 65ab8cfe4aeb8205ef4f980500d2c8cb397cb49901ef12efad59f4ed7685cbe0
+Homepage: https://github.com/lz4/lz4
+Description: Fast LZ compression algorithm library - runtime
+Source: lz4
+
+Package: liblzma5
+Version: 5.6.1+really5.4.5-1ubuntu0.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 374
+Depends: libc6 (>= 2.34)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+Filename: liblzma5_5.6.1+really5.4.5-1ubuntu0.3_arm64.deb
+Size: 125976
+SHA256: 2f58fd7de725efd0dbebe9d4442049fdacd7c2e8242f4288a13a688d50507245
+Homepage: https://tukaani.org/xz/
+Description: XZ-format compression library
+Source: xz-utils
+
+Package: libmd0
+Version: 1.1.0-2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 90
+Depends: libc6 (>= 2.33)
+Filename: libmd0_1.1.0-2build1.1_arm64.deb
+Size: 24616
+SHA256: c28583825f7191cdc8b6b71c6150e2cbfc29616d6570680e5284fabc19765ea5
+Homepage: https://www.hadrons.org/software/libmd/
+Description: message digest functions from BSD systems - shared library
+Source: libmd
+
+Package: libmicrohttpd12t64
+Version: 1.0.0-2.1ubuntu2
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: universe/libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 281
+Provides: libmicrohttpd12 (= 1.0.0-2.1ubuntu2)
+Depends: libc6 (>= 2.34), libgnutls30t64 (>= 3.8.1)
+Breaks: libmicrohttpd12 (<< 1.0.0-2.1ubuntu2)
+Replaces: libmicrohttpd12
+Filename: libmicrohttpd12t64_1.0.0-2.1ubuntu2_arm64.deb
+Size: 101778
+SHA256: d3f2e1fbda47ddddb2b143d8ef3258e361aa6173e518c1d5ae1a78d0e7031988
+Homepage: https://www.gnu.org/software/libmicrohttpd/
+Description: library embedding HTTP server functionality
+Source: libmicrohttpd
+
+Package: libmosquitto1
+Version: 2.1.2-0mosquitto1~noble1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Roger A. Light <roger@atchoo.org>
+Installed-Size: 281
+Depends: libc6 (>= 2.34), libcjson1 (>= 1.7.5), libssl3t64 (>= 3.0.0)
+Filename: libmosquitto1_2.1.2-0mosquitto1~noble1_arm64.deb
+Size: 113236
+SHA256: a6490d9e6d1c16693ce4aa27273fb2430f1ce01fe9e2b762ce902af73dd903bf
+Description: MQTT version 3.1/3.1.1/5.0 client library
+Source: mosquitto
+
+Package: libnettle8t64
+Version: 3.9.1-2.2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 476
+Provides: libnettle8 (= 3.9.1-2.2build1.1)
+Depends: libc6 (>= 2.17)
+Breaks: libnettle8 (<< 3.9.1-2.2build1.1)
+Replaces: libnettle8
+Filename: libnettle8t64_3.9.1-2.2build1.1_arm64.deb
+Size: 192300
+SHA256: c2943b87811fe1f35b7e67869810226652caf43a31bd32c8d3ce1b331700b008
+Homepage: http://www.lysator.liu.se/~nisse/nettle/
+Description: low level cryptographic library (symmetric and one-way cryptos)
+Source: nettle
+
+Package: libp11-kit0
+Version: 0.25.3-4ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1884
+Depends: libc6 (>= 2.38), libffi8 (>= 3.4)
+Filename: libp11-kit0_0.25.3-4ubuntu2.1_arm64.deb
+Size: 275892
+SHA256: 0c609690ae1d4c4deccd6fbd50601d6ffc55e1f6f2a53b1b9469203db848674d
+Homepage: https://p11-glue.github.io/p11-glue/p11-kit.html
+Description:
+ library for loading and coordinating access to PKCS#11 modules - runtime
+Source: p11-kit
+
+Package: libpam-modules-bin
+Version: 1.5.3-5ubuntu5.7
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 602
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.3.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsystemd0 (>= 254)
+Replaces: libpam-modules (<< 1.5.2-5~)
+Filename: libpam-modules-bin_1.5.3-5ubuntu5.7_arm64.deb
+Size: 50432
+SHA256: ec3e3e42a6bcaf8bd5434d2b21c28d24e723a89a10a8871ad6aaa8c80a2942b9
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM - helper binaries
+
+Package: libpam-modules
+Version: 1.5.3-5ubuntu5.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 3145
+Provides: libpam-mkhomedir, libpam-motd, libpam-umask
+Pre-Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.3.0),
+ libdb5.3t64, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), libsystemd0,
+ debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.3-5ubuntu5.7)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Replaces: libpam-umask, libpam0g-util
+Filename: libpam-modules_1.5.3-5ubuntu5.7_arm64.deb
+Size: 285996
+SHA256: 65c9f9f35135778db47b2fb811bb2a3528e67343d392fdd8ab021d9debf5460b
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM
+
+Package: libpam0g
+Version: 1.5.3-5ubuntu5.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 297
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Suggests: libpam-doc
+Breaks: libpam0t64 (<< 1.5.3-5)
+Replaces: libpam0g-util, libpam0t64 (<< 1.5.3-5)
+Filename: libpam0g_1.5.3-5ubuntu5.7_arm64.deb
+Size: 68430
+SHA256: 00c9618121e9b040748db3b1ad2e42c08898c567044a7f6ccde3627e3650588c
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules library
+
+Package: libpcre2-8-0
+Version: 10.42-4ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 603
+Depends: libc6 (>= 2.34)
+Filename: libpcre2-8-0_10.42-4ubuntu2.1_arm64.deb
+Size: 211856
+SHA256: 7581764969752953aa1f991ce143bea594d2c5d0c36c2cc98c3c614c172aba93
+Homepage: https://pcre.org/
+Description:
+ New Perl Compatible Regular Expression Library- 8 bit runtime files
+
+Package: libselinux1
+Version: 3.5-2ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 224
+Depends: libc6 (>= 2.38), libpcre2-8-0 (>= 10.22)
+Filename: libselinux1_3.5-2ubuntu2.1_arm64.deb
+Size: 79946
+SHA256: 56630c4f009754e76808bf755072e634f8785a4dfbc8b1445213149e682f1502
+Homepage: https://selinuxproject.org
+Description: SELinux runtime shared libraries
+
+Package: libsemanage-common
+Version: 3.5-1build5
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 26
+Filename: libsemanage-common_3.5-1build5_all.deb
+Size: 10144
+SHA256: e10cd93f0b6941566de04b860b723df57ca3fe4a9255a73b2be0d1dc7df2850e
+Homepage: https://selinuxproject.org
+Description: Common files for SELinux policy management libraries
+
+Package: libsemanage2
+Version: 3.5-1build5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 291
+Depends:
+ libsemanage-common (>= 3.5-1build5), libaudit1 (>= 1:2.2.1), libbz2-1.0,
+ libc6 (>= 2.38), libselinux1 (>= 3.5), libsepol2 (>= 3.5)
+Filename: libsemanage2_3.5-1build5_arm64.deb
+Size: 90806
+SHA256: d353aa63f68f7ef84e43d6d032535a6f3a2aaeb48d5dfb22fa8ab480dc52922d
+Homepage: https://selinuxproject.org
+Description: SELinux policy management library
+
+Package: libsepol2
+Version: 3.5-2build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 799
+Depends: libc6 (>= 2.38)
+Filename: libsepol2_3.5-2build1_arm64.deb
+Size: 290818
+SHA256: 43339b502a91d0900b2e96ba9c30a3cc0175797a916d4d91dae26870f6d4655a
+Homepage: https://selinuxproject.org
+Description: SELinux library for manipulating binary security policies
+
+Package: libsqlite3-0
+Version: 3.45.1-1ubuntu2.6
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1787
+Depends: libc6 (>= 2.38)
+Breaks:
+ crowdsec (<< 1.4), python-migrate (<< 0.11.0-4~), python3-migrate (<<
+ 0.11.0-4~)
+Filename: libsqlite3-0_3.45.1-1ubuntu2.6_arm64.deb
+Size: 704502
+SHA256: 5a1533436569b8f10aadd9de7c83b37c05bec707c618a7aee2fea2ac58f2e8b9
+Homepage: https://www.sqlite.org/
+Description: SQLite 3 shared library
+Source: sqlite3
+
+Package: libssl3t64
+Version: 3.0.13-0ubuntu3.11
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 6058
+Provides: libssl3 (= 3.0.13-0ubuntu3.11)
+Depends: libc6 (>= 2.38)
+Breaks: libssl3 (<< 3.0.13-0ubuntu3.11)
+Replaces: libssl3
+Filename: libssl3t64_3.0.13-0ubuntu3.11_arm64.deb
+Size: 1798598
+SHA256: 0cb6e139be61990a5fd8a8c17a428a8035c5870b11e359c93a088c22fc637a49
+Homepage: https://www.openssl.org/
+Description: Secure Sockets Layer toolkit - shared libraries
+Source: openssl
+
+Package: libsystemd0
+Version: 255.4-1ubuntu8.16
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1104
+Depends:
+ libc6 (>= 2.38), libcap2 (>= 1:2.10), libgcrypt20 (>= 1.10.0), liblz4-1
+ (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614), libzstd1 (>= 1.5.5)
+Filename: libsystemd0_255.4-1ubuntu8.16_arm64.deb
+Size: 427088
+SHA256: 4a4705570bbfcc279dc7a82419b412e3594f53697903ad8c72c4bcee1b4c2033
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd utility library
+Source: systemd
+
+Package: libtasn1-6
+Version: 4.19.0-3ubuntu0.24.04.2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 165
+Depends: libc6 (>= 2.38)
+Filename: libtasn1-6_4.19.0-3ubuntu0.24.04.2_arm64.deb
+Size: 43746
+SHA256: 6ba0aeb2649f462519fbff8080fc10585c7f368f2162622e526e77e95c98dc96
+Homepage: https://www.gnu.org/software/libtasn1/
+Description: Manage ASN.1 structures (runtime)
+
+Package: libtinfo6
+Version: 6.4+20240113-1ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 604
+Depends: libc6 (>= 2.34)
+Breaks: tmux (<< 3.3a-4)
+Filename: libtinfo6_6.4+20240113-1ubuntu2.1_arm64.deb
+Size: 104560
+SHA256: bb907b0a9735c08ebc94b3c7a9f725e501cb515ea8b08611566b17135ce3722b
+Homepage: https://invisible-island.net/ncurses/
+Description: shared low-level terminfo library for terminal handling
+Source: ncurses
+
+Package: libunistring5
+Version: 1.1-2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1772
+Depends: libc6 (>= 2.34)
+Filename: libunistring5_1.1-2build1.1_arm64.deb
+Size: 529552
+SHA256: faa0cea6bf19c57cace839f7184c070f2f0f4efc41258b39625b0ed988f68100
+Homepage: https://www.gnu.org/software/libunistring/
+Description: Unicode string library for C
+Source: libunistring
+
+Package: libzstd1
+Version: 1.5.5+dfsg2-2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 665
+Depends: libc6 (>= 2.34)
+Filename: libzstd1_1.5.5+dfsg2-2build1.1_arm64.deb
+Size: 271278
+SHA256: ea7d6e9fde577ea14dbf07fdfb74d6287eb09c6cba4a9d63abdcb87b0ec54bcc
+Homepage: https://github.com/facebook/zstd
+Description: fast lossless compression algorithm
+Source: libzstd
+
+Package: lsb-base
+Version: 11.6
+Architecture: all
+Multi-Arch: foreign
+Priority: optional
+Section: misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 12
+Depends: sysvinit-utils (>= 3.05-4~)
+Filename: lsb-base_11.6_all.deb
+Size: 4606
+SHA256: 08a563e3c1984acdb295f12b77b4ec18d2ccf52fd03280a5bea29e506a3350ee
+Homepage: https://wiki.linuxfoundation.org/lsb/start
+Description:
+ transitional package for Linux Standard Base init script functionality
+
+Package: mosquitto-clients
+Version: 2.1.2-0mosquitto1~noble1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: optional
+Section: net
+Maintainer: Roger A. Light <roger@atchoo.org>
+Installed-Size: 504
+Depends:
+ libmosquitto1 (= 2.1.2-0mosquitto1~noble1), libc6 (>= 2.34), libcjson1 (>=
+ 1.7.5), libssl3t64 (>= 3.0.0)
+Filename: mosquitto-clients_2.1.2-0mosquitto1~noble1_arm64.deb
+Size: 150876
+SHA256: 0137914c9fb8be36e05c07bc5d29ccb592b1c0fcf1422993655636d6a41e9471
+Description: Mosquitto command line MQTT clients
+Source: mosquitto
+
+Package: mosquitto
+Version: 2.1.2-0mosquitto1~noble1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: optional
+Section: net
+Maintainer: Roger A. Light <roger@atchoo.org>
+Installed-Size: 1902
+Depends:
+ adduser (>= 3.10), lsb-base (>= 4.1+Debian3), libc6 (>= 2.38), libcjson1
+ (>= 1.7.13), libedit2 (>= 3.1-20180525-0), libmicrohttpd12t64 (>= 0.9.56),
+ libmosquitto1 (>= 1.6), libsqlite3-0 (>= 3.20.0), libssl3t64 (>= 3.0.0),
+ libsystemd0
+Suggests: apparmor
+Filename: mosquitto_2.1.2-0mosquitto1~noble1_arm64.deb
+Size: 512180
+SHA256: cb49aaecfcb1748a6db4026493a08c6f7c667400734e64807801524abbc39984
+Description: MQTT version 3.1/3.1.1/5.0 compatible message broker
+
+Package: passwd
+Version: 1:4.13+dfsg1-4ubuntu3.2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2806
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.1.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsemanage2 (>= 2.0.32),
+ libpam-modules
+Recommends: sensible-utils
+Filename: passwd_4.13+dfsg1-4ubuntu3.2_arm64.deb
+Size: 838406
+SHA256: c9a84e67f4f84e7c6a24787e81e124fb76c829eec35c3ec46f609e1937073816
+Homepage: https://github.com/shadow-maint/shadow
+Description: change and administer password and group data

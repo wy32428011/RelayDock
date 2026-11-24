@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "elasticsearch",
+  "version": "8.5.3",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "amd64",
+  "source": "elastic-official",
+  "entrypoint": "elasticsearch-8.5.3-linux-x86_64.tar.gz",
+  "files": [
+    {
+      "path": "elasticsearch-8.5.3-linux-x86_64.tar.gz",
+      "size": 580678137,
+      "sha256": "4186d25ee31b41c5eba22089159f9176aa37e5c80095fb8decea4785ccf0578d",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "appId": "mysql",
+  "version": "8.0.35",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "amd64",
+  "source": "mysql-official-and-distro-deps",
+  "files": [
+    {
+      "path": "deps/adduser_3.137ubuntu1_all.deb",
+      "size": 100872,
+      "sha256": "542aff2395eb912a56833e11a78076342779689d8fede7adcf08d1d6b0d0cd8b",
+      "dependencies": []
+    },
+    {
+      "path": "deps/debconf_1.5.86ubuntu1_all.deb",
+      "size": 124096,
+      "sha256": "bb390da466a7461bfc87aa3e6b7cd145dae84af3e26bf437f2c0c218ba226294",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libaio1t64_0.3.113-6build1.1_amd64.deb",
+      "size": 7210,
+      "sha256": "433212b33e26d424605c01cec1de33b63f2cc12870987b4cb7b3625baba66a19",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libcap2_2.66-5ubuntu2.2_amd64.deb",
+      "size": 30040,
+      "sha256": "9241539476d657d102b5a51ea3cd80ac3576e8e15f23c59f22b757d8eb4c5301",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libcom-err2_1.47.0-2.4~exp1ubuntu4.1_amd64.deb",
+      "size": 22982,
+      "sha256": "7ab24d3057dabf86db8f771ad6e43f073ed86b6b950d6e8ba22cb9fe6707bbc9",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libcrypt1_4.4.36-4build1_amd64.deb",
+      "size": 82302,
+      "sha256": "9474785cd6f398512bf8c305c3901dbb111569dccb6f5832002373c0a8ac5832",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libdb5.3t64_5.3.28+dfsg2-7_amd64.deb",
+      "size": 734100,
+      "sha256": "a78a25c8fad8fdd0b7bc6b297da5d5685579be1e57732aa47870830e4a13161e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libgdbm-compat4t64_1.23-5.1build1_amd64.deb",
+      "size": 6710,
+      "sha256": "fb8564afd7b7d74d55207070ba50339478e22d29a39ec740dc482f069ac7ee65",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libgdbm6t64_1.23-5.1build1_amd64.deb",
+      "size": 34440,
+      "sha256": "18d6d74a5c038b458d95ba0c0909e0f086cd50bb9a0fee32697902724fc5645e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libgssapi-krb5-2_1.20.1-6ubuntu2.6_amd64.deb",
+      "size": 142996,
+      "sha256": "0f1b296f6731dc51569350dcb2971629f36e78a21015c73165eddc5af5c978ad",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libk5crypto3_1.20.1-6ubuntu2.6_amd64.deb",
+      "size": 81970,
+      "sha256": "5c3eb1fc954af26da4190204098af489eb558552a89cf5cf099e0ea6aab157c5",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libkeyutils1_1.6.3-3build1_amd64.deb",
+      "size": 9490,
+      "sha256": "0679f198b0128179e46cdf956fb2022c23c758664c00bc8efa0382d509683a8a",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libkrb5-3_1.20.1-6ubuntu2.6_amd64.deb",
+      "size": 347562,
+      "sha256": "e8c20d16598108c88495fde116eadb4be568f47ae2ab93cabccfbb220e6e926b",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libkrb5support0_1.20.1-6ubuntu2.6_amd64.deb",
+      "size": 34394,
+      "sha256": "e649ebef274cce86e6133144ce5f587db101f06828dbd88cb73350fe98160b0e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libmecab2_0.996-14ubuntu4_amd64.deb",
+      "size": 200902,
+      "sha256": "cc91804dc82ac766833a97288384b7b65762aa26212bb915a556e13430c61745",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libnuma1_2.0.18-1ubuntu0.24.04.1_amd64.deb",
+      "size": 23396,
+      "sha256": "f333b8edf6f0b705c19f2a67008194df66f7aab0fa2350dc98510569a033ff29",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libperl5.38t64_5.38.2-3.2ubuntu0.2_amd64.deb",
+      "size": 4873758,
+      "sha256": "71a30882e150a73905baa895ed0b0acaea0e3739346cbfa3934bcc3ad3172628",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libsasl2-2_2.1.28+dfsg1-5ubuntu3.1_amd64.deb",
+      "size": 53194,
+      "sha256": "eda097f98dcb3a08b9ce157d6191d140e4885c1cba47b683c94b8ca45e88f458",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libsasl2-modules-db_2.1.28+dfsg1-5ubuntu3.1_amd64.deb",
+      "size": 20354,
+      "sha256": "1f13548b1774cd9c70c50b8c3267204a101334a4d2f979338896ba5a4c6f81b8",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libssl3t64_3.0.13-0ubuntu3.9_amd64.deb",
+      "size": 1941230,
+      "sha256": "ab1e020e8457f2b0b730b412813469477858876e3c30583d2aa98cbba2a61efa",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libtinfo6_6.4+20240113-1ubuntu2_amd64.deb",
+      "size": 107794,
+      "sha256": "53e1e1753729d04cf65b05e6e58abe06e2bb76cc07eff0e1b2a638a638ca209b",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libtirpc-common_1.3.4+ds-1.1build1_all.deb",
+      "size": 8094,
+      "sha256": "212d8873ac952bc68f4cf56d7eaf17566f86f5c7cc4b971899a0c56e174699cc",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libtirpc3t64_1.3.4+ds-1.1build1_amd64.deb",
+      "size": 82558,
+      "sha256": "3a3cd37160399ab235fdf2f13159fd288940abb9660e0ed1afb418b44c73d43a",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libudev1_255.4-1ubuntu8.14_amd64.deb",
+      "size": 176840,
+      "sha256": "961846b156a03031f14db6cd7e6899f1176adc2644f3bd8db0e17f1f13a75258",
+      "dependencies": []
+    },
+    {
+      "path": "deps/perl-modules-5.38_5.38.2-3.2ubuntu0.2_all.deb",
+      "size": 3109976,
+      "sha256": "c17e0be76f77a8c15b3217cf9cb58ca63f6cc1974044d2fa4abb33ed7ed7ce1e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/perl_5.38.2-3.2ubuntu0.2_amd64.deb",
+      "size": 231394,
+      "sha256": "6c4e125792e09d55670a132f1c38b740068b3c7b6b0c6a74abe6c3da981f3a61",
+      "dependencies": []
+    },
+    {
+      "path": "deps/psmisc_23.7-1build1_amd64.deb",
+      "size": 179108,
+      "sha256": "ae75f0d70fe6a6a9fe614aa2c90324e79866de14120cd7580a578eb3fac2079e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/zlib1g_1.3.dfsg-3.1ubuntu2.1_amd64.deb",
+      "size": 62850,
+      "sha256": "7074b6a2f6367a10d280c00a1cb02e74277709180bab4f2491a2f355ab2d6c20",
+      "dependencies": []
+    },
+    {
+      "path": "libmysqlclient21_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 1483686,
+      "sha256": "2995efa5c647d516a8877edf3280139822b85fdaab08e0e35c0cc8bdd83d966c",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-client_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 58196,
+      "sha256": "f122ab763fb95158e3bc5ca0e045c22fe7fd02884be58c30e44ab5b8189d78ae",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-common_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 59512,
+      "sha256": "fb3a6835616ae8918b4241107b4a079f910113227366a7492be41679785cb7ef",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-community-client-core_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 2118010,
+      "sha256": "862fe5d162dd1fa8e10666d6da4acf2ed11aac00c9b0739dece820945dca613e",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-community-client-plugins_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 1377202,
+      "sha256": "51622c6e1686c3fb19bd08ec1212dd21421e1356f44e306aa02d7f94858631ee",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-community-client_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 2036676,
+      "sha256": "1aab73969187e472da682a395b66ef39cfa754e5a490e3d62f93d5a857426818",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-community-server-core_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 28016220,
+      "sha256": "d1eeae2e4b041ca63226fbc94434749f43915ae241f5350dd2311611d6966d1b",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-community-server_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 69830,
+      "sha256": "6abfe4f6ef1cc2d6e7efa0a52d2c8899daaa43f06a7027fab8e1c738f2ef6445",
+      "dependencies": []
+    },
+    {
+      "path": "mysql-server_8.0.45-1ubuntu24.04_amd64.deb",
+      "size": 58186,
+      "sha256": "e8ca82653087682adc7e51b285347c27a3b9f71f9e984ab79725907d331a17fe",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "appId": "redis",
+  "version": "7.2.3",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "amd64",
+  "source": "redis-official-and-distro-deps",
+  "files": [
+    {
+      "path": "libjemalloc2_5.3.0-2build1_amd64.deb",
+      "size": 256148,
+      "sha256": "0cccf7701765b5a633b964ed551c2bd1c074cad17daea8fa20a4e9cad0adb5a8",
+      "dependencies": []
+    },
+    {
+      "path": "liblzf1_3.6-4_amd64.deb",
+      "size": 7624,
+      "sha256": "253182d4718271565d6c24125f27dd93da56fce34b34d8226615cb3553bbe73f",
+      "dependencies": []
+    },
+    {
+      "path": "redis-server_7.2.3-1rl1~jammy1_amd64.deb",
+      "size": 81780,
+      "sha256": "0eb208835650f151c25a9c9d9ee5d4e40174e3b5999d87312858f1e1d5c19132",
+      "dependencies": []
+    },
+    {
+      "path": "redis-tools_7.2.3-1rl1~jammy1_amd64.deb",
+      "size": 1602760,
+      "sha256": "f44d7bcae31006a2b6aba3d1ed51c80e08181faad8bc11e226eb8ffd143b291b",
+      "dependencies": []
+    },
+    {
+      "path": "redis_7.2.3-1rl1~jammy1_all.deb",
+      "size": 33372,
+      "sha256": "4fa8c85b5e72719e17359d1747b877cd9c5ca25feb883ee3f0224d384058cb2a",
+      "dependencies": []
+    }
+  ]
+}

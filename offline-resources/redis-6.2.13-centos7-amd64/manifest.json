@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "appId": "redis",
+  "version": "6.2.13",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "amd64",
+  "source": "redis-official-and-distro-deps",
+  "files": [
+    {
+      "path": "redis-6.2.14-1.el7.remi.x86_64.rpm",
+      "size": 1231020,
+      "sha256": "1e1f0a6d8f1e2d4eed15f61ed350d78819e6db5d19ab5552699a5b6377541181",
+      "dependencies": []
+    }
+  ]
+}

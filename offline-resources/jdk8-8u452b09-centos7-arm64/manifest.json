@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "jdk8",
+  "version": "8u452b09",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "arm64",
+  "source": "adoptium-temurin-official",
+  "entrypoint": "OpenJDK8U-jdk_aarch64_linux_hotspot_8u452b09.tar.gz",
+  "files": [
+    {
+      "path": "OpenJDK8U-jdk_aarch64_linux_hotspot_8u452b09.tar.gz",
+      "size": 102203321,
+      "sha256": "d8a1aecea0913b7a1e0d737ba6f7ea99059b3f6fd17813d4a24e8b3fc3aee278",
+      "dependencies": []
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "appId": "rabbitmq",
+  "version": "3.12.10",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "amd64",
+  "source": "rabbitmq-official-and-erlang-deps",
+  "files": [
+    {
+      "path": "erlang-asn1_26.2.5.13-1_amd64.deb",
+      "size": 879408,
+      "sha256": "73841324d93855021c8ad9eb050cf4b3c1e51cb0870c462ef608d18da4cc4e76",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-base_26.2.5.13-1_amd64.deb",
+      "size": 10313792,
+      "sha256": "0b6dae89345d2ad715117c3cc71821dc0f2a0dc5d5989c4cc430bb8fec4c9ab7",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-crypto_26.2.5.13-1_amd64.deb",
+      "size": 169180,
+      "sha256": "6e06a3e9453304e08a437abc17e5a577fbb4ae48e8e6ae86e7698c917d285e13",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-eldap_26.2.5.13-1_amd64.deb",
+      "size": 128168,
+      "sha256": "c9c18f9ac81c18c540ddbef3813b0ce86d7790c7f63cadfd60fbfdd1d6aff56a",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-ftp_26.2.5.13-1_amd64.deb",
+      "size": 100336,
+      "sha256": "07855840926f5980839d6f06e48a3ac290aa74e0cd400cf99e4205c1746ed8a3",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-inets_26.2.5.13-1_amd64.deb",
+      "size": 620880,
+      "sha256": "f118931d5c3a50d97dce69b58c449a10d615a100ae3093724ae097ebc9ee661d",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-mnesia_26.2.5.13-1_amd64.deb",
+      "size": 860792,
+      "sha256": "36dfaaea58b2eea47754d50043938b142872c46d802cf6617fc52f3586c7dcd5",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-os-mon_26.2.5.13-1_amd64.deb",
+      "size": 100788,
+      "sha256": "24de2a6234110fbee8bb7f44545dbec6a3e8e1bfe5afa2f0d4497a88804006ac",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-parsetools_26.2.5.13-1_amd64.deb",
+      "size": 198020,
+      "sha256": "7c08f156b0ba25c63edb4551c53f049259253af3348b003bbeee0a0a914a22d4",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-public-key_26.2.5.13-1_amd64.deb",
+      "size": 761128,
+      "sha256": "e665d91a388481151fc99d065de685d5a0140e53763a159c7a2501bfb3496565",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-runtime-tools_26.2.5.13-1_amd64.deb",
+      "size": 210272,
+      "sha256": "d84288704e5cef85e4b770990a078db31ef6b511014a1007bc46b2d112aea0f7",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-snmp_26.2.5.13-1_amd64.deb",
+      "size": 1798164,
+      "sha256": "0289cc2296f2aa7223bfc26b1fb04b533f75af96c1003d2c8622b3ec9584ad6d",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-ssl_26.2.5.13-1_amd64.deb",
+      "size": 1682212,
+      "sha256": "f7e74b82c889d98e0fadf822f8a425d58120713f81b7d95f2ed6c46addcd5225",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-syntax-tools_26.2.5.13-1_amd64.deb",
+      "size": 298964,
+      "sha256": "e04ad88a8d4b94705a62486c210be3fd95c6ffae3f1f48009fb61e9287d3b48b",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-tftp_26.2.5.13-1_amd64.deb",
+      "size": 107676,
+      "sha256": "bcf2edf97df718635a006dac2c38a4105b8a32e58ae375801c5ef8dde552c8af",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-tools_26.2.5.13-1_amd64.deb",
+      "size": 563732,
+      "sha256": "08868cb046eaf7bc152010e0795b70c8f671eb086a24337390750bc781edcf45",
+      "dependencies": []
+    },
+    {
+      "path": "erlang-xmerl_26.2.5.13-1_amd64.deb",
+      "size": 1309276,
+      "sha256": "aa38ef0b8237ee01eb304c202206d941539e1ca279dd6aee928561a93b457551",
+      "dependencies": []
+    },
+    {
+      "path": "logrotate_3.19.0-1ubuntu1.1_amd64.deb",
+      "size": 54262,
+      "sha256": "33c92f05688b9903bef82a7adcbb16098bc8744b8001706c9418c0a5e32ed0d9",
+      "dependencies": []
+    },
+    {
+      "path": "rabbitmq-server_3.12.10-1_all.deb",
+      "size": 15705748,
+      "sha256": "dff6cf4d713a90b28693296d535f2a43b0ff402579baeb000503b6c84a47f822",
+      "dependencies": []
+    }
+  ]
+}

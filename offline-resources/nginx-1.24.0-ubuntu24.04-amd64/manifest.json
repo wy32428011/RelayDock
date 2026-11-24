@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "appId": "nginx",
+  "version": "1.24.0",
+  "os": "ubuntu",
+  "osVersion": "24.04",
+  "arch": "amd64",
+  "source": "nginx-official-and-distro-deps",
+  "files": [
+    {
+      "path": "deps/iproute2_6.1.0-1ubuntu6.2_amd64.deb",
+      "size": 1119952,
+      "sha256": "60b37f4d381d821ef8183efb4916be2adf44a35f6de2861ab785ee5266a11bf8",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libc6_2.39-0ubuntu8.7_amd64.deb",
+      "size": 3262920,
+      "sha256": "955644e8bc2930a9bf8eea5e4c2237c8a118c1e2ac2845b993b6f7f35eefd293",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libcrypt1_4.4.36-4build1_amd64.deb",
+      "size": 82302,
+      "sha256": "9474785cd6f398512bf8c305c3901dbb111569dccb6f5832002373c0a8ac5832",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libpcre2-8-0_10.42-4ubuntu2.1_amd64.deb",
+      "size": 226662,
+      "sha256": "110a797a57673d3ee497a141cf988199258058c57525799c63194d81822529a0",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libssl3t64_3.0.13-0ubuntu3.9_amd64.deb",
+      "size": 1941230,
+      "sha256": "ab1e020e8457f2b0b730b412813469477858876e3c30583d2aa98cbba2a61efa",
+      "dependencies": []
+    },
+    {
+      "path": "deps/zlib1g_1.3.dfsg-3.1ubuntu2.1_amd64.deb",
+      "size": 62850,
+      "sha256": "7074b6a2f6367a10d280c00a1cb02e74277709180bab4f2491a2f355ab2d6c20",
+      "dependencies": []
+    },
+    {
+      "path": "nginx-common_1.24.0-2ubuntu7.6_all.deb",
+      "size": 43484,
+      "sha256": "1c6d01cd88f16964600229795965051ce4b3c4fae0c4da854125eb59e27bb908",
+      "dependencies": []
+    },
+    {
+      "path": "nginx_1.24.0-2ubuntu7.6_amd64.deb",
+      "size": 521146,
+      "sha256": "1359c71f19cb114fe99b893f57485aa1c9faaddce8d57193fdd72bd01e92d690",
+      "dependencies": []
+    }
+  ]
+}

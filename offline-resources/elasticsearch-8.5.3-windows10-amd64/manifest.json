@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "elasticsearch",
+  "version": "8.5.3",
+  "os": "windows",
+  "osVersion": "10",
+  "arch": "amd64",
+  "source": "elastic-official",
+  "entrypoint": "elasticsearch-8.5.3-windows-x86_64.zip",
+  "files": [
+    {
+      "path": "elasticsearch-8.5.3-windows-x86_64.zip",
+      "size": 380399095,
+      "sha256": "ea8faf7fc7c00b9c9fe6834c1a9bd635dd7377327f85adef877cee261f79d778",
+      "dependencies": []
+    }
+  ]
+}

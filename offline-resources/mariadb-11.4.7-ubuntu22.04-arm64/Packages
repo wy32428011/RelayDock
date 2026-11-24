@@ -1,0 +1,1764 @@
+Package: adduser
+Version: 3.118ubuntu5
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 608
+Depends: passwd, debconf (>= 0.5) | debconf-2.0
+Suggests: liblocale-gettext-perl, perl, ecryptfs-utils (>= 67-1)
+Filename: adduser_3.118ubuntu5_all.deb
+Size: 155528
+SHA256: 53c30389227d4d16f1108a1df7ae1540c890378318335d1dc7ee95b7257f1f17
+Description: add and remove users and groups
+
+Package: debconf
+Version: 1.5.79ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 512
+Provides: debconf-2.0
+Pre-Depends: perl-base (>= 5.20.1-3~)
+Recommends: apt-utils (>= 0.5.1), debconf-i18n
+Suggests:
+ debconf-doc, debconf-utils, whiptail | dialog, libterm-readline-gnu-perl,
+ libgtk3-perl, libnet-ldap-perl, perl, debconf-kde-helper (>=
+ 0.1+git20110702)
+Conflicts:
+ apt (<< 0.3.12.1), cdebconf (<< 0.96), debconf-tiny, debconf-utils (<<
+ 1.3.22), dialog (<< 0.9b-20020814-1), menu (<= 2.1.3-1), whiptail (<<
+ 0.51.4-11), whiptail-utf8 (<= 0.50.17-13)
+Breaks:
+ apt-listchanges (<< 3.14), ubiquity (<< 17.10.2), update-notifier-common
+ (<< 3.187~)
+Replaces: debconf-tiny
+Filename: debconf_1.5.79ubuntu1_all.deb
+Size: 126202
+SHA256: 395a65b3a9539304391456d4d0e5531f4249f297b6e67eb0fcaf2ff77ddc3dc3
+Description: Debian configuration management system
+
+Package: debianutils
+Version: 5.5-1ubuntu2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 230
+Pre-Depends: libc6 (>= 2.34)
+Breaks:
+ ifupdown (<< 0.8.36+nmu1), printer-driver-pnm2ppa (<< 1.13-12), x11-common
+ (<< 1:7.7+23~)
+Filename: debianutils_5.5-1ubuntu2_arm64.deb
+Size: 106468
+SHA256: 829460c98c24183696042b201cbe2f813421c1d3d5d3f6e1cf819b392e4920d1
+Description: Miscellaneous utilities specific to Debian
+
+Package: galera-4
+Version: 26.4.22-ubu2204
+Architecture: arm64
+Priority: optional
+Section: libs
+Maintainer: Codership Oy <info@codership.com>
+Installed-Size: 33754
+Provides: galera, galera-4, wsrep
+Depends:
+ libc6 (>= 2.34), libgcc-s1 (>= 3.3.1), libssl3 (>= 3.0.0~~alpha1),
+ libstdc++6 (>= 11)
+Conflicts:
+ galera-3, garbd-2, garbd-3, garbd2, garbd3, percona-galera-3,
+ percona-galera-4, percona-xtradb-cluster-galera,
+ percona-xtradb-cluster-galera-2.x, percona-xtradb-cluster-galera-26,
+ percona-xtradb-cluster-galera-3.x, percona-xtradb-cluster-galera-4.x,
+ percona-xtradb-cluster-garbd-2.x, percona-xtradb-cluster-garbd-3.x,
+ percona-xtradb-cluster-garbd-4.x
+Breaks: galera
+Replaces: galera
+Filename: galera-4_26.4.22-ubu2204_arm64.deb
+Size: 10164192
+SHA256: 526c998fa946d5916045c41d8c0924511e796ec65bf236023818caf7eead68fc
+Homepage: https://www.galeracluster.com/
+Description:
+ Replication framework for transactional applications Galera is a fast
+ synchronous multimaster wsrep provider (replication engine) for
+ transactional databases and similar applications. For more information
+ about wsrep API see https://github.com/codership/wsrep-API. For a
+ description of Galera replication engine see http://galeracluster.com. .
+ This package contains the Galera library/plugin.
+
+Package: gawk
+Version: 1:5.1.0-1ubuntu0.1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: optional
+Section: interpreters
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1580
+Provides: awk
+Pre-Depends:
+ libc6 (>= 2.34), libgmp10 (>= 2:6.2.1+dfsg), libmpfr6 (>= 3.1.3),
+ libreadline8 (>= 6.0), libsigsegv2 (>= 2.9)
+Suggests: gawk-doc
+Filename: gawk_5.1.0-1ubuntu0.1_arm64.deb
+Size: 426474
+SHA256: a0f71a3d47da417a3eb6e7d93945f72e6b0025c5ad2d61c1e3ea49f5ae3d1843
+Homepage: http://www.gnu.org/software/gawk/
+Description: GNU awk, a pattern scanning and processing language
+
+Package: gcc-12-base
+Version: 12.3.0-1ubuntu1~22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 272
+Breaks: gnat (<< 7)
+Filename: gcc-12-base_12.3.0-1ubuntu1~22.04.3_arm64.deb
+Size: 215822
+SHA256: b2bc566681989941dd059d6391b01c41854857f26d83c53358287d620dfb0fd4
+Homepage: http://gcc.gnu.org/
+Description: GCC, the GNU Compiler Collection (base package)
+
+Package: iproute2
+Version: 5.15.0-1ubuntu2.2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: important
+Section: net
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2800
+Provides: arpd
+Depends:
+ debconf (>= 0.5) | debconf-2.0, libbpf0 (>= 1:0.2), libbsd0 (>= 0.0),
+ libc6 (>= 2.34), libcap2 (>= 1:2.10), libdb5.3, libelf1 (>= 0.131),
+ libmnl0 (>= 1.0.3-4~), libselinux1 (>= 3.1~), libxtables12 (>=
+ 1.6.0+snapshot20161117), libcap2-bin
+Recommends: libatm1 (>= 2.4.1-17~)
+Suggests: iproute2-doc
+Conflicts: arpd, iproute (<< 20130000-1)
+Replaces: iproute
+Filename: iproute2_5.15.0-1ubuntu2.2_arm64.deb
+Size: 1082504
+SHA256: 41e9e6853de7ab859e1fb7a7662e717a0a328bd2f78988ab38a737fb2017ae74
+Homepage: https://wiki.linuxfoundation.org/networking/iproute2
+Description: networking and traffic control tools
+
+Package: libacl1
+Version: 2.3.1-1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 62
+Depends: libc6 (>= 2.33)
+Filename: libacl1_2.3.1-1_arm64.deb
+Size: 16088
+SHA256: 328e91b2d6e8ee44ad669fc7276b74f208bc781baf1ecdd7dbf5f092f8b41712
+Homepage: https://savannah.nongnu.org/projects/acl/
+Description: access control list - shared library
+Source: acl
+
+Package: libaudit-common
+Version: 1:3.0.7-1build1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 23
+Filename: libaudit-common_3.0.7-1build1_all.deb
+Size: 4726
+SHA256: 86697036d05c956b5b42339bf61ecf3743f7c6fd4d59a67ab16add9a2cd7802a
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing - common files
+Source: audit
+
+Package: libaudit1
+Version: 1:3.0.7-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends:
+ libaudit-common (>= 1:3.0.7-1build1), libc6 (>= 2.33), libcap-ng0 (>=
+ 0.7.9)
+Filename: libaudit1_3.0.7-1build1_arm64.deb
+Size: 46174
+SHA256: 9503b5a374b079d5da38514afa2052bffb2ec07c3a997274622535ff224a60ec
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing
+Source: audit
+
+Package: libbpf0
+Version: 1:0.5.0-1ubuntu22.04.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 340
+Depends: libc6 (>= 2.22), libelf1 (>= 0.142), zlib1g (>= 1:1.2.3.3)
+Filename: libbpf0_0.5.0-1ubuntu22.04.1_arm64.deb
+Size: 140268
+SHA256: f5af5e4e32d29c2dce882374bffe2d10e6b3b1d2332085d1a4dc8676b0cf40e7
+Description: eBPF helper library (shared library)
+Source: libbpf (0.5.0-1ubuntu22.04.1)
+
+Package: libbsd0
+Version: 0.11.5-1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 127
+Depends: libc6 (>= 2.33), libmd0 (>= 1.0.3-2)
+Filename: libbsd0_0.11.5-1_arm64.deb
+Size: 43662
+SHA256: 19703bfe6fde9a161e42f5107451a46cc182a62dd0621a55d06aec7dc372991d
+Homepage: https://libbsd.freedesktop.org/
+Description: utility functions from BSD systems - shared library
+Source: libbsd
+
+Package: libbz2-1.0
+Version: 1.0.8-5build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 95
+Depends: libc6 (>= 2.17)
+Filename: libbz2-1.0_1.0.8-5build1_arm64.deb
+Size: 36016
+SHA256: 30fe3f2d662bb1c87a4b77e5b8f17a67dfcadfec319d0da2ece6cba98f9f8cb5
+Homepage: https://sourceware.org/bzip2/
+Description: high-quality block-sorting file compressor library - runtime
+Source: bzip2
+
+Package: libcap-ng0
+Version: 0.7.9-2.2build3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 41
+Depends: libc6 (>= 2.33)
+Filename: libcap-ng0_0.7.9-2.2build3_arm64.deb
+Size: 11212
+SHA256: 884c8bc87da241abaa2b0ca80162486cf66eff67dfc545bea56622e1170e9ee5
+Homepage: http://people.redhat.com/sgrubb/libcap-ng
+Description: An alternate POSIX capabilities library
+Source: libcap-ng
+
+Package: libcap2-bin
+Version: 1:2.44-1ubuntu0.22.04.3
+Architecture: arm64
+Multi-Arch: foreign
+Priority: important
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 99
+Depends: libc6 (>= 2.34), libcap2 (>= 1:2.33)
+Recommends: libpam-cap
+Breaks: libcap-bin
+Replaces: libcap-bin
+Filename: libcap2-bin_2.44-1ubuntu0.22.04.3_arm64.deb
+Size: 25512
+SHA256: 71eee97adfee4eb34d6ace5c9e52a690318ef3d8b1152a3fd055c223f951ae37
+Homepage: https://sites.google.com/site/fullycapable/
+Description: POSIX 1003.1e capabilities (utilities)
+Source: libcap2
+
+Package: libcap2
+Version: 1:2.44-1ubuntu0.22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 60
+Depends: libc6 (>= 2.33)
+Filename: libcap2_2.44-1ubuntu0.22.04.3_arm64.deb
+Size: 18544
+SHA256: 7a8eb6549355a16f327ede574f12e6ebed983b52ab38ce4a618e6e9274b9d4f5
+Homepage: https://sites.google.com/site/fullycapable/
+Description: POSIX 1003.1e capabilities (library)
+
+Package: libcom-err2
+Version: 1.46.5-2ubuntu1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 96
+Provides: libcomerr2 (= 1.46.5-2ubuntu1.1)
+Depends: libc6 (>= 2.17)
+Breaks: libcomerr2 (<< 1.43.9-1~)
+Replaces: libcomerr2 (<< 1.43.9-1~)
+Filename: libcom-err2_1.46.5-2ubuntu1.1_arm64.deb
+Size: 8974
+SHA256: 75a281df2ba36d4935d90dd12c07a47f36d1f914412e5c99933dce84b102da3e
+Homepage: http://e2fsprogs.sourceforge.net
+Description: common error description library
+Source: e2fsprogs
+
+Package: libconfig-inifiles-perl
+Version: 3.000003-1ubuntu0.1
+Architecture: all
+Priority: extra
+Section: perl
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 122
+Filename: libconfig-inifiles-perl_3.000003-1ubuntu0.1_all.deb
+Size: 41530
+SHA256: ca58b0ca4dbd583d61a9cdce880eefbc895e82a003d1d2033ef32a8f75100354
+Homepage: https://metacpan.org/release/Config-IniFiles/
+Description: read .ini-style configuration files
+
+Package: libcrypt1
+Version: 1:4.4.27-1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 212
+Depends: libc6 (>= 2.25)
+Conflicts: libpam0g (<< 1.4.0-10)
+Replaces: libc6 (<< 2.29-4)
+Filename: libcrypt1_4.4.27-1_arm64.deb
+Size: 86850
+SHA256: fb5f8d59de95bbb118a635e83e2a92077e13c6d297980dae3119df057bf88111
+Description: libcrypt shared library
+Source: libxcrypt
+
+Package: libdb5.3
+Version: 5.3.28+dfsg1-0.8ubuntu3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1626
+Depends: libc6 (>= 2.34)
+Filename: libdb5.3_5.3.28+dfsg1-0.8ubuntu3_arm64.deb
+Size: 713828
+SHA256: e5b672aeaca690b3b7ee97b03dbc07ddb49be7b6ea0a770fa6707666ca1cef59
+Homepage:
+ http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html
+Description: Berkeley v5.3 Database Libraries [runtime]
+Source: db5.3
+
+Package: libdbi-perl
+Version: 1.643-3ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: perl
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2108
+Provides: dh-sequence-perl-dbi, perl-dbdabi-94
+Depends: perl, perlapi-5.34.0, libc6 (>= 2.34)
+Suggests:
+ libclone-perl, libmldbm-perl, libnet-daemon-perl, libsql-statement-perl
+Breaks:
+ libdbd-anydata-perl (<< 0.11+), libdbd-csv-perl (<< 0.3600+),
+ libsql-statement-perl (<< 1.33+)
+Filename: libdbi-perl_1.643-3ubuntu0.1_arm64.deb
+Size: 738294
+SHA256: e8502500d4d1b6778020a437524c94accd6847299c316fd9efdea15ee91e7e8c
+Homepage: https://dbi.perl.org/
+Description: Perl Database Interface (DBI)
+
+Package: libedit2
+Version: 3.1-20210910-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: standard
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 252
+Depends: libbsd0 (>= 0.1.3), libc6 (>= 2.33), libtinfo6 (>= 6)
+Replaces: libedit-dev (<< 3.1-20180525-2~)
+Filename: libedit2_3.1-20210910-1build1_arm64.deb
+Size: 95970
+SHA256: 7445804608b7feef2484dd217203574323c49f2a6530d92b78bd65a2e5ab4657
+Homepage: https://www.thrysoee.dk/editline/
+Description: BSD editline and history libraries
+Source: libedit
+
+Package: libelf1
+Version: 0.186-1ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 192
+Depends: libc6 (>= 2.33), zlib1g (>= 1:1.1.4)
+Filename: libelf1_0.186-1ubuntu0.1_arm64.deb
+Size: 50802
+SHA256: 6184340bfaadbbc8895622b7737fdcac08e74f99efa7f416a187709993bc0a8b
+Homepage: https://sourceware.org/elfutils/
+Description: library to read and write ELF files
+Source: elfutils
+
+Package: libgcc-s1
+Version: 12.3.0-1ubuntu1~22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 99
+Provides: libgcc1 (= 1:12.3.0-1ubuntu1~22.04.3)
+Depends: gcc-12-base (= 12.3.0-1ubuntu1~22.04.3), libc6 (>= 2.35)
+Breaks:
+ libgcc-7-dev (<< 7.5.0-4), libgcc-8-dev (<< 8.3.0-27), libgcc-9-dev (<<
+ 9.2.1-26)
+Replaces: libgcc1 (<< 1:10)
+Filename: libgcc-s1_12.3.0-1ubuntu1~22.04.3_arm64.deb
+Size: 39702
+SHA256: 46626e1af6b159061e055f843654ee1f0f1e65fa280331ed47ee76ba1b1f6045
+Homepage: http://gcc.gnu.org/
+Description: GCC support library
+
+Package: libgcrypt20
+Version: 1.9.4-3ubuntu3.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 965
+Depends: libc6 (>= 2.33), libgpg-error0 (>= 1.27)
+Suggests: rng-tools
+Filename: libgcrypt20_1.9.4-3ubuntu3.2_arm64.deb
+Size: 458094
+SHA256: a96022726f0d4dc4f60431c2975d198a045f8e19eda5821b92ce41a086c92565
+Homepage: https://directory.fsf.org/project/libgcrypt/
+Description: LGPL Crypto library - runtime library
+
+Package: libgdbm-compat4
+Version: 1.23-1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 41
+Depends: libc6 (>= 2.33), libgdbm6 (>= 1.16)
+Filename: libgdbm-compat4_1.23-1_arm64.deb
+Size: 6294
+SHA256: 819cc2c04e24caff921b3ceb349b1476675648e035b43f86f8a7a81322ba95c8
+Homepage: https://gnu.org/software/gdbm
+Description: GNU dbm database routines (legacy support runtime version)
+Source: gdbm
+
+Package: libgdbm6
+Version: 1.23-1
+Architecture: arm64
+Multi-Arch: same
+Priority: standard
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 99
+Depends: libc6 (>= 2.33)
+Suggests: gdbm-l10n (= 1.23-1)
+Filename: libgdbm6_1.23-1_arm64.deb
+Size: 34070
+SHA256: 66551e3d26e5c401b2aa69ff2093150893ea8df400edc4540673f3985f0b7cab
+Homepage: https://gnu.org/software/gdbm
+Description: GNU dbm database routines (runtime version)
+Source: gdbm
+
+Package: libgmp10
+Version: 2:6.2.1+dfsg-3ubuntu1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 504
+Depends: libc6 (>= 2.17)
+Breaks:
+ libmath-gmp-perl (<< 2.20-1), libmath-prime-util-gmp-perl (<< 0.51-2),
+ postgresql-pgmp (<< 1.0.3-1)
+Filename: libgmp10_6.2.1+dfsg-3ubuntu1_arm64.deb
+Size: 240242
+SHA256: 32233a3bf7c8b19e86ef3629334f0bece716bb163605d12e0d3a443d57a401d7
+Homepage: https://gmplib.org/
+Description: Multiprecision arithmetic library
+Source: gmp
+
+Package: libgpg-error0
+Version: 1.43-3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 180
+Depends: libc6 (>= 2.34)
+Recommends: libgpg-error-l10n
+Filename: libgpg-error0_1.43-3_arm64.deb
+Size: 69370
+SHA256: ffa9029cdeb2786e0db1f614f3d2205f75f466a66b25e22aa89ecdf814491875
+Homepage: https://www.gnupg.org/related_software/libgpg-error/
+Description: GnuPG development runtime library
+Source: libgpg-error
+
+Package: libgssapi-krb5-2
+Version: 1.19.2-2ubuntu0.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 432
+Depends:
+ libc6 (>= 2.33), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.16),
+ libkrb5-3 (= 1.19.2-2ubuntu0.7), libkrb5support0 (>= 1.15~beta1)
+Suggests: krb5-doc, krb5-user
+Breaks: moonshot-gss-eap (<= 1.0)
+Filename: libgssapi-krb5-2_1.19.2-2ubuntu0.7_arm64.deb
+Size: 142076
+SHA256: b3c80583687b29b0d77d00fd5354771b2898b639a95351ae282e3c55b5d661c7
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - krb5 GSS-API Mechanism
+Source: krb5
+
+Package: libk5crypto3
+Version: 1.19.2-2ubuntu0.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 285
+Depends: libc6 (>= 2.33), libkrb5support0 (>= 1.16)
+Suggests: krb5-doc, krb5-user
+Breaks: libgssapi-krb5-2 (<= 1.18~), libkrb5-3 (<= 1.18~)
+Filename: libk5crypto3_1.19.2-2ubuntu0.7_arm64.deb
+Size: 91818
+SHA256: 1c40940deb3cb2842bcf8d907e1307abdbabbe1368e704835bf1beddc4377043
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - Crypto Library
+Source: krb5
+
+Package: libkeyutils1
+Version: 1.6.1-2ubuntu3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: misc
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 42
+Depends: libc6 (>= 2.17)
+Filename: libkeyutils1_1.6.1-2ubuntu3_arm64.deb
+Size: 10140
+SHA256: fc26b34c487ea5187585ee0f2c67c738b97e8bae434cca4b546d86743b9e6c80
+Homepage: https://people.redhat.com/~dhowells/keyutils/
+Description: Linux Key Management Utilities (library)
+Source: keyutils
+
+Package: libkrb5-3
+Version: 1.19.2-2ubuntu0.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1012
+Depends:
+ libc6 (>= 2.34), libcom-err2 (>= 1.43.9), libk5crypto3 (>= 1.18.2),
+ libkeyutils1 (>= 1.5.9), libkrb5support0 (= 1.19.2-2ubuntu0.7), libssl3
+ (>= 3.0.0~~alpha1)
+Recommends: krb5-locales
+Suggests: krb5-doc, krb5-user
+Breaks:
+ libapache2-mod-auth-kerb (<= 5.4-2.4), libsmbclient (<= 2:3.6.1-2), sssd
+ (<= 1.2.1-4.3)
+Filename: libkrb5-3_1.19.2-2ubuntu0.7_arm64.deb
+Size: 356612
+SHA256: e756885855f5410fe27fdd282fd4a7f958044d8fbdf65ec865b50f0b2f58059f
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries
+Source: krb5
+
+Package: libkrb5support0
+Version: 1.19.2-2ubuntu0.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 161
+Depends: libc6 (>= 2.34)
+Breaks:
+ libgssapi-krb5-2 (<< 1.13~alpha1-1), libk5crypto3 (<< 1.16),
+ libkadm5clnt-mit9 (<< 1.13~alpha1-1), libkadm5srv-mit9 (<< 1.13~alpha1-1),
+ libkdb5-8 (<< 1.16)
+Filename: libkrb5support0_1.19.2-2ubuntu0.7_arm64.deb
+Size: 32744
+SHA256: 34093e3f5a23f62d56edbc7391dbbb6929f3c28af4d695443dc93b7f277ac5b2
+Homepage: http://web.mit.edu/kerberos/
+Description: MIT Kerberos runtime libraries - Support library
+Source: krb5
+
+Package: liblz4-1
+Version: 1.9.3-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 132
+Depends: libc6 (>= 2.17)
+Breaks: liblz4-1a
+Replaces: liblz4-1a
+Filename: liblz4-1_1.9.3-2build2_arm64.deb
+Size: 57640
+SHA256: 3e2274893e0963c758f0d18ba80d033736909373247a7deb211e9ff590a09133
+Homepage: https://github.com/Cyan4973/lz4
+Description: Fast LZ compression algorithm library - runtime
+Source: lz4
+
+Package: liblzma5
+Version: 5.2.5-2ubuntu1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 278
+Depends: libc6 (>= 2.34)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+Filename: liblzma5_5.2.5-2ubuntu1.1_arm64.deb
+Size: 98352
+SHA256: 97f4c7e360aa229d3bf0a5b56b204652ce4f1704536dc0256c0e2537b356f397
+Homepage: https://tukaani.org/xz/
+Description: XZ-format compression library
+Source: xz-utils
+
+Package: libmariadb3
+Version: 1:11.4.7+maria~ubu2204
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 476
+Depends:
+ mariadb-common, libc6 (>= 2.34), libssl3 (>= 3.0.0~~alpha1), zlib1g (>=
+ 1:1.1.4)
+Conflicts:
+ libmariadbclient18 (<< 10.2.0), mariadb-galera-server-10.0,
+ mariadb-galera-server-5.5, mariadb-server-10.0, mariadb-server-5.1,
+ mariadb-server-5.2, mariadb-server-5.3, mariadb-server-5.5
+Breaks: libmariadbclient18 (<< 1:11.4.7+maria~ubu2204)
+Replaces: libmariadbclient18 (<< 1:11.4.7+maria~ubu2204)
+Filename: libmariadb3_11.4.7+maria~ubu2204_arm64.deb
+Size: 167954
+SHA256: 1ae60361682bf702ae23d6ec82ce65dd47562c594c09cf972cdf44bc7b77551d
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database client library MariaDB is a fast, stable and true
+ multi-user, multi-threaded SQL database server. SQL (Structured Query
+ Language) is the most popular database query language in the world. The
+ main goals of MariaDB are speed, robustness and ease of use. . This
+ package includes the client library.
+Source: mariadb
+
+Package: libmd0
+Version: 1.0.4-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 67
+Depends: libc6 (>= 2.33)
+Filename: libmd0_1.0.4-1build1_arm64.deb
+Size: 23844
+SHA256: 6f87f19f71411a94ae370f7f9bcf4c7dfb5d4393f11de99634ac3137448ad678
+Homepage: https://www.hadrons.org/software/libmd/
+Description: message digest functions from BSD systems - shared library
+Source: libmd
+
+Package: libmnl0
+Version: 1.0.4-3build2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 42
+Depends: libc6 (>= 2.17)
+Filename: libmnl0_1.0.4-3build2_arm64.deb
+Size: 12908
+SHA256: 225e80ab05283fca43a3d6c717d33f92703893c4fb725a3c4c6c6ced536c31e2
+Homepage: https://netfilter.org/projects/libmnl/
+Description: minimalistic Netlink communication library
+Source: libmnl
+
+Package: libmpfr6
+Version: 4.1.0-3build3
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1134
+Depends: libc6 (>= 2.17), libgmp10 (>= 2:6.2.1+dfsg)
+Breaks: libgmp3 (<< 4.1.4-3), libmpc3 (<< 1.1.0-1~)
+Filename: libmpfr6_4.1.0-3build3_arm64.deb
+Size: 245284
+SHA256: cef55f2fe8a149d8d460140a10b8e8539ada9f7fbfa3a44f77ac2a049b3baaa2
+Homepage: https://www.mpfr.org/
+Description: multiple precision floating-point computation
+Source: mpfr4
+
+Package: libncurses6
+Version: 6.3-2ubuntu0.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 303
+Depends: libtinfo6 (= 6.3-2ubuntu0.2), libc6 (>= 2.34)
+Recommends: libgpm2
+Breaks: cowdancer (<< 0.89~)
+Filename: libncurses6_6.3-2ubuntu0.2_arm64.deb
+Size: 106486
+SHA256: 1269a0a90a6b9ab074ada65d8eed43636ec58ac9974e9c600a56469702be0bd4
+Homepage: https://invisible-island.net/ncurses/
+Description: shared libraries for terminal handling
+Source: ncurses
+
+Package: libncursesw6
+Version: 6.3-2ubuntu0.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 392
+Depends: libtinfo6 (= 6.3-2ubuntu0.2), libc6 (>= 2.34)
+Recommends: libgpm2
+Filename: libncursesw6_6.3-2ubuntu0.2_arm64.deb
+Size: 142304
+SHA256: 0482cf8c655afe1e9539cbf4aa7605df8aa5976583e07987cb54d4e395d8d4bb
+Homepage: https://invisible-island.net/ncurses/
+Description: shared libraries for terminal handling (wide character support)
+Source: ncurses
+
+Package: libnsl2
+Version: 1.3.0-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 118
+Depends: libc6 (>= 2.33), libtirpc3 (>= 1.0.2)
+Filename: libnsl2_1.3.0-2build2_arm64.deb
+Size: 41420
+SHA256: ab2e58eed36da75635f248fad08a2dd3fbe92c9d1f5e44eb68a99db083e9a9c3
+Homepage: https://github.com/thkukuk/libnsl
+Description: Public client interface for NIS(YP) and NIS+
+Source: libnsl
+
+Package: libpam-modules-bin
+Version: 1.4.0-11ubuntu2.6
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 222
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~)
+Replaces: libpam-modules (<< 1.1.3-8)
+Filename: libpam-modules-bin_1.4.0-11ubuntu2.6_arm64.deb
+Size: 38624
+SHA256: 75d12cccbf4a228d221e347ff2d57c19ba058e7569a2c1ddbdd1226f7be94a7f
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM - helper binaries
+Source: pam
+
+Package: libpam-modules
+Version: 1.4.0-11ubuntu2.6
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 946
+Provides: libpam-mkhomedir, libpam-motd, libpam-umask
+Pre-Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.3.0), libdb5.3,
+ libnsl2 (>= 1.0), libpam0g (>= 1.3.2), libselinux1 (>= 3.1~), libtirpc3
+ (>= 1.0.2), debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (=
+ 1.4.0-11ubuntu2.6)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Replaces: libpam-umask, libpam0g-util
+Filename: libpam-modules_1.4.0-11ubuntu2.6_arm64.deb
+Size: 279430
+SHA256: 5414078ad4aebb3926258aac72dc109ac6fd8c1b18b3e7c727d893704c7476ea
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM
+Source: pam
+
+Package: libpam0g
+Version: 1.4.0-11ubuntu2.8
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 221
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Suggests: libpam-doc
+Replaces: libpam0g-util
+Filename: libpam0g_1.4.0-11ubuntu2.8_arm64.deb
+Size: 59800
+SHA256: f61ae0342dfba2b6c6b61f3d46925371434a4719a251f7585f9baa1341fcc9e2
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules library
+
+Package: libpcre2-8-0
+Version: 10.39-3ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 541
+Depends: libc6 (>= 2.17)
+Filename: libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb
+Size: 201806
+SHA256: b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91
+Homepage: https://pcre.org/
+Description:
+ New Perl Compatible Regular Expression Library- 8 bit runtime files
+Source: pcre2
+
+Package: libperl5.34
+Version: 5.34.0-3ubuntu1.9
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 27968
+Depends: libbz2-1.0, libc6 (>= 2.35), libcrypt1 (>= 1:4.1.0), libdb5.3, libgdbm-compat4 (>= 1.18-3), libgdbm6 (>= 1.18-3), zlib1g (>= 1:1.2.2.3), perl-modules-5.34 (>= 5.34.0-3ubuntu1.9)
+Suggests: sensible-utils
+Breaks: libcompress-raw-bzip2-perl (<< 2.101), libcompress-raw-zlib-perl (<< 2.101), libcompress-zlib-perl (<< 2.102), libdigest-md5-perl (<< 2.58), libdigest-sha-perl (<< 6.02), libencode-perl (<< 3.08), libfilter-perl (<< 1.60), libio-compress-base-perl (<< 2.102), libio-compress-bzip2-perl (<< 2.102), libio-compress-perl (<< 2.102), libio-compress-zlib-perl (<< 2.102), libmime-base64-perl (<< 3.16), libstorable-perl (<< 3.23), libsys-syslog-perl (<< 0.36), libthreads-perl (<< 2.26), libthreads-shared-perl (<< 1.62), libtime-hires-perl (<< 1.9767), libtime-piece-perl (<< 1.3401)
+Replaces: libarchive-tar-perl (<= 1.38-2), libcompress-raw-bzip2-perl (<< 2.101), libcompress-raw-zlib-perl (<< 2.101), libcompress-zlib-perl (<< 2.102), libdigest-md5-perl (<< 2.58), libdigest-sha-perl (<< 6.02), libencode-perl (<< 3.08), libio-compress-base-perl (<< 2.102), libio-compress-bzip2-perl (<< 2.102), libio-compress-perl (<< 2.102), libio-compress-zlib-perl (<< 2.102), libmime-base64-perl (<< 3.16), libmodule-corelist-perl (<< 2.14-2), libstorable-perl (<< 3.23), libsys-syslog-perl (<< 0.36), libthreads-perl (<< 2.26), libthreads-shared-perl (<< 1.62), libtime-hires-perl (<< 1.9767), libtime-piece-perl (<< 1.3401), perl (<< 5.22.0~), perl-base (<< 5.22.0~)
+Filename: libperl5.34_5.34.0-3ubuntu1.9_arm64.deb
+Size: 4723626
+SHA256: 3334cbd477ad9da552dd534759f8cd7350c91f1b6573e58c9b17f69b493b7787
+Homepage: http://dev.perl.org/perl5/
+Description: shared Perl library
+
+Package: libpopt0
+Version: 1.18-3build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 120
+Depends: libc6 (>= 2.33)
+Filename: libpopt0_1.18-3build1_arm64.deb
+Size: 27970
+SHA256: 51849f7ce42215d7eed5a60729cd809bd65037ecab5aa387624d84f3dfcb7118
+Homepage: https://github.com/rpm-software-management/popt
+Description: lib for parsing cmdline parameters
+Source: popt
+
+Package: libprocps8
+Version: 2:3.3.17-6ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 126
+Depends: libc6 (>= 2.34), libsystemd0 (>= 209)
+Replaces: procps (<< 1:3.3.2-1)
+Filename: libprocps8_3.3.17-6ubuntu2.1_arm64.deb
+Size: 35332
+SHA256: af989708c63833697b9bbd4da9704399919cc0f0d6ac337ce876e51a24f85c1a
+Homepage: https://gitlab.com/procps-ng/procps
+Description: library for accessing process information from /proc
+Source: procps
+
+Package: libreadline8
+Version: 8.1.2-1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 456
+Depends: readline-common, libc6 (>= 2.33), libtinfo6 (>= 6)
+Filename: libreadline8_8.1.2-1_arm64.deb
+Size: 153336
+SHA256: 54291f2dd185d3a759227b31b7de4269e495a084fdad89e24a9cc4d0d20888a7
+Description: GNU readline and history libraries, run-time libraries
+Source: readline
+
+Package: libselinux1
+Version: 3.3-1build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 203
+Depends: libc6 (>= 2.34), libpcre2-8-0 (>= 10.22)
+Filename: libselinux1_3.3-1build2_arm64.deb
+Size: 74408
+SHA256: 3a0726b2174a40fa28e74712867aa6e40d3d725543e8f668af9e9e59a28c817c
+Homepage: https://selinuxproject.org
+Description: SELinux runtime shared libraries
+
+Package: libsemanage-common
+Version: 3.3-1build2
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 37
+Filename: libsemanage-common_3.3-1build2_all.deb
+Size: 9874
+SHA256: bb60d1049ed3d7838b395785cab09f2210c04878fcae9391ea3499f62d04ec2d
+Homepage: https://selinuxproject.org
+Description: Common files for SELinux policy management libraries
+Source: libsemanage
+
+Package: libsemanage2
+Version: 3.3-1build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 279
+Depends:
+ libsemanage-common (>= 3.3-1build2), libaudit1 (>= 1:2.2.1), libbz2-1.0,
+ libc6 (>= 2.33), libselinux1 (>= 3.3), libsepol2 (>= 3.3)
+Breaks: policycoreutils (<< 3.0)
+Filename: libsemanage2_3.3-1build2_arm64.deb
+Size: 89298
+SHA256: 5f8792ee2ba7a3a8f455db43d8f76f575eb6966127bf94a40e247d969b8fac20
+Homepage: https://selinuxproject.org
+Description: SELinux policy management library
+Source: libsemanage
+
+Package: libsepol2
+Version: 3.3-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 699
+Depends: libc6 (>= 2.33)
+Filename: libsepol2_3.3-1build1_arm64.deb
+Size: 274326
+SHA256: b4b44d8e1b6520217b7123f9a15073ab38704480fa8bf8949db988f21203c3d4
+Homepage: https://selinuxproject.org
+Description: SELinux library for manipulating binary security policies
+Source: libsepol
+
+Package: libsigsegv2
+Version: 2.13-1ubuntu3
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 45
+Depends: libc6 (>= 2.17)
+Filename: libsigsegv2_2.13-1ubuntu3_arm64.deb
+Size: 14486
+SHA256: 9dc299e9a38ce5d496bcd61764aa4610870cd3b26b29f688068c5cb581cbfe4a
+Homepage: https://www.gnu.org/software/libsigsegv/
+Description: Library for handling page faults in a portable way
+Source: libsigsegv
+
+Package: libssl3
+Version: 3.0.2-0ubuntu1.25
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 5360
+Depends: libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Filename: libssl3_3.0.2-0ubuntu1.25_arm64.deb
+Size: 1773404
+SHA256: a3762f83646ce0a5d1ef8d15966a0eed58612268b6731f26df196a7bbf02aa31
+Homepage: https://www.openssl.org/
+Description: Secure Sockets Layer toolkit - shared libraries
+Source: openssl
+
+Package: libstdc++6
+Version: 12.3.0-1ubuntu1~22.04.3
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2695
+Depends:
+ gcc-12-base (= 12.3.0-1ubuntu1~22.04.3), libc6 (>= 2.34), libgcc-s1 (>=
+ 4.5)
+Conflicts: scim (<< 1.4.2-1)
+Breaks: gcc-4.3 (<< 4.3.6-1), gcc-4.4 (<< 4.4.6-4), gcc-4.5 (<< 4.5.3-2)
+Replaces: libstdc++6-12-dbg (<< 4.9.0-3)
+Filename: libstdc++6_12.3.0-1ubuntu1~22.04.3_arm64.deb
+Size: 660980
+SHA256: 59d244119e6129c7e9c0897491c0e210e925d15881b2dedcf8965ceb4fbf1aa3
+Homepage: http://gcc.gnu.org/
+Description: GNU Standard C++ Library v3
+
+Package: libsystemd0
+Version: 249.11-0ubuntu3.21
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1006
+Pre-Depends:
+ libc6 (>= 2.34), libcap2 (>= 1:2.24-9~), libgcrypt20 (>= 1.9.0), liblz4-1
+ (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614), libzstd1 (>= 1.4.0)
+Filename: libsystemd0_249.11-0ubuntu3.21_arm64.deb
+Size: 312340
+SHA256: f543fd6dc960b7bddf7c70cf67946ff1b1547273353a4f8d6c124930a6a54c6a
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd utility library
+Source: systemd
+
+Package: libtinfo6
+Version: 6.3-2ubuntu0.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 547
+Depends: libc6 (>= 2.33)
+Filename: libtinfo6_6.3-2ubuntu0.2_arm64.deb
+Size: 103658
+SHA256: 4884d3f3a3bfd86440e8f2c81c69fc893b43d230719c2a5ff25529f4157650fb
+Homepage: https://invisible-island.net/ncurses/
+Description: shared low-level terminfo library for terminal handling
+Source: ncurses
+
+Package: libtirpc-common
+Version: 1.3.2-2ubuntu0.1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 32
+Breaks: libtirpc1, libtirpc3 (<< 1.1.4-0.1~)
+Replaces: libtirpc1, libtirpc3 (<< 1.1.4-0.1~)
+Filename: libtirpc-common_1.3.2-2ubuntu0.1_all.deb
+Size: 7766
+SHA256: cd7b220447999402e87d75f7cedcfad159a2e5d4236927a414d77f2932219bee
+Homepage: http://sourceforge.net/projects/libtirpc
+Description: transport-independent RPC library - common files
+Source: libtirpc
+
+Package: libtirpc3
+Version: 1.3.2-2ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 215
+Depends:
+ libc6 (>= 2.34), libgssapi-krb5-2 (>= 1.17), libtirpc-common (>=
+ 1.3.2-2ubuntu0.1)
+Breaks: nfs-common (<< 1:1.2.8-7), nfs-kernel-server (<< 1:1.2.8-7)
+Filename: libtirpc3_1.3.2-2ubuntu0.1_arm64.deb
+Size: 82416
+SHA256: 64b3eb9a689049c99e02d447b630879c5b2e0db50a18fe6c5dbf1db06d0833ec
+Homepage: http://sourceforge.net/projects/libtirpc
+Description: transport-independent RPC library
+Source: libtirpc
+
+Package: liburing2
+Version: 2.1-2build1
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 38
+Depends: libc6 (>= 2.17)
+Filename: liburing2_2.1-2build1_arm64.deb
+Size: 10042
+SHA256: a9221f0d47fd32819558f7a91677e97c72bd88646d38d369ffa70720ac49c27d
+Homepage: https://github.com/axboe/liburing
+Description: Linux kernel io_uring access library - shared library
+Source: liburing
+
+Package: libwrap0
+Version: 7.6.q-31build2
+Architecture: arm64
+Multi-Arch: same
+Priority: optional
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 105
+Depends: libc6 (>= 2.33), libnsl2 (>= 1.0)
+Filename: libwrap0_7.6.q-31build2_arm64.deb
+Size: 47910
+SHA256: 8383eba4771b6027a9c7dd887db2a0b1b08b23cd88e0df8332d65e9f4345623f
+Description: Wietse Venema's TCP wrappers library
+Source: tcp-wrappers
+
+Package: libxtables12
+Version: 1.8.7-1ubuntu5.2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 105
+Depends: libc6 (>= 2.34)
+Breaks: iptables (<< 1.4.16.3-3), libxtables11 (>= 1.6.0+snapshot20161117-1)
+Replaces:
+ iptables (<< 1.4.16.3-3), libxtables11 (>= 1.6.0+snapshot20161117-1)
+Filename: libxtables12_1.8.7-1ubuntu5.2_arm64.deb
+Size: 30916
+SHA256: 1e224fa12afd5bf4c8b5afe1803c6af04fd296ecd081fdd6a2df0e8dbe2027e1
+Homepage: https://www.netfilter.org/
+Description: netfilter xtables library
+Source: iptables
+
+Package: libxxhash0
+Version: 0.8.1-1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 56
+Depends: libc6 (>= 2.17)
+Filename: libxxhash0_0.8.1-1_arm64.deb
+Size: 20106
+SHA256: b8a08b708e903ca865ad74b8236e0e7092bbfd5b3754d862ff553ca8b4a6c95b
+Homepage: https://cyan4973.github.io/xxHash
+Description: shared library for xxhash
+Source: xxhash
+
+Package: libzstd1
+Version: 1.4.8+dfsg-3build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 737
+Depends: libc6 (>= 2.17)
+Filename: libzstd1_1.4.8+dfsg-3build1_arm64.deb
+Size: 311026
+SHA256: 0102eb80384c2432c4be819663341a1c4e511d05f13ec1467643696531ec6491
+Homepage: https://github.com/facebook/zstd
+Description: fast lossless compression algorithm
+Source: libzstd
+
+Package: lsb-base
+Version: 11.1.0ubuntu4
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 58
+Filename: lsb-base_11.1.0ubuntu4_all.deb
+Size: 12350
+SHA256: 23ac3e99b0c2cd0179a7f40fa5a24248345e16c515f222164dad2a638b4f04cf
+Homepage: https://wiki.linuxfoundation.org/lsb/start
+Description: Linux Standard Base init script functionality
+
+Package: lsof
+Version: 4.93.2+dfsg-1.1build2
+Architecture: arm64
+Priority: standard
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 443
+Depends: libc6 (>= 2.34), libselinux1 (>= 3.1~), libtirpc3 (>= 1.0.2)
+Suggests: perl
+Filename: lsof_4.93.2+dfsg-1.1build2_arm64.deb
+Size: 250886
+SHA256: 06413ee98a2c56fd7e1d72bcd03998055daf5f6626d43c282b9de8ca28e79080
+Homepage: https://github.com/lsof-org/lsof
+Description: utility to list open files
+
+Package: mariadb-client-core
+Version: 1:11.4.7+maria~ubu2204
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 10610
+Provides: default-mysql-client-core, virtual-mysql-client-core
+Depends:
+ libmariadb3 (>= 10.5.4), mariadb-common (>= 1:11.4.7+maria~ubu2204), libc6
+ (>= 2.34), libedit2 (>= 2.11-20080614-0), libgcc-s1 (>= 3.3.1),
+ libncurses6 (>= 6), libssl3 (>= 3.0.0~~alpha1), libtinfo6 (>= 6), zlib1g
+ (>= 1:1.1.4)
+Conflicts:
+ mariadb-client-10.0, mariadb-client-10.1, mariadb-client-10.2,
+ mariadb-client-10.3, mariadb-client-10.4, mariadb-client-10.5,
+ mariadb-client-10.6, mariadb-client-10.7, mariadb-client-10.8,
+ mariadb-client-5.1, mariadb-client-5.2, mariadb-client-5.3,
+ mariadb-client-5.5, mariadb-client-core-10.0, mariadb-client-core-10.1,
+ mariadb-client-core-10.2, mariadb-client-core-10.3,
+ mariadb-client-core-10.4, mariadb-client-core-10.5,
+ mariadb-client-core-10.6, mariadb-client-core-10.7,
+ mariadb-client-core-10.8, mariadb-client-core-5.1,
+ mariadb-client-core-5.2, mariadb-client-core-5.3, mariadb-client-core-5.5,
+ mysql-client (<< 5.0.51), mysql-client-5.0, mysql-client-5.1,
+ mysql-client-5.5, mysql-client-core-5.1, mysql-client-core-5.5,
+ mysql-client-core-5.6, mysql-client-core-5.7, mysql-client-core-8.0,
+ virtual-mysql-client-core
+Breaks:
+ mariadb-client (<< 1:11.4.7+maria~ubu2204), mariadb-server-10.0,
+ mariadb-server-10.1, mariadb-server-core (<< 1:11.4.7+maria~ubu2204),
+ mariadb-server-core-10.0, mariadb-server-core-10.1,
+ mariadb-server-core-10.2, mariadb-server-core-10.3,
+ mariadb-server-core-10.4, mariadb-server-core-10.5,
+ mariadb-server-core-10.6, mariadb-server-core-10.7,
+ mariadb-server-core-10.8, mysql-cluster-community-client-plugins,
+ mysql-server-core-5.5, mysql-server-core-5.6, mysql-server-core-5.7,
+ mysql-server-core-8.0, percona-server-server-5.6,
+ percona-server-server-5.7, percona-server-server-8.0,
+ percona-xtradb-cluster-server-5.6, percona-xtradb-cluster-server-5.7,
+ percona-xtradb-cluster-server-8.0
+Replaces:
+ mariadb-client (<< 1:11.4.7+maria~ubu2204), mariadb-client-10.0,
+ mariadb-client-10.1, mariadb-client-10.2, mariadb-client-10.3,
+ mariadb-client-10.4, mariadb-client-10.5, mariadb-client-10.6,
+ mariadb-client-10.7, mariadb-client-10.8, mariadb-client-5.1,
+ mariadb-client-5.2, mariadb-client-5.3, mariadb-client-5.5,
+ mariadb-client-core-10.0, mariadb-client-core-10.1,
+ mariadb-client-core-10.2, mariadb-client-core-10.3,
+ mariadb-client-core-10.4, mariadb-client-core-10.5,
+ mariadb-client-core-10.6, mariadb-client-core-10.7,
+ mariadb-client-core-10.8, mariadb-client-core-5.1,
+ mariadb-client-core-5.2, mariadb-client-core-5.3, mariadb-client-core-5.5,
+ mariadb-server-10.0, mariadb-server-10.1, mariadb-server-core (<<
+ 1:11.4.7+maria~ubu2204), mariadb-server-core-10.0,
+ mariadb-server-core-10.1, mariadb-server-core-10.2,
+ mariadb-server-core-10.3, mariadb-server-core-10.4,
+ mariadb-server-core-10.5, mariadb-server-core-10.6,
+ mariadb-server-core-10.7, mariadb-server-core-10.8, mysql-client (<<
+ 5.0.51), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5,
+ mysql-client-core-5.1, mysql-client-core-5.5, mysql-client-core-5.6,
+ mysql-client-core-5.7, mysql-client-core-8.0,
+ mysql-cluster-community-client-plugins, mysql-server-core-5.5,
+ mysql-server-core-5.6, mysql-server-core-5.7, mysql-server-core-8.0,
+ percona-server-server-5.6, percona-server-server-5.7,
+ percona-server-server-8.0, percona-xtradb-cluster-server-5.6,
+ percona-xtradb-cluster-server-5.7, percona-xtradb-cluster-server-8.0,
+ virtual-mysql-client-core
+Filename: mariadb-client-core_11.4.7+maria~ubu2204_arm64.deb
+Size: 1121462
+SHA256: 9c3f2408725889acee5ea1c1d415ce90e4bc64c89dcedab68fc862cc732dc8de
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database core client binaries MariaDB is a fast, stable and true
+ multi-user, multi-threaded SQL database server. SQL (Structured Query
+ Language) is the most popular database query language in the world. The
+ main goals of MariaDB are speed, robustness and ease of use. . This
+ package includes the core client files, as used by Akonadi.
+Source: mariadb
+
+Package: mariadb-client
+Version: 1:11.4.7+maria~ubu2204
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 20999
+Provides: default-mysql-client, virtual-mysql-client
+Depends:
+ debianutils (>= 1.6), libconfig-inifiles-perl, mariadb-client-core (>=
+ 1:11.4.7+maria~ubu2204), mariadb-common, perl:any, libc6 (>= 2.34),
+ libgcc-s1 (>= 3.3.1), libssl3 (>= 3.0.0~~alpha1), libstdc++6 (>= 11),
+ zlib1g (>= 1:1.1.4)
+Recommends:
+ libdbd-mariadb-perl | libdbd-mysql-perl, libdbi-perl,
+ libterm-readkey-perl, mariadb-client-compat
+Conflicts:
+ mariadb-client-10.0, mariadb-client-10.1, mariadb-client-10.2,
+ mariadb-client-10.3, mariadb-client-10.4, mariadb-client-10.5,
+ mariadb-client-10.6, mariadb-client-10.7, mariadb-client-10.8,
+ mariadb-client-5.1, mariadb-client-5.2, mariadb-client-5.3,
+ mariadb-client-5.5, mysql-client (<< 5.0.51), mysql-client-5.0,
+ mysql-client-5.1, mysql-client-5.5, mysql-client-5.6, mysql-client-5.7,
+ mysql-client-8.0, mysql-client-core-5.0, mysql-client-core-5.1,
+ mysql-client-core-5.5, mysql-client-core-5.6, mysql-client-core-5.7,
+ mysql-client-core-8.0, mytop, virtual-mysql-client
+Breaks:
+ mariadb-client-core (<< 1:11.4.7+maria~ubu2204), mariadb-client-core-10.0,
+ mariadb-client-core-10.1, mariadb-client-core-10.2,
+ mariadb-client-core-10.3, mariadb-client-core-10.4,
+ mariadb-client-core-10.5, mariadb-client-core-10.6,
+ mariadb-client-core-10.7, mariadb-client-core-10.8, mariadb-server (<<
+ 1:11.4.7+maria~ubu2204), mariadb-server-10.0, mariadb-server-10.1,
+ mariadb-server-10.2, mariadb-server-10.3, mariadb-server-10.4,
+ mariadb-server-10.5, mariadb-server-10.6, mariadb-server-10.7,
+ mariadb-server-10.8, mariadb-server-core (<< 1:11.4.7+maria~ubu2204),
+ mariadb-server-core-10.0, mariadb-server-core-10.1,
+ mariadb-server-core-10.2, mariadb-server-core-10.3,
+ mariadb-server-core-10.4, mariadb-server-core-10.5,
+ mariadb-server-core-10.6, mariadb-server-core-10.7,
+ mariadb-server-core-10.8, mysql-server-5.5, mysql-server-5.6,
+ mysql-server-5.7, mysql-server-8.0, mysql-server-core-5.5,
+ mysql-server-core-5.6, mysql-server-core-5.7, mysql-server-core-8.0,
+ percona-server-server-5.6, percona-xtradb-cluster-server-5.6,
+ percona-xtradb-cluster-server-5.7
+Replaces:
+ mariadb-client-10.0, mariadb-client-10.1, mariadb-client-10.2,
+ mariadb-client-10.3, mariadb-client-10.4, mariadb-client-10.5,
+ mariadb-client-10.6, mariadb-client-10.7, mariadb-client-10.8,
+ mariadb-client-5.1, mariadb-client-5.2, mariadb-client-5.3,
+ mariadb-client-5.5, mariadb-client-core (<< 1:11.4.7+maria~ubu2204),
+ mariadb-client-core-10.0, mariadb-client-core-10.1,
+ mariadb-client-core-10.2, mariadb-client-core-10.3,
+ mariadb-client-core-10.4, mariadb-client-core-10.5,
+ mariadb-client-core-10.6, mariadb-client-core-10.7,
+ mariadb-client-core-10.8, mariadb-server (<< 1:11.4.7+maria~ubu2204),
+ mariadb-server-10.0, mariadb-server-10.1, mariadb-server-10.2,
+ mariadb-server-10.3, mariadb-server-10.4, mariadb-server-10.5,
+ mariadb-server-10.6, mariadb-server-10.7, mariadb-server-10.8,
+ mariadb-server-core (<< 1:11.4.7+maria~ubu2204), mariadb-server-core-10.0,
+ mariadb-server-core-10.1, mariadb-server-core-10.2,
+ mariadb-server-core-10.3, mariadb-server-core-10.4,
+ mariadb-server-core-10.5, mariadb-server-core-10.6,
+ mariadb-server-core-10.7, mariadb-server-core-10.8, mysql-client (<<
+ 5.0.51), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5,
+ mysql-client-5.6, mysql-client-5.7, mysql-client-8.0,
+ mysql-client-core-5.0, mysql-client-core-5.1, mysql-client-core-5.5,
+ mysql-client-core-5.6, mysql-client-core-5.7, mysql-client-core-8.0,
+ mysql-server-5.5, mysql-server-5.6, mysql-server-5.7, mysql-server-8.0,
+ mysql-server-core-5.5, mysql-server-core-5.6, mysql-server-core-5.7,
+ mysql-server-core-8.0, mytop, percona-server-server-5.6,
+ percona-xtradb-cluster-server-5.6, percona-xtradb-cluster-server-5.7,
+ virtual-mysql-client
+Filename: mariadb-client_11.4.7+maria~ubu2204_arm64.deb
+Size: 1993020
+SHA256: 143ed390c4b5fcca5eab1ab48c676cc0a5ba24062db22522ed7589e4c881ac4c
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database client binaries MariaDB is a fast, stable and true
+ multi-user, multi-threaded SQL database server. SQL (Structured Query
+ Language) is the most popular database query language in the world. The
+ main goals of MariaDB are speed, robustness and ease of use. . This
+ package includes the client binaries and the additional tools innotop and
+ mariadb-report (mysqlreport).
+Source: mariadb
+
+Package: mariadb-common
+Version: 1:11.4.7+maria~ubu2204
+Architecture: all
+Multi-Arch: foreign
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 22
+Depends: mysql-common (>= 5.6.25)
+Filename: mariadb-common_11.4.7+maria~ubu2204_all.deb
+Size: 4080
+SHA256: e0f4dc53b7a93444aaf3b19d2133445a272ee5ab081f65e7c4959531c71cbe5a
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database common files (e.g. /etc/mysql/mariadb.conf.d/) MariaDB is
+ a fast, stable and true multi-user, multi-threaded SQL database server.
+ SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MariaDB are speed, robustness and
+ ease of use. . This package includes configuration files common to all
+ MariaDB programs.
+Source: mariadb
+
+Package: mariadb-server-core
+Version: 1:11.4.7+maria~ubu2204
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 32348
+Provides: default-mysql-server-core, virtual-mysql-server-core
+Depends:
+ mariadb-common (>= 1:11.4.7+maria~ubu2204), libc6 (>= 2.34), libcrypt1 (>=
+ 1:4.1.0), libgcc-s1 (>= 4.5), libpcre2-8-0 (>= 10.22), libssl3 (>=
+ 3.0.0~~alpha1), libstdc++6 (>= 12), libsystemd0 (>= 227), liburing2 (>=
+ 2.1), zlib1g (>= 1:1.2.0)
+Conflicts:
+ mariadb-server-core-10.0, mariadb-server-core-10.1,
+ mariadb-server-core-10.2, mariadb-server-core-10.3,
+ mariadb-server-core-10.4, mariadb-server-core-10.5,
+ mariadb-server-core-10.6, mariadb-server-core-10.7,
+ mariadb-server-core-10.8, mariadb-server-core-5.1,
+ mariadb-server-core-5.2, mariadb-server-core-5.3, mariadb-server-core-5.5,
+ mysql-server-5.0, mysql-server-core-5.0, mysql-server-core-5.1,
+ mysql-server-core-5.5, mysql-server-core-5.6, mysql-server-core-5.7,
+ mysql-server-core-8.0, virtual-mysql-server-core
+Breaks:
+ mariadb-client (<< 1:11.4.7+maria~ubu2204), mariadb-client-10.0,
+ mariadb-client-10.1, mariadb-client-10.2, mariadb-client-10.3,
+ mariadb-client-10.4, mariadb-client-10.5, mariadb-client-10.6,
+ mariadb-client-10.7, mariadb-client-10.8, mariadb-server (<<
+ 1:11.4.7+maria~ubu2204), mariadb-server-10.0, mariadb-server-10.1,
+ mariadb-server-10.2, mariadb-server-10.3, mariadb-server-10.4,
+ mariadb-server-10.5, mariadb-server-10.6, mariadb-server-10.7,
+ mariadb-server-10.8, mysql-client-5.5, mysql-server-5.5, mysql-server-5.6,
+ mysql-server-5.7, mysql-server-8.0, percona-server-server-5.6,
+ percona-xtradb-cluster-server-5.6, percona-xtradb-cluster-server-5.7
+Replaces:
+ mariadb-client (<< 1:11.4.7+maria~ubu2204), mariadb-client-10.0,
+ mariadb-client-10.1, mariadb-client-10.2, mariadb-client-10.3,
+ mariadb-client-10.4, mariadb-client-10.5, mariadb-client-10.6,
+ mariadb-client-10.7, mariadb-client-10.8, mariadb-server (<<
+ 1:11.4.7+maria~ubu2204), mariadb-server-10.0, mariadb-server-10.1,
+ mariadb-server-10.2, mariadb-server-10.3, mariadb-server-10.4,
+ mariadb-server-10.5, mariadb-server-10.6, mariadb-server-10.7,
+ mariadb-server-10.8, mariadb-server-core-10.0, mariadb-server-core-10.1,
+ mariadb-server-core-10.2, mariadb-server-core-10.3,
+ mariadb-server-core-10.4, mariadb-server-core-10.5,
+ mariadb-server-core-5.1, mariadb-server-core-5.2, mariadb-server-core-5.3,
+ mariadb-server-core-5.5, mysql-client-5.5, mysql-server-5.0,
+ mysql-server-5.5, mysql-server-5.6, mysql-server-5.7, mysql-server-8.0,
+ mysql-server-core-5.0, mysql-server-core-5.1, mysql-server-core-5.5,
+ mysql-server-core-5.6, mysql-server-core-5.7, mysql-server-core-8.0,
+ percona-server-server-5.6, percona-xtradb-cluster-server-5.6,
+ percona-xtradb-cluster-server-5.7, virtual-mysql-server-core
+Filename: mariadb-server-core_11.4.7+maria~ubu2204_arm64.deb
+Size: 7607718
+SHA256: 2fa3bca2f052aff38645e703cf7069f943f05197990e7bd4be8719b30e24adeb
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database core server files MariaDB is a fast, stable and true
+ multi-user, multi-threaded SQL database server. SQL (Structured Query
+ Language) is the most popular database query language in the world. The
+ main goals of MariaDB are speed, robustness and ease of use. . This
+ package includes the core server files, as used by Akonadi.
+Source: mariadb
+
+Package: mariadb-server
+Version: 1:11.4.7+maria~ubu2204
+Architecture: arm64
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 41858
+Provides: default-mysql-server, virtual-mysql-server
+Pre-Depends:
+ adduser (>= 3.40), debconf, mariadb-common (>= 1:11.4.7+maria~ubu2204)
+Depends:
+ galera-4 (>= 26.4), gawk, iproute2, libdbi-perl, lsb-base (>= 3.0-10),
+ lsof, mariadb-client (>= 1:11.4.7+maria~ubu2204), mariadb-server-core (>=
+ 1:11.4.7+maria~ubu2204), passwd, perl (>= 5.6), procps, psmisc, rsync,
+ socat, debconf (>= 0.5) | debconf-2.0, perl:any, libc6 (>= 2.34),
+ libgcc-s1 (>= 3.3.1), libpam0g (>= 0.99.7.1), libssl3 (>= 3.0.0~~alpha1),
+ libstdc++6 (>= 11), zlib1g (>= 1:1.1.4)
+Recommends: libhtml-template-perl, mariadb-server-compat, pv
+Suggests: mailx, mariadb-test, netcat-openbsd
+Conflicts:
+ mariadb-server-10.0, mariadb-server-10.1, mariadb-server-10.2,
+ mariadb-server-10.3, mariadb-server-10.4, mariadb-server-10.5,
+ mariadb-server-10.6, mariadb-server-10.7, mariadb-server-10.8,
+ mariadb-server-5.1, mariadb-server-5.2, mariadb-server-5.3,
+ mariadb-server-5.5, mysql-client-5.5, mysql-client-5.6, mysql-client-5.7,
+ mysql-client-8.0, mysql-client-core-8.0, mysql-server, mysql-server-4.1,
+ mysql-server-5.0, mysql-server-5.1, mysql-server-5.5, mysql-server-5.6,
+ mysql-server-5.7, mysql-server-8.0, mysql-server-core-5.5,
+ mysql-server-core-5.6, mysql-server-core-5.7, mysql-server-core-8.0,
+ virtual-mysql-server
+Breaks:
+ handlersocket-mysql-5.5, percona-server-server-5.6,
+ percona-xtradb-cluster-server-5.6, percona-xtradb-cluster-server-5.7
+Replaces:
+ handlersocket-mysql-5.5, libmariadbclient-dev (<< 5.5.0),
+ libmariadbclient16, mariadb-client (<< 1:11.4.7+maria~ubu2204),
+ mariadb-client-10.5, mariadb-client-10.6, mariadb-client-10.7,
+ mariadb-client-10.8, mariadb-server-10.0, mariadb-server-10.1,
+ mariadb-server-10.2, mariadb-server-10.3, mariadb-server-10.4,
+ mariadb-server-10.5, mariadb-server-10.6, mariadb-server-10.7,
+ mariadb-server-10.8, mariadb-server-5.1, mariadb-server-5.2,
+ mariadb-server-5.3, mariadb-server-5.5, mysql-client-5.5,
+ mysql-client-5.6, mysql-client-5.7, mysql-client-8.0,
+ mysql-client-core-8.0, mysql-server, mysql-server-4.1, mysql-server-5.0,
+ mysql-server-5.1, mysql-server-5.5, mysql-server-5.6, mysql-server-5.7,
+ mysql-server-8.0, percona-server-server-5.6,
+ percona-xtradb-cluster-server-5.6, percona-xtradb-cluster-server-5.7,
+ virtual-mysql-server
+Filename: mariadb-server_11.4.7+maria~ubu2204_arm64.deb
+Size: 3410194
+SHA256: 952fc979ffdfef9dcbd12999fbb6c760c09705d5d137b84f81b07901d03e7939
+Homepage: https://mariadb.org/
+Description:
+ MariaDB database server binaries MariaDB is a fast, stable and true
+ multi-user, multi-threaded SQL database server. SQL (Structured Query
+ Language) is the most popular database query language in the world. The
+ main goals of MariaDB are speed, robustness and ease of use. . This
+ package includes the server binaries.
+Source: mariadb
+
+Package: mysql-common
+Version: 1:11.4.7+maria~ubu2204
+Architecture: all
+Priority: optional
+Section: database
+Maintainer: MariaDB Developers <developers@lists.mariadb.org>
+Installed-Size: 18
+Filename: mysql-common_11.4.7+maria~ubu2204_all.deb
+Size: 2912
+SHA256: 0109b54dd43d4c3ad6802b82e3df1f26bb20f2b0194fca5c46c9adf96163e7ef
+Homepage: https://mariadb.org/
+Description:
+ MariaDB client common configuration files package (e.g. /etc/mysql/my.cnf)
+ MariaDB is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MariaDB are speed, robustness and
+ ease of use. . This package includes files needed by all versions of the
+ client library (e.g. /etc/mysql/my.cnf).
+Source: mariadb
+
+Package: passwd
+Version: 1:4.8.1-2ubuntu2.2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2193
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), libcrypt1 (>= 1:4.1.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsemanage2 (>= 2.0.3),
+ libpam-modules
+Recommends: sensible-utils
+Filename: passwd_4.8.1-2ubuntu2.2_arm64.deb
+Size: 762878
+SHA256: 1c394cdd41704354c2bbeede9f77fed814bb6025e1d61e8e4aa6d312d51b51c3
+Homepage: https://github.com/shadow-maint/shadow
+Description: change and administer password and group data
+Source: shadow
+
+Package: perl-base
+Version: 5.34.0-3ubuntu1.9
+Architecture: arm64
+Priority: required
+Section: perl
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 7510
+Provides: libfile-path-perl (= 2.18), libfile-temp-perl (= 0.2311), libio-socket-ip-perl (= 0.41), libscalar-list-utils-perl (= 1:1.55), libsocket-perl (= 2.031), libxsloader-perl (= 0.30), perlapi-5.34.0
+Pre-Depends: libc6 (>= 2.35), libcrypt1 (>= 1:4.1.0), dpkg (>= 1.17.17)
+Suggests: perl, sensible-utils
+Conflicts: defoma (<< 0.11.12), doc-base (<< 0.10.3), mono-gac (<< 2.10.8.1-3), safe-rm (<< 0.8), update-inetd (<< 4.41)
+Breaks: amanda-common (<< 1:3.3.9-2), backuppc (<< 3.3.1-2), bucardo (<< 5.5.0-1.1), debconf (<< 1.5.61), dh-haskell (<< 0.3), intltool (<< 0.51.0-4), kio-perldoc (<< 20.04.1-1), latexml (<< 0.8.4-2), libdevel-mat-dumper-perl (<< 0.42-3), libencode-arabic-perl (<< 14.2-2), libexception-class-perl (<< 1.42), libfile-path-perl (<< 2.18), libfile-spec-perl (<< 3.8000), libfile-temp-perl (<< 0.2311), libio-socket-ip-perl (<< 0.41), libmp3-tag-perl (<< 1.13-1.2), libsbuild-perl (<< 0.67.0-1), libscalar-list-utils-perl (<< 1:1.55), libsocket-perl (<< 2.031), libxsloader-perl (<< 0.30), mailagent (<< 1:3.1-81-2), perl (<< 5.34.0~), perl-modules (<< 5.34.0~), pod2pdf (<< 0.42-5.1), slic3r (<< 1.2.9+dfsg-6.1), slic3r-prusa (<< 1.37.0+dfsg-1.1), texinfo (<< 6.1.0.dfsg.1-8)
+Replaces: libfile-path-perl (<< 2.18), libfile-temp-perl (<< 0.2311), libio-socket-ip-perl (<< 0.41), libscalar-list-utils-perl (<< 1:1.55), libsocket-perl (<< 2.031), libxsloader-perl (<< 0.30), perl (<< 5.10.1-12), perl-modules (<< 5.20.1-3)
+Filename: perl-base_5.34.0-3ubuntu1.9_arm64.deb
+Size: 1711140
+SHA256: 9e276fc3089df7aa2f4404f1450c06fd261a907aecf7237577c01d5bb4ef99cb
+Homepage: http://dev.perl.org/perl5/
+Description: minimal Perl system
+
+Package: perl-modules-5.34
+Version: 5.34.0-3ubuntu1.9
+Architecture: all
+Multi-Arch: foreign
+Priority: optional
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 17674
+Provides: perl-modules
+Pre-Depends: dpkg (>= 1.17.17)
+Depends: perl-base (>= 5.34.0-1)
+Recommends: perl (>= 5.34.0-1)
+Conflicts: perl-modules (<< 5.22.0~)
+Breaks: libansicolor-perl (<< 5.01), libarchive-tar-perl (<< 2.38), libattribute-handlers-perl (<< 1.01), libautodie-perl (<< 2.34), libcpan-meta-perl (<< 2.150010), libcpan-meta-requirements-perl (<< 2.140), libcpan-meta-yaml-perl (<< 0.018), libdigest-perl (<< 1.19), libexperimental-perl (<< 0.024), libextutils-cbuilder-perl (<< 0.280236), libextutils-command-perl (<< 7.62), libextutils-install-perl (<< 2.20), libextutils-parsexs-perl (<< 3.430000), libfile-spec-perl (<< 3.8000), libhttp-tiny-perl (<< 0.076), libi18n-langtags-perl (<< 0.45), libio-zlib-perl (<< 1.11), libjson-pp-perl (<< 4.06000), liblocale-maketext-perl (<< 1.29), liblocale-maketext-simple-perl (<< 0.21.01), libmath-bigint-perl (<< 1.999818), libmath-complex-perl (<< 1.5902), libmodule-corelist-perl (<< 5.20210520), libmodule-load-conditional-perl (<< 0.74), libmodule-load-perl (<< 0.36), libmodule-metadata-perl (<< 1.000037), libnet-perl (<< 1:3.13), libnet-ping-perl (<< 2.74), libparams-check-perl (<< 0.38), libparent-perl (<< 0.238), libparse-cpan-meta-perl (<< 2.150010), libperl-ostype-perl (<< 1.010), libpod-escapes-perl (<< 1.07), libpod-simple-perl (<< 3.42), libtest-harness-perl (<< 3.43), libtest-simple-perl (<< 1.302183), libtest-tester-perl (<< 1.302183), libtest-use-ok-perl (<< 1.302183), libthread-queue-perl (<< 3.14), libtime-local-perl (<< 1.3000), libunicode-collate-perl (<< 1.29), libversion-perl (<< 1:0.9928), maildirsync (<< 1.2-2.1), perl (<< 5.34.0~), podlators-perl (<< 4.14)
+Replaces: libansicolor-perl (<< 5.01), libarchive-tar-perl (<< 2.38), libattribute-handlers-perl (<< 1.01), libautodie-perl (<< 2.34), libcpan-meta-perl (<< 2.150010), libcpan-meta-requirements-perl (<< 2.140), libcpan-meta-yaml-perl (<< 0.018), libdigest-perl (<< 1.19), libexperimental-perl (<< 0.024), libextutils-cbuilder-perl (<< 0.280236), libextutils-command-perl (<< 7.62), libextutils-install-perl (<< 2.20), libextutils-parsexs-perl (<< 3.430000), libfile-spec-perl (<< 3.8000), libhttp-tiny-perl (<< 0.076), libi18n-langtags-perl (<< 0.45), libio-zlib-perl (<< 1.11), libjson-pp-perl (<< 4.06000), liblocale-maketext-perl (<< 1.29), liblocale-maketext-simple-perl (<< 0.21.01), libmath-bigint-perl (<< 1.999818), libmath-complex-perl (<< 1.5902), libmodule-corelist-perl (<< 5.20210520), libmodule-load-conditional-perl (<< 0.74), libmodule-load-perl (<< 0.36), libmodule-metadata-perl (<< 1.000037), libnet-perl (<< 1:3.13), libnet-ping-perl (<< 2.74), libparams-check-perl (<< 0.38), libparent-perl (<< 0.238), libparse-cpan-meta-perl (<< 2.150010), libperl-ostype-perl (<< 1.010), libpod-escapes-perl (<< 1.07), libpod-simple-perl (<< 3.42), libtest-harness-perl (<< 3.43), libtest-simple-perl (<< 1.302183), libtest-tester-perl (<< 1.302183), libtest-use-ok-perl (<< 1.302183), libthread-queue-perl (<< 3.14), libtime-local-perl (<< 1.3000), libunicode-collate-perl (<< 1.29), libversion-perl (<< 1:0.9928), perl-base (<< 5.22.0~), perl-modules, podlators-perl (<< 4.14)
+Filename: perl-modules-5.34_5.34.0-3ubuntu1.9_all.deb
+Size: 2976512
+SHA256: 2a8600951e595a55f8b7517fe1124ca117ef85f3e4e864593bb25c698248e6fc
+Homepage: http://dev.perl.org/perl5/
+Description: Core Perl modules
+
+Package: perl
+Version: 5.34.0-3ubuntu1.9
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: perl
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 719
+Provides: libansicolor-perl (= 5.01), libarchive-tar-perl (= 2.38), libattribute-handlers-perl (= 1.01), libautodie-perl (= 2.34), libcompress-raw-bzip2-perl (= 2.101), libcompress-raw-zlib-perl (= 2.101), libcompress-zlib-perl (= 2.102), libcpan-meta-perl (= 2.150010), libcpan-meta-requirements-perl (= 2.140), libcpan-meta-yaml-perl (= 0.018), libdigest-md5-perl (= 2.58), libdigest-perl (= 1.19), libdigest-sha-perl (= 6.02), libencode-perl (= 3.08), libexperimental-perl (= 0.024), libextutils-cbuilder-perl (= 0.280236), libextutils-command-perl (= 7.62), libextutils-install-perl (= 2.20), libextutils-parsexs-perl (= 3.430000), libfile-spec-perl (= 3.8000), libhttp-tiny-perl (= 0.076), libi18n-langtags-perl (= 0.45), libio-compress-base-perl (= 2.102), libio-compress-bzip2-perl (= 2.102), libio-compress-perl (= 2.102), libio-compress-zlib-perl (= 2.102), libio-zlib-perl (= 1.11), libjson-pp-perl (= 4.06000), liblocale-maketext-perl (= 1.29), liblocale-maketext-simple-perl (= 0.21.01), libmath-bigint-perl (= 1.999818), libmath-complex-perl (= 1.5902), libmime-base64-perl (= 3.16), libmodule-corelist-perl (= 5.20210520), libmodule-load-conditional-perl (= 0.74), libmodule-load-perl (= 0.36), libmodule-metadata-perl (= 1.000037), libnet-perl (= 1:3.13), libnet-ping-perl (= 2.74), libparams-check-perl (= 0.38), libparent-perl (= 0.238), libparse-cpan-meta-perl (= 2.150010), libperl-ostype-perl (= 1.010), libpod-escapes-perl (= 1.07), libpod-simple-perl (= 3.42), libstorable-perl (= 3.23), libsys-syslog-perl (= 0.36), libtest-harness-perl (= 3.43), libtest-simple-perl (= 1.302183), libtest-tester-perl (= 1.302183), libtest-use-ok-perl (= 1.302183), libthread-queue-perl (= 3.14), libthreads-perl (= 2.26), libthreads-shared-perl (= 1.62), libtime-hires-perl (= 1.9767), libtime-local-perl (= 1.3000), libtime-piece-perl (= 1.3401), libunicode-collate-perl (= 1.29), libversion-perl (= 1:0.9928), libversion-requirements-perl, podlators-perl (= 4.14)
+Pre-Depends: dpkg (>= 1.17.17)
+Depends: perl-base (= 5.34.0-3ubuntu1.9), perl-modules-5.34 (>= 5.34.0-3ubuntu1.9), libperl5.34 (= 5.34.0-3ubuntu1.9)
+Recommends: netbase
+Suggests: perl-doc, libterm-readline-gnu-perl | libterm-readline-perl-perl, make, libtap-harness-archive-perl
+Conflicts: libjson-pp-perl (<< 2.27200-2)
+Breaks: apt-show-versions (<< 0.22.10), libdist-inkt-perl (<< 0.024-5), libmarc-charset-perl (<< 1.35-3), libperl-dev (<< 5.24.0~), perl-doc (<< 5.34.0-1), perl-modules-5.22, perl-modules-5.24, perl-modules-5.26 (<< 5.26.2-5)
+Replaces: perl-base (<< 5.34.0-2), perl-modules (<< 5.22.0~)
+Filename: perl_5.34.0-3ubuntu1.9_arm64.deb
+Size: 231682
+SHA256: 45462203a753c4b1ca519749a80c90d067aca528180dfdbe8b8f13bad4efce86
+Homepage: http://dev.perl.org/perl5/
+Description: Larry Wall's Practical Extraction and Report Language
+
+Package: procps
+Version: 2:3.3.17-6ubuntu2.1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1324
+Provides: watch
+Depends:
+ libc6 (>= 2.34), libncurses6 (>= 6), libncursesw6 (>= 6), libprocps8 (>=
+ 2:3.3.16-1), libtinfo6 (>= 6), lsb-base (>= 3.0-10), init-system-helpers
+ (>= 1.29~)
+Recommends: psmisc
+Breaks:
+ guymager (<= 0.5.9-1), manpages-de (<< 4.9.1-2), manpages-fr (<< 4.9.1-2),
+ manpages-fr-extra (<< 20151231+nmu1), manpages-pl (<< 1:4.9.1-2),
+ open-vm-tools (<= 2011.12.20-562307-1)
+Replaces:
+ manpages-de (<< 4.9.1-2), manpages-fr (<< 4.9.1-2), manpages-fr-extra (<<
+ 20151231+nmu1), manpages-pl (<< 1:4.9.1-2)
+Filename: procps_3.3.17-6ubuntu2.1_arm64.deb
+Size: 381392
+SHA256: 1427d78e933d0b47b562ffba54f21c8eb4b3141ca1d6d4ca97e649fda5693608
+Homepage: https://gitlab.com/procps-ng/procps
+Description: /proc file system utilities
+
+Package: psmisc
+Version: 23.4-2build3
+Architecture: arm64
+Multi-Arch: foreign
+Priority: standard
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 424
+Depends: libc6 (>= 2.34), libtinfo6 (>= 6)
+Breaks: manpages-de (<< 4.9.1-1)
+Replaces: manpages-de (<< 4.9.1-1)
+Filename: psmisc_23.4-2build3_arm64.deb
+Size: 118272
+SHA256: 3b5ef54be2e3f4e915b73921b2a1792208305ece4124d97918825e153279405d
+Homepage: http://psmisc.sf.net/
+Description: utilities that use the proc file system
+
+Package: readline-common
+Version: 8.1.2-1
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 80
+Depends: dpkg (>= 1.15.4) | install-info
+Suggests: readline-doc
+Conflicts: libreadline-common, libreadline5 (<< 5.0-11)
+Replaces:
+ libreadline-common, libreadline4 (<< 4.3-16), libreadline5 (<< 5.0-11)
+Filename: readline-common_8.1.2-1_all.deb
+Size: 53544
+SHA256: a78d02935f6107a12d3d349c25ce4f92fcdcbf6b65e37f1f5a13a9054b5b9e94
+Description: GNU readline and history libraries, common files
+Source: readline
+
+Package: rsync
+Version: 3.2.7-0ubuntu0.22.04.7
+Architecture: arm64
+Multi-Arch: foreign
+Priority: standard
+Section: net
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 798
+Pre-Depends: init-system-helpers (>= 1.54~)
+Depends:
+ lsb-base, libacl1 (>= 2.2.23), libc6 (>= 2.34), liblz4-1 (>= 0.0~r130),
+ libpopt0 (>= 1.14), libssl3 (>= 3.0.0~~alpha1), libxxhash0 (>= 0.8.0),
+ libzstd1 (>= 1.4.0), zlib1g (>= 1:1.1.4)
+Suggests: openssh-client, openssh-server, python3, python3-braceexpand
+Filename: rsync_3.2.7-0ubuntu0.22.04.7_arm64.deb
+Size: 437534
+SHA256: 32ab339e6cdcefea3d6b30b3ed0654a74eff49d6578c7b805dda08f7f7165028
+Homepage: https://rsync.samba.org/
+Description: fast, versatile, remote (and local) file-copying tool
+
+Package: socat
+Version: 1.7.4.1-3ubuntu4
+Architecture: arm64
+Priority: extra
+Section: net
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1321
+Depends: libc6 (>= 2.34), libssl3 (>= 3.0.0~~alpha1), libwrap0 (>= 7.6-4~)
+Filename: socat_1.7.4.1-3ubuntu4_arm64.deb
+Size: 347672
+SHA256: ed68d45dd410b13bbeef40cd1a97d6ac287401dd0eb2e2467a17ef88636640fe
+Homepage: http://www.dest-unreach.org/socat/
+Description: multipurpose relay for bidirectional data transfer
+
+Package: zlib1g
+Version: 1:1.2.11.dfsg-2ubuntu9.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 160
+Provides: libz1
+Depends: libc6 (>= 2.17)
+Conflicts: zlib1 (<= 1:1.0.4-7)
+Breaks: libxml2 (<< 2.7.6.dfsg-2), texlive-binaries (<< 2009-12)
+Filename: zlib1g_1.2.11.dfsg-2ubuntu9.2_arm64.deb
+Size: 57006
+SHA256: cfd99d1ca41e710fdd3f68bfdc4d36dd24e14377656764f00b215b89cf6976e8
+Homepage: http://zlib.net/
+Description: compression library - runtime

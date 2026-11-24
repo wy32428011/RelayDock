@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "appId": "traefik",
+  "version": "3.6.13",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "traefik-official",
+  "entrypoint": "traefik_v3.6.13_linux_arm64.tar.gz",
+  "files": [
+    {
+      "path": "gzip_1.10-4ubuntu4.2_arm64.deb",
+      "size": 95054,
+      "sha256": "110a5ab591e9d34f42f8e0963188823eda73eaf73a560831b654c9523ab0a4ed",
+      "dependencies": []
+    },
+    {
+      "path": "libacl1_2.3.1-1_arm64.deb",
+      "size": 16088,
+      "sha256": "328e91b2d6e8ee44ad669fc7276b74f208bc781baf1ecdd7dbf5f092f8b41712",
+      "dependencies": []
+    },
+    {
+      "path": "libpcre2-8-0_10.39-3ubuntu0.1_arm64.deb",
+      "size": 201806,
+      "sha256": "b85beefd54108f1c34a89cb26688eb1b2eeaa099e4995091295a1d39f9c67a91",
+      "dependencies": []
+    },
+    {
+      "path": "traefik_v3.6.13_linux_arm64.tar.gz",
+      "size": 43051370,
+      "sha256": "b778a4d01b7475b53c5e6f1c55f36b8ce1e60ea8feaa4d2ebe27ef0ff7c10dfb",
+      "dependencies": []
+    }
+  ]
+}

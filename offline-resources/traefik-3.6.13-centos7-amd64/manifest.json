@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "traefik",
+  "version": "3.6.13",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "amd64",
+  "source": "traefik-official",
+  "entrypoint": "traefik_v3.6.13_linux_amd64.tar.gz",
+  "files": [
+    {
+      "path": "traefik_v3.6.13_linux_amd64.tar.gz",
+      "size": 48147519,
+      "sha256": "85fcf245e963293ca6afee4180f6116b97004499b584ebfbc2c5841e1c8d4399",
+      "dependencies": []
+    }
+  ]
+}

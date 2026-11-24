@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "appId": "rabbitmq",
+  "version": "3.12.10",
+  "os": "windows",
+  "osVersion": "10",
+  "arch": "amd64",
+  "source": "rabbitmq-official-and-erlang-deps",
+  "entrypoint": "rabbitmq-server-3.12.10.exe",
+  "files": [
+    {
+      "path": "otp_win64_26.2.5.13.exe",
+      "size": 152572072,
+      "sha256": "2144185828abb31934421620806341a77126060984c2597a3422786c7ad51b90",
+      "dependencies": []
+    },
+    {
+      "path": "rabbitmq-server-3.12.10.exe",
+      "size": 15771016,
+      "sha256": "833e2e386f8408eabf7b054cc7dcef2150450b518fc5f2ecc4f655e1db6d2b4d",
+      "dependencies": []
+    }
+  ]
+}

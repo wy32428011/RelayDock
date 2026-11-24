@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "appId": "consul",
+  "version": "1.22.6",
+  "os": "centos",
+  "osVersion": "7",
+  "arch": "arm64",
+  "source": "hashicorp-official",
+  "entrypoint": "consul_1.22.6_linux_arm64.zip",
+  "files": [
+    {
+      "path": "consul_1.22.6_linux_arm64.zip",
+      "size": 61522263,
+      "sha256": "a760371111ff3e1f0813672b240f833077f73c13ea37e75abc223ede534100b6",
+      "dependencies": []
+    }
+  ]
+}

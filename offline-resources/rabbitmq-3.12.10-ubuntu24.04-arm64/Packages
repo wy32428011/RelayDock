@@ -1,0 +1,1588 @@
+Package: adduser
+Version: 3.137ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 452
+Depends: passwd
+Suggests:
+ liblocale-gettext-perl, perl, cron, quota, ecryptfs-utils (>= 67-1)
+Filename: adduser_3.137ubuntu1_all.deb
+Size: 100872
+SHA256: 542aff2395eb912a56833e11a78076342779689d8fede7adcf08d1d6b0d0cd8b
+Description: add and remove users and groups
+
+Package: cron-daemon-common
+Version: 3.0pl1-184ubuntu2
+Architecture: all
+Multi-Arch: foreign
+Priority: standard
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 50
+Depends: systemd | systemd-standalone-sysusers | systemd-sysusers, adduser
+Conflicts:
+ bcron (<< 0.11-9.1), cron (<< 3.0pl1-140), cronie (<< 1.6.1-5),
+ systemd-cron (<< 1.15.18-1.1)
+Breaks: systemd-cron (<< 1.15.19-5~)
+Replaces:
+ bcron (<< 0.11-9.1), cron (<< 3.0pl1-140), cronie (<< 1.6.1-5),
+ systemd-cron (<< 1.15.18-1.1)
+Filename: cron-daemon-common_3.0pl1-184ubuntu2_all.deb
+Size: 13578
+SHA256: 289604310fb1e92b9dae924161f94194533af1fccef3b156f970e5365848ff34
+Homepage: https://ftp.isc.org/isc/cron/
+Description: process scheduling daemon's configuration files
+Source: cron
+
+Package: cron
+Version: 3.0pl1-184ubuntu2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: standard
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 266
+Provides: cron-daemon
+Pre-Depends: init-system-helpers (>= 1.54~), cron-daemon-common
+Depends:
+ libc6 (>= 2.34), libpam0g (>= 0.99.7.1), libselinux1 (>= 3.1~),
+ sensible-utils, libpam-runtime
+Suggests:
+ anacron, logrotate, checksecurity, supercat, default-mta |
+ mail-transport-agent
+Conflicts: bcron, cronie, systemd-cron
+Replaces: bcron, cronie, systemd-cron
+Filename: cron_3.0pl1-184ubuntu2_arm64.deb
+Size: 83950
+SHA256: f29126ccb78db3e21b54bb1e351a830bc90e1a0c8eff0a1eb77233384c9cbcf8
+Homepage: https://ftp.isc.org/isc/cron/
+Description: process scheduling daemon
+
+Package: debconf
+Version: 1.5.86ubuntu1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 493
+Provides: debconf-2.0
+Recommends: apt-utils, debconf-i18n
+Suggests:
+ debconf-doc, debconf-kde-helper, debconf-utils, libgtk3-perl,
+ libnet-ldap-perl, libterm-readline-gnu-perl, perl, whiptail | dialog
+Conflicts: debconf-tiny, whiptail-utf8 (<= 0.50.17-13)
+Replaces: debconf-tiny
+Filename: debconf_1.5.86ubuntu1_all.deb
+Size: 124096
+SHA256: bb390da466a7461bfc87aa3e6b7cd145dae84af3e26bf437f2c0c218ba226294
+Description: Debian configuration management system
+
+Package: erlang-asn1
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 1202
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), libc6 (>= 2.17)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-asn1_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 905172
+SHA256: cb9ca0fd10f24152f9644a3a0739b0c0bb150919077dff88c830533e823bede8
+Description: Erlang/OTP modules for ASN.1 support
+Source: erlang
+
+Package: erlang-base
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 17939
+Provides: erlang-abi (= 17.0), erlang-abi-17.0, erlang-pcre (= 8.44)
+Depends:
+ procps, adduser, libc6 (>= 2.38), libgcc-s1 (>= 3.0), libstdc++6 (>= 11),
+ libsystemd0, libtinfo6 (>= 6), zlib1g (>= 1:1.2.8)
+Recommends:
+ libsctp1 (>= 1.0.19+dfsg), erlang-crypto (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-syntax-tools (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests:
+ erlang-tools (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang,
+ erlang-manpages, erlang-doc
+Conflicts:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe,
+ erlang-doc (>> 1:26.2.5.15-999), erlang-doc (<< 1:26.2.5.15),
+ erlang-doc-html (<< 1:13.b.4), erlang-manpages (<= 1:11.b.1-2)
+Breaks: rabbitmq-server (<< 3.7.7)
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe,
+ erlang-dev (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>>
+ 1:26.2.5.15-999), erlang-doc (<< 1:26.2.5.15), erlang-doc-html (<<
+ 1:13.b.4), erlang-examples (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1),
+ erlang-manpages (<= 1:11.b.1-2), erlang-mode (<< 1:12.b.1-dfsg-2),
+ erlang-nox (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-typer (<< 1:20.0+dfsg),
+ erlang-x11 (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-base_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 10761696
+SHA256: a8e67e8d6944e8b66f36620193d7d94f6cf206fe174b456e170dcf12cd59d50c
+Description: Erlang/OTP virtual machine and base applications
+Source: erlang
+
+Package: erlang-crypto
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 503
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), libc6 (>= 2.17),
+ libssl3t64 (>= 3.0.0)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-crypto_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 176560
+SHA256: ba34053cc83691f276ed106cd4d90f5aabc33dbd777af58606741b3c09f88f76
+Description: Erlang/OTP cryptographic modules
+Source: erlang
+
+Package: erlang-eldap
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 191
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-asn1 (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-ssl (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-eldap_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 133500
+SHA256: 10de165145cc48357f23132b6571cdf74c41a05bb8bc2c5e5387650c4c9e5e7d
+Description: Erlang/OTP LDAP library
+Source: erlang
+
+Package: erlang-ftp
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 146
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-runtime-tools
+ (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-ssl (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-inets (<< 1:21.0~rc1),
+ erlang-manpages (<= 1:11.b.1-2), erlang-mode (<< 1:12.b.1-dfsg-2),
+ erlang-nox (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-ftp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 103208
+SHA256: f18783288c1e0d0d98a0ad2d4f98f4dac0e16267d640bd6326162fb882412862
+Description: Erlang/OTP FTP client
+Source: erlang
+
+Package: erlang-inets
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 872
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-ftp (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-mnesia (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-runtime-tools (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-ssl (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-tftp (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-inets_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 636280
+SHA256: 3acf559ecac5c1dd9b54e0bc51fea318c6358333c6c7d0af1c7a15c9d463b8d5
+Description: Erlang/OTP Internet clients and servers
+Source: erlang
+
+Package: erlang-mnesia
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 1147
+Depends: erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-mnesia_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 888008
+SHA256: 4fbadb94bed54c32c235f6a62c57b0784545206766aaff77b62b10f554576e18
+Description: Erlang/OTP distributed relational/object hybrid database
+Source: erlang
+
+Package: erlang-os-mon
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 280
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-mnesia (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-snmp (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), libc6 (>= 2.38)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-os-mon_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 104864
+SHA256: ab435e8019e16045bd7b98af99fe2f57bc06f424275e60620317cd41899a499f
+Description: Erlang/OTP operating system monitor
+Source: erlang
+
+Package: erlang-parsetools
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 275
+Depends: erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-parsetools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 204904
+SHA256: 6df1d96358f426366e9727fbcafd7a3c648475657128c1cbc10f667db81a7d61
+Description: Erlang/OTP parsing tools
+Source: erlang
+
+Package: erlang-public-key
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 1101
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-asn1 (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-crypto (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-public-key_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 799150
+SHA256: aaaa7a9c333206625d3ad29590d83175e7ef7d7bae9aea50ae35fbc408bd4757
+Description: Erlang/OTP public key infrastructure
+Source: erlang
+
+Package: erlang-runtime-tools
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 545
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-mnesia (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), libc6 (>= 2.38)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-runtime-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 217344
+SHA256: ab7a1ded658fe2f59cae8a023ae557a6e81d06f992fba84ab626b870d8c4796f
+Description: Erlang/OTP runtime tracing/debugging tools
+Source: erlang
+
+Package: erlang-snmp
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 3087
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-crypto (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-mnesia (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-runtime-tools (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-snmp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 1859586
+SHA256: 02ed281f1d8fa1fec3f517acc08b1a4253ce8ca83a8eec4d48b84e2e670430b6
+Description: Erlang/OTP SNMP applications
+Source: erlang
+
+Package: erlang-ssl
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 2092
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-crypto (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-public-key (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-runtime-tools (=
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests:
+ erlang-inets (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang,
+ erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-ssl_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 1724010
+SHA256: 8bed996af8eb53e3dc639542c5dd1318ab5fd16395b34c64439990305a36facc
+Description: Erlang/OTP implementation of SSL
+Source: erlang
+
+Package: erlang-syntax-tools
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 431
+Depends: erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-syntax-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 311434
+SHA256: ab19073faa95a7970b6763e210f89d9765eda9524c3a9f6425f56449167a82a8
+Description: Erlang/OTP modules for handling abstract Erlang syntax trees
+Source: erlang
+
+Package: erlang-tftp
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 155
+Depends: erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-inets (<< 1:21.0~rc1),
+ erlang-manpages (<= 1:11.b.1-2), erlang-mode (<< 1:12.b.1-dfsg-2),
+ erlang-nox (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-tftp_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 110426
+SHA256: 01bb7991b2d6902b54b57b2e38912de1a28a0185999769a3c1edcd1b2abbe25d
+Description: Erlang/OTP TFTP client and server
+Source: erlang
+
+Package: erlang-tools
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 1130
+Depends:
+ erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-runtime-tools
+ (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-tools_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 584606
+SHA256: f6d606e7b438d45cd4a8676b55d180612bc7e37c66fbde5f91b9196b7f28e6d9
+Description: Erlang/OTP various tools
+Source: erlang
+
+Package: erlang-xmerl
+Version: 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1
+Architecture: arm64
+Multi-Arch: allowed
+Priority: optional
+Section: interpreters
+Maintainer:
+ Debian Erlang Packagers <pkg-erlang-devel@lists.alioth.debian.org>
+Installed-Size: 1956
+Depends: erlang-base (= 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Suggests: erlang, erlang-manpages, erlang-doc
+Replaces:
+ erlang (<< 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-base-hipe, erlang-dev (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-doc (>> 1:26.2.5.15-999),
+ erlang-doc (<< 1:26.2.5.15), erlang-examples (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-manpages (<= 1:11.b.1-2),
+ erlang-mode (<< 1:12.b.1-dfsg-2), erlang-nox (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-src (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1), erlang-x11 (<<
+ 1:26.2.5.15-1rmq1ppa1~ubuntu24.04.1)
+Filename: erlang-xmerl_26.2.5.15-1rmq1ppa1~ubuntu24.04.1_arm64.deb
+Size: 1367836
+SHA256: 6f0d622589de2c5e5f79ecf3decb516903ec872441a52772975649e3ebd09bcf
+Description: Erlang/OTP XML tools
+Source: erlang
+
+Package: gcc-14-base
+Version: 14.2.0-4ubuntu2~24.04.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 113
+Breaks: gnat (<< 7)
+Filename: gcc-14-base_14.2.0-4ubuntu2~24.04.1_arm64.deb
+Size: 50984
+SHA256: bddbe21061fdc73a23e7de79ece91693bf61aa22d634d1c69c5048385c114968
+Homepage: http://gcc.gnu.org/
+Description: GCC, the GNU Compiler Collection (base package)
+
+Package: libacl1
+Version: 2.3.2-1build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 101
+Depends: libc6 (>= 2.38)
+Filename: libacl1_2.3.2-1build1.1_arm64.deb
+Size: 17050
+SHA256: ebc53ded654fcf4449df250cb563ff05f10d851e904e638f698dc7e921ffa47b
+Homepage: https://savannah.nongnu.org/projects/acl/
+Description: access control list - shared library
+Source: acl
+
+Package: libapparmor1
+Version: 4.0.1really4.0.1-0ubuntu0.24.04.7
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 168
+Depends: libc6 (>= 2.38)
+Breaks: libapparmor-perl (<< 3.0.3-3)
+Replaces: libapparmor-perl (<< 3.0.3-3)
+Filename: libapparmor1_4.0.1really4.0.1-0ubuntu0.24.04.7_arm64.deb
+Size: 51764
+SHA256: 9ef26597509d4fa1d446c84a8a7639e7a6f3a6c471795d72df169fecbb835147
+Homepage: https://apparmor.net/
+Description: changehat AppArmor library
+Source: apparmor
+
+Package: libargon2-1
+Version: 0~20190702+dfsg-4build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 88
+Depends: libc6 (>= 2.34)
+Breaks: cryptsetup-initramfs (<< 2:2.6.1-2)
+Filename: libargon2-1_0~20190702+dfsg-4build1_arm64.deb
+Size: 20456
+SHA256: 3914bb94008149aae3874d14185f9a2e0e3a87cdb284702a85818fd6c33b8685
+Homepage: https://github.com/P-H-C/phc-winner-argon2
+Description: memory-hard hashing function - runtime library
+Source: argon2
+
+Package: libaudit-common
+Version: 1:3.1.2-2.1build1.1
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 17
+Filename: libaudit-common_3.1.2-2.1build1.1_all.deb
+Size: 5824
+SHA256: c8ab5bed96f9781daab7c36fcbe4b12c3f3247a37256c0e341dc827db1e9a010
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing - common files
+Source: audit
+
+Package: libaudit1
+Version: 1:3.1.2-2.1build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 150
+Depends:
+ libaudit-common (>= 1:3.1.2-2.1build1.1), libc6 (>= 2.38), libcap-ng0 (>=
+ 0.7.9)
+Filename: libaudit1_3.1.2-2.1build1.1_arm64.deb
+Size: 47524
+SHA256: 6cca04d5483a634ff2ed78a31897bad1941226b8b6fc13030d8bb1d688ef2583
+Homepage: https://people.redhat.com/sgrubb/audit/
+Description: Dynamic library for security auditing
+Source: audit
+
+Package: libblkid1
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 316
+Depends: libc6 (>= 2.38)
+Filename: libblkid1_2.39.3-9ubuntu6.5_arm64.deb
+Size: 123386
+SHA256: 23415b36b03986f5babdae894254b125420da66e59b6fefe12d7766dea21085d
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: block device ID library
+Source: util-linux
+
+Package: libbz2-1.0
+Version: 1.0.8-5.1ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 86
+Depends: libc6 (>= 2.17)
+Filename: libbz2-1.0_1.0.8-5.1ubuntu0.1_arm64.deb
+Size: 35936
+SHA256: 1a92811105f89bf948a629de99715ef23941ef93c901e0942883029069db3f94
+Homepage: https://sourceware.org/bzip2/
+Description: high-quality block-sorting file compressor library - runtime
+
+Package: libcap-ng0
+Version: 0.8.4-2build2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 150
+Depends: libc6 (>= 2.38)
+Filename: libcap-ng0_0.8.4-2build2_arm64.deb
+Size: 14850
+SHA256: ffaaedcfab1d1cc48997f09e88b6664f2cc7cba1c7e15bf1078084f512697d4d
+Homepage: https://people.redhat.com/sgrubb/libcap-ng
+Description: alternate POSIX capabilities library
+Source: libcap-ng
+
+Package: libcap2
+Version: 1:2.66-5ubuntu2.4
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 157
+Depends: libc6 (>= 2.38)
+Filename: libcap2_2.66-5ubuntu2.4_arm64.deb
+Size: 30676
+SHA256: 3c4459762b9ee61c773209bc45db1ca7cf34e1254cc047260d309a8db11b3490
+Homepage: https://sites.google.com/site/fullycapable/
+Description: POSIX 1003.1e capabilities (library)
+
+Package: libcrypt1
+Version: 1:4.4.36-4build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 225
+Depends: libc6 (>= 2.38)
+Conflicts: libpam0g (<< 1.4.0-10)
+Replaces: libc6 (<< 2.29-4)
+Filename: libcrypt1_4.4.36-4build1_arm64.deb
+Size: 85888
+SHA256: 5cd73ba112507dabd8e43b528ca9f530719a370e014b8e3e797770e6e940cccf
+Description: libcrypt shared library
+Source: libxcrypt
+
+Package: libcryptsetup12
+Version: 2:2.7.0-1ubuntu4.2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 643
+Depends:
+ libargon2-1 (>= 0~20171227), libblkid1 (>= 2.17.2), libc6 (>= 2.38),
+ libdevmapper1.02.1 (>= 2:1.02.98), libjson-c5 (>= 0.15), libssl3t64 (>=
+ 3.0.0), libuuid1 (>= 2.16)
+Filename: libcryptsetup12_2.7.0-1ubuntu4.2_arm64.deb
+Size: 261226
+SHA256: b54d9a76910dbe14699ec2b351e676437b9632fb801e11eea52ee8089b90fac2
+Homepage: https://gitlab.com/cryptsetup/cryptsetup
+Description: disk encryption support - shared library
+Source: cryptsetup
+
+Package: libdb5.3t64
+Version: 5.3.28+dfsg2-7
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1701
+Provides: libdb5.3 (= 5.3.28+dfsg2-7)
+Depends: libc6 (>= 2.38)
+Breaks: libdb5.3 (<< 5.3.28+dfsg2-7)
+Replaces: libdb5.3
+Filename: libdb5.3t64_5.3.28+dfsg2-7_arm64.deb
+Size: 732284
+SHA256: b04d246b871e2e745538fa71ce2d1a127dfd65e7b1438bc6b8e2bb86538f519e
+Homepage:
+ http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html
+Description: Berkeley v5.3 Database Libraries [runtime]
+Source: db5.3
+
+Package: libdevmapper1.02.1
+Version: 2:1.02.185-3ubuntu3.2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 504
+Depends: libc6 (>= 2.38), libselinux1 (>= 3.1~), libudev1 (>= 183)
+Recommends: dmsetup (>= 2:1.02.185-3ubuntu3.2~)
+Filename: libdevmapper1.02.1_1.02.185-3ubuntu3.2_arm64.deb
+Size: 128226
+SHA256: fb2c1c7f78fac39eb3191cfd30093d57a8ce2ae6b0942972f117706877f17d92
+Homepage: https://sourceware.org/lvm2/
+Description: Linux Kernel Device Mapper userspace library
+Source: lvm2 (2.03.16-3ubuntu3.2)
+
+Package: libfdisk1
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 462
+Depends: libblkid1 (>= 2.24.2), libc6 (>= 2.38), libuuid1 (>= 2.16)
+Filename: libfdisk1_2.39.3-9ubuntu6.5_arm64.deb
+Size: 142308
+SHA256: 6b22d5206008740e96057c9394b7d8af990730fe616a33adb020bffc339db8c4
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: fdisk partitioning library
+Source: util-linux
+
+Package: libgcc-s1
+Version: 14.2.0-4ubuntu2~24.04.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 148
+Provides: libgcc1 (= 1:14.2.0-4ubuntu2~24.04.1)
+Depends: gcc-14-base (= 14.2.0-4ubuntu2~24.04.1), libc6 (>= 2.35)
+Breaks:
+ libgcc-7-dev (<< 7.5.0-4), libgcc-8-dev (<< 8.3.0-27), libgcc-9-dev (<<
+ 9.2.1-26)
+Replaces: libgcc1 (<< 1:10)
+Filename: libgcc-s1_14.2.0-4ubuntu2~24.04.1_arm64.deb
+Size: 61884
+SHA256: 5b191f79ad985a9a653dbba45214619f729f9178a9bdf92f7c68db06c50d070b
+Homepage: http://gcc.gnu.org/
+Description: GCC support library
+
+Package: libgcrypt20
+Version: 1.10.3-2ubuntu0.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1064
+Depends: libc6 (>= 2.38), libgpg-error0 (>= 1.27)
+Suggests: rng-tools
+Filename: libgcrypt20_1.10.3-2ubuntu0.1_arm64.deb
+Size: 471602
+SHA256: 81ca7c907a2d35f00a9bf0514e1b484821a125f8cd1c8503f1a808d143e4c87f
+Homepage: https://gnupg.org/software/libgcrypt/
+Description: LGPL Crypto library - runtime library
+
+Package: libgpg-error0
+Version: 1.47-3build2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 232
+Depends: libc6 (>= 2.38)
+Recommends: libgpg-error-l10n
+Filename: libgpg-error0_1.47-3build2.1_arm64.deb
+Size: 70050
+SHA256: cb14ae76d098421ee58c0b6796ce836a9fd386fa4824894a029089062b485b09
+Homepage: https://www.gnupg.org/related_software/libgpg-error/
+Description: GnuPG development runtime library
+Source: libgpg-error
+
+Package: libjson-c5
+Version: 0.17-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 157
+Depends: libc6 (>= 2.38)
+Filename: libjson-c5_0.17-1build1_arm64.deb
+Size: 36390
+SHA256: 959fbcbc05817cdf9191b73d8d78ac0b8919559c4c3b4e9d0bbf157b39716652
+Homepage: https://github.com/json-c/json-c/wiki
+Description: JSON manipulation library - shared library
+Source: json-c
+
+Package: libkmod2
+Version: 31+20240202-2ubuntu7.2
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 163
+Depends:
+ libc6 (>= 2.38), liblzma5 (>= 5.4.5-0.2), libssl3t64 (>= 3.0.0), libzstd1
+ (>= 1.5.5)
+Filename: libkmod2_31+20240202-2ubuntu7.2_arm64.deb
+Size: 51958
+SHA256: c7d5bb0969bb3ddbdf7a169657378d13fb6fef91f2f17bc219f36ba63cef1bbd
+Description: libkmod shared library
+Source: kmod
+
+Package: liblz4-1
+Version: 1.9.4-1build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends: libc6 (>= 2.17)
+Breaks: liblz4-1a
+Replaces: liblz4-1a
+Filename: liblz4-1_1.9.4-1build1.1_arm64.deb
+Size: 64172
+SHA256: 65ab8cfe4aeb8205ef4f980500d2c8cb397cb49901ef12efad59f4ed7685cbe0
+Homepage: https://github.com/lz4/lz4
+Description: Fast LZ compression algorithm library - runtime
+Source: lz4
+
+Package: liblzma5
+Version: 5.6.1+really5.4.5-1ubuntu0.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 374
+Depends: libc6 (>= 2.34)
+Breaks: liblzma2 (<< 5.1.1alpha+20110809-3~)
+Filename: liblzma5_5.6.1+really5.4.5-1ubuntu0.3_arm64.deb
+Size: 125976
+SHA256: 2f58fd7de725efd0dbebe9d4442049fdacd7c2e8242f4288a13a688d50507245
+Homepage: https://tukaani.org/xz/
+Description: XZ-format compression library
+Source: xz-utils
+
+Package: libmount1
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 387
+Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.38), libselinux1 (>= 3.1~)
+Suggests: cryptsetup-bin
+Filename: libmount1_2.39.3-9ubuntu6.5_arm64.deb
+Size: 132882
+SHA256: 13f0e4cd6c28071a5350d605d00a49c20c1b2f3d17cd3c0c277ab93cc12e5507
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: device mounting library
+Source: util-linux
+
+Package: libncursesw6
+Version: 6.4+20240113-1ubuntu2.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 569
+Depends: libtinfo6 (= 6.4+20240113-1ubuntu2.2), libc6 (>= 2.34)
+Recommends: libgpm2
+Filename: libncursesw6_6.4+20240113-1ubuntu2.2_arm64.deb
+Size: 145566
+SHA256: 70c7edddf49520a7d0e620ad7d82da8e4b8c2ba7bd8caf156d5666ea19836e94
+Homepage: https://invisible-island.net/ncurses/
+Description: shared libraries for terminal handling (wide character support)
+
+Package: libpam-modules-bin
+Version: 1.5.3-5ubuntu5.5
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 602
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.3.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsystemd0 (>= 254)
+Replaces: libpam-modules (<< 1.5.2-5~)
+Filename: libpam-modules-bin_1.5.3-5ubuntu5.5_arm64.deb
+Size: 50434
+SHA256: d8cf22a326c08715f3deab7ee90f7dc2ea4f22a87fec2c203ccc67d4593b737f
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM - helper binaries
+Source: pam
+
+Package: libpam-modules
+Version: 1.5.3-5ubuntu5.5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 3144
+Provides: libpam-mkhomedir, libpam-motd, libpam-umask
+Pre-Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.3.0),
+ libdb5.3t64, libpam0g (>= 1.4.1), libselinux1 (>= 3.1~), libsystemd0,
+ debconf (>= 0.5) | debconf-2.0, libpam-modules-bin (= 1.5.3-5ubuntu5.5)
+Conflicts: libpam-mkhomedir, libpam-motd, libpam-umask
+Replaces: libpam-umask, libpam0g-util
+Filename: libpam-modules_1.5.3-5ubuntu5.5_arm64.deb
+Size: 285192
+SHA256: d7bdcf2d1370d82b090df1dc524589d6a25323c8711b5f31243c2dc953ae4f46
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules for PAM
+Source: pam
+
+Package: libpam-runtime
+Version: 1.5.3-5ubuntu5.5
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 276
+Depends:
+ debconf (>= 0.5) | debconf-2.0, debconf (>= 1.5.19) | cdebconf,
+ libpam-modules (>= 1.0.1-6)
+Conflicts: libpam0g-util
+Replaces: libpam0g-dev, libpam0g-util
+Filename: libpam-runtime_1.5.3-5ubuntu5.5_all.deb
+Size: 40754
+SHA256: f637c92621811f238f185f9072f9a03090e783e91eaa4817ef148822ffc952d0
+Homepage: http://www.linux-pam.org/
+Description: Runtime support for the PAM library
+Source: pam
+
+Package: libpam0g
+Version: 1.5.3-5ubuntu5.7
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 297
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.34), debconf (>= 0.5) | debconf-2.0
+Suggests: libpam-doc
+Breaks: libpam0t64 (<< 1.5.3-5)
+Replaces: libpam0g-util, libpam0t64 (<< 1.5.3-5)
+Filename: libpam0g_1.5.3-5ubuntu5.7_arm64.deb
+Size: 68430
+SHA256: 00c9618121e9b040748db3b1ad2e42c08898c567044a7f6ccde3627e3650588c
+Homepage: http://www.linux-pam.org/
+Description: Pluggable Authentication Modules library
+
+Package: libpcre2-8-0
+Version: 10.42-4ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 603
+Depends: libc6 (>= 2.34)
+Filename: libpcre2-8-0_10.42-4ubuntu2.1_arm64.deb
+Size: 211856
+SHA256: 7581764969752953aa1f991ce143bea594d2c5d0c36c2cc98c3c614c172aba93
+Homepage: https://pcre.org/
+Description:
+ New Perl Compatible Regular Expression Library- 8 bit runtime files
+
+Package: libpopt0
+Version: 1.19+dfsg-1build1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 132
+Depends: libc6 (>= 2.38)
+Filename: libpopt0_1.19+dfsg-1build1_arm64.deb
+Size: 28400
+SHA256: 7b2d243bb9bcb7348328c5b9f64f267dca67ac37a07f8e43219e64405febe22e
+Homepage: https://github.com/rpm-software-management/popt
+Description: lib for parsing cmdline parameters
+Source: popt
+
+Package: libproc2-0
+Version: 2:4.0.4-4ubuntu3.3
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 295
+Depends: libc6 (>= 2.38), libsystemd0 (>= 209)
+Replaces: procps (<< 1:3.3.2-1)
+Filename: libproc2-0_4.0.4-4ubuntu3.3_arm64.deb
+Size: 58470
+SHA256: 670adcf3084f58d5d81045f6edba8c47c5b13a9cbd7fdfb00f25946bec7cf0de
+Homepage: https://gitlab.com/procps-ng/procps
+Description: library for accessing process information from /proc
+
+Package: libseccomp2
+Version: 2.5.5-1ubuntu3.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 151
+Depends: libc6 (>= 2.17)
+Filename: libseccomp2_2.5.5-1ubuntu3.1_arm64.deb
+Size: 51170
+SHA256: 2feac77a129e336960734586ccdb16eefb040adfe7b662369549e41b82ba0a1b
+Homepage: https://github.com/seccomp/libseccomp
+Description: high level interface to Linux seccomp filter
+Source: libseccomp
+
+Package: libselinux1
+Version: 3.5-2ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 224
+Depends: libc6 (>= 2.38), libpcre2-8-0 (>= 10.22)
+Filename: libselinux1_3.5-2ubuntu2.1_arm64.deb
+Size: 79946
+SHA256: 56630c4f009754e76808bf755072e634f8785a4dfbc8b1445213149e682f1502
+Homepage: https://selinuxproject.org
+Description: SELinux runtime shared libraries
+
+Package: libsemanage-common
+Version: 3.5-1build5
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 26
+Filename: libsemanage-common_3.5-1build5_all.deb
+Size: 10144
+SHA256: e10cd93f0b6941566de04b860b723df57ca3fe4a9255a73b2be0d1dc7df2850e
+Homepage: https://selinuxproject.org
+Description: Common files for SELinux policy management libraries
+
+Package: libsemanage2
+Version: 3.5-1build5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 291
+Depends:
+ libsemanage-common (>= 3.5-1build5), libaudit1 (>= 1:2.2.1), libbz2-1.0,
+ libc6 (>= 2.38), libselinux1 (>= 3.5), libsepol2 (>= 3.5)
+Filename: libsemanage2_3.5-1build5_arm64.deb
+Size: 90806
+SHA256: d353aa63f68f7ef84e43d6d032535a6f3a2aaeb48d5dfb22fa8ab480dc52922d
+Homepage: https://selinuxproject.org
+Description: SELinux policy management library
+
+Package: libsepol2
+Version: 3.5-2build1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 799
+Depends: libc6 (>= 2.38)
+Filename: libsepol2_3.5-2build1_arm64.deb
+Size: 290818
+SHA256: 43339b502a91d0900b2e96ba9c30a3cc0175797a916d4d91dae26870f6d4655a
+Homepage: https://selinuxproject.org
+Description: SELinux library for manipulating binary security policies
+
+Package: libsmartcols1
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 190
+Depends: libc6 (>= 2.38)
+Filename: libsmartcols1_2.39.3-9ubuntu6.5_arm64.deb
+Size: 65238
+SHA256: f99cddae09c2e37b5c16dcc5ab47a67196d5be1d5cce875578728f8e9bbd6d3d
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: smart column output alignment library
+Source: util-linux
+
+Package: libssl3t64
+Version: 3.0.13-0ubuntu3.11
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 6058
+Provides: libssl3 (= 3.0.13-0ubuntu3.11)
+Depends: libc6 (>= 2.38)
+Breaks: libssl3 (<< 3.0.13-0ubuntu3.11)
+Replaces: libssl3
+Filename: libssl3t64_3.0.13-0ubuntu3.11_arm64.deb
+Size: 1798598
+SHA256: 0cb6e139be61990a5fd8a8c17a428a8035c5870b11e359c93a088c22fc637a49
+Homepage: https://www.openssl.org/
+Description: Secure Sockets Layer toolkit - shared libraries
+Source: openssl
+
+Package: libstdc++6
+Version: 14.2.0-4ubuntu2~24.04.1
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 3149
+Depends:
+ gcc-14-base (= 14.2.0-4ubuntu2~24.04.1), libc6 (>= 2.38), libgcc-s1 (>=
+ 4.5)
+Conflicts: scim (<< 1.4.2-1)
+Breaks: gcc-4.3 (<< 4.3.6-1), gcc-4.4 (<< 4.4.6-4), gcc-4.5 (<< 4.5.3-2)
+Replaces: libstdc++6-14-dbg (<< 4.9.0-3)
+Filename: libstdc++6_14.2.0-4ubuntu2~24.04.1_arm64.deb
+Size: 750976
+SHA256: f84a05ac45a6884109b6527e911081a38263b89e042fc94a338cf975f61a330c
+Homepage: http://gcc.gnu.org/
+Description: GNU Standard C++ Library v3
+
+Package: libsystemd-shared
+Version: 255.4-1ubuntu8.16
+Architecture: arm64
+Multi-Arch: same
+Priority: important
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 6080
+Depends:
+ libacl1 (>= 2.2.23), libapparmor1 (>= 2.13), libaudit1 (>= 1:2.2.1),
+ libblkid1 (>= 2.30.2), libc6 (>= 2.39), libcap2 (>= 1:2.10), libcrypt1 (>=
+ 1:4.4.0), libgcrypt20 (>= 1.10.0), libkmod2 (>= 15), liblz4-1 (>=
+ 0.0~r130), liblzma5 (>= 5.1.1alpha+20120614), libmount1 (>= 2.30),
+ libpam0g (>= 0.99.7.1), libseccomp2 (>= 2.4.1), libselinux1 (>= 3.1~),
+ libssl3t64 (>= 3.0.0), libzstd1 (>= 1.5.5)
+Filename: libsystemd-shared_255.4-1ubuntu8.16_arm64.deb
+Size: 2019720
+SHA256: 72eb297686d15700977b181d52218c4ed56c858a7bd49a79ca6b32de9fba6c68
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd shared private library
+Source: systemd
+
+Package: libsystemd0
+Version: 255.4-1ubuntu8.16
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 1104
+Depends:
+ libc6 (>= 2.38), libcap2 (>= 1:2.10), libgcrypt20 (>= 1.10.0), liblz4-1
+ (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614), libzstd1 (>= 1.5.5)
+Filename: libsystemd0_255.4-1ubuntu8.16_arm64.deb
+Size: 427088
+SHA256: 4a4705570bbfcc279dc7a82419b412e3594f53697903ad8c72c4bcee1b4c2033
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd utility library
+Source: systemd
+
+Package: libtinfo6
+Version: 6.4+20240113-1ubuntu2.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 604
+Depends: libc6 (>= 2.34)
+Breaks: tmux (<< 3.3a-4)
+Filename: libtinfo6_6.4+20240113-1ubuntu2.1_arm64.deb
+Size: 104560
+SHA256: bb907b0a9735c08ebc94b3c7a9f725e501cb515ea8b08611566b17135ce3722b
+Homepage: https://invisible-island.net/ncurses/
+Description: shared low-level terminfo library for terminal handling
+Source: ncurses
+
+Package: libudev1
+Version: 255.4-1ubuntu8.16
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 372
+Depends: libc6 (>= 2.38), libcap2 (>= 1:2.10)
+Filename: libudev1_255.4-1ubuntu8.16_arm64.deb
+Size: 175646
+SHA256: c1dde76354c2b4553e7342801a2ccad4fd9b3af1c41d040f0df93eeee277567b
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: libudev shared library
+Source: systemd
+
+Package: libuuid1
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 115
+Provides: libuuid1t64 (= 2.39.3-9ubuntu6.5)
+Depends: libc6 (>= 2.38)
+Recommends: uuid-runtime
+Breaks: libuuid1t64 (<< 2.39.3-9ubuntu6.5)
+Replaces: libuuid1t64
+Filename: libuuid1_2.39.3-9ubuntu6.5_arm64.deb
+Size: 36224
+SHA256: 4456b14c7573a8f3fd3b068d08edd7459d16968bfcc0cb39e154ac8afe431c7b
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: Universally Unique ID library
+Source: util-linux
+
+Package: libzstd1
+Version: 1.5.5+dfsg2-2build1.1
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 665
+Depends: libc6 (>= 2.34)
+Filename: libzstd1_1.5.5+dfsg2-2build1.1_arm64.deb
+Size: 271278
+SHA256: ea7d6e9fde577ea14dbf07fdfb74d6287eb09c6cba4a9d63abdcb87b0ec54bcc
+Homepage: https://github.com/facebook/zstd
+Description: fast lossless compression algorithm
+Source: libzstd
+
+Package: logrotate
+Version: 3.21.0-2build1
+Architecture: arm64
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 181
+Depends:
+ cron | anacron | cron-daemon | systemd-sysv, libacl1 (>= 2.2.23), libc6
+ (>= 2.38), libpopt0 (>= 1.14), libselinux1 (>= 3.1~)
+Suggests: bsd-mailx | mailx
+Filename: logrotate_3.21.0-2build1_arm64.deb
+Size: 50866
+SHA256: 7e9b29e0d7e4da187aae4d6fe117ee5c8b53d0b789f76b61fd8b8d0d67b3fe9b
+Homepage: https://github.com/logrotate/logrotate
+Description: Log rotation utility
+
+Package: mount
+Version: 2.39.3-9ubuntu6.5
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 516
+Pre-Depends:
+ libblkid1 (>= 2.17.2), libc6 (>= 2.38), libmount1 (>= 2.39.1), libselinux1
+ (>= 3.1~), libsmartcols1 (>= 2.33)
+Suggests: nfs-common
+Filename: mount_2.39.3-9ubuntu6.5_arm64.deb
+Size: 116074
+SHA256: e713e8d2bcb6ea1a08a36456754698d0932d0d02d38135becb1c25f80307abfa
+Homepage: https://www.kernel.org/pub/linux/utils/util-linux/
+Description: tools for mounting and manipulating filesystems
+Source: util-linux
+
+Package: passwd
+Version: 1:4.13+dfsg1-4ubuntu3.2
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2806
+Depends:
+ libaudit1 (>= 1:2.2.1), libc6 (>= 2.38), libcrypt1 (>= 1:4.1.0), libpam0g
+ (>= 0.99.7.1), libselinux1 (>= 3.1~), libsemanage2 (>= 2.0.32),
+ libpam-modules
+Recommends: sensible-utils
+Filename: passwd_4.13+dfsg1-4ubuntu3.2_arm64.deb
+Size: 838406
+SHA256: c9a84e67f4f84e7c6a24787e81e124fb76c829eec35c3ec46f609e1937073816
+Homepage: https://github.com/shadow-maint/shadow
+Description: change and administer password and group data
+
+Package: procps
+Version: 2:4.0.4-4ubuntu3.3
+Architecture: arm64
+Multi-Arch: foreign
+Priority: required
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 2408
+Provides: watch
+Depends:
+ libc6 (>= 2.38), libncursesw6 (>= 6), libproc2-0 (>= 2:4.0.4), libsystemd0
+ (>= 254), libtinfo6 (>= 6), init-system-helpers (>= 1.29~)
+Recommends: psmisc
+Breaks:
+ guymager (<= 0.5.9-1), manpages-de (<< 4.9.1-2), manpages-fr (<< 4.9.1-2),
+ manpages-fr-extra (<< 20151231+nmu1), manpages-pl (<< 1:4.9.1-2),
+ open-vm-tools (<= 2011.12.20-562307-1)
+Replaces:
+ manpages-de (<< 4.9.1-2), manpages-fr (<< 4.9.1-2), manpages-fr-extra (<<
+ 20151231+nmu1), manpages-pl (<< 1:4.9.1-2)
+Filename: procps_4.0.4-4ubuntu3.3_arm64.deb
+Size: 707418
+SHA256: 3469d8c55aea7e0b2df478b33ff14423c2f0c7ef11f0db28b243a0f14eb8072a
+Homepage: https://gitlab.com/procps-ng/procps
+Description: /proc file system utilities
+
+Package: rabbitmq-server
+Version: 3.12.10-1
+Architecture: all
+Priority: extra
+Section: net
+Maintainer: RabbitMQ Team <rabbitmq-core@groups.vmware.com>
+Installed-Size: 23736
+Depends:
+ init-system-helpers (>= 1.13~), erlang-base (>= 1:25.0) | erlang-base-hipe
+ (>= 1:25.0) | esl-erlang (>= 1:25.0), erlang-base (<< 1:27.0) |
+ erlang-base-hipe (<< 1:27.0) | esl-erlang (<< 1:27.0), erlang-crypto (>=
+ 1:25.0) | esl-erlang (>= 1:25.0), erlang-crypto (<< 1:27.0) | esl-erlang
+ (<< 1:27.0), erlang-eldap (>= 1:25.0) | esl-erlang (>= 1:25.0),
+ erlang-eldap (<< 1:27.0) | esl-erlang (<< 1:27.0), erlang-inets (>=
+ 1:25.0) | esl-erlang (>= 1:25.0), erlang-inets (<< 1:27.0) | esl-erlang
+ (<< 1:27.0), erlang-mnesia (>= 1:25.0) | esl-erlang (>= 1:25.0),
+ erlang-mnesia (<< 1:27.0) | esl-erlang (<< 1:27.0), erlang-os-mon (>=
+ 1:25.0) | esl-erlang (>= 1:25.0), erlang-os-mon (<< 1:27.0) | esl-erlang
+ (<< 1:27.0), erlang-parsetools (>= 1:25.0) | esl-erlang (>= 1:25.0),
+ erlang-parsetools (<< 1:27.0) | esl-erlang (<< 1:27.0), erlang-public-key
+ (>= 1:25.0) | esl-erlang (>= 1:25.0), erlang-public-key (<< 1:27.0) |
+ esl-erlang (<< 1:27.0), erlang-runtime-tools (>= 1:25.0) | esl-erlang (>=
+ 1:25.0), erlang-runtime-tools (<< 1:27.0) | esl-erlang (<< 1:27.0),
+ erlang-ssl (>= 1:25.0) | esl-erlang (>= 1:25.0), erlang-ssl (<< 1:27.0) |
+ esl-erlang (<< 1:27.0), erlang-syntax-tools (>= 1:25.0) | esl-erlang (>=
+ 1:25.0), erlang-syntax-tools (<< 1:27.0) | esl-erlang (<< 1:27.0),
+ erlang-tools (>= 1:25.0) | esl-erlang (>= 1:25.0), erlang-tools (<<
+ 1:27.0) | esl-erlang (<< 1:27.0), erlang-xmerl (>= 1:25.0) | esl-erlang
+ (>= 1:25.0), erlang-xmerl (<< 1:27.0) | esl-erlang (<< 1:27.0), adduser,
+ logrotate
+Filename: rabbitmq-server_3.12.10-1_all.deb
+Size: 15705748
+SHA256: dff6cf4d713a90b28693296d535f2a43b0ff402579baeb000503b6c84a47f822
+Homepage: https://www.rabbitmq.com/
+Description:
+ Multi-protocol messaging and streaming broker RabbitMQ is an open source
+ multi-protocol messaging and streaming broker.
+
+Package: sensible-utils
+Version: 0.0.22
+Architecture: all
+Multi-Arch: foreign
+Priority: required
+Section: utils
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 63
+Filename: sensible-utils_0.0.22_all.deb
+Size: 22462
+SHA256: 410c29ff82c6916d14e235b511287e67a45cb78d509b19aab48608acdc941254
+Description: Utilities for sensible alternative selection
+
+Package: systemd-dev
+Version: 255.4-1ubuntu8.16
+Architecture: all
+Multi-Arch: foreign
+Priority: important
+Section: devel
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 722
+Breaks: systemd (<< 253-2~), systemd-homed (<< 254.1-3~), udev (<< 253-2~)
+Replaces: systemd (<< 253-2~), systemd-homed (<< 254.1-3~), udev (<< 253-2~)
+Filename: systemd-dev_255.4-1ubuntu8.16_all.deb
+Size: 106408
+SHA256: 5101b12b0ac1a29ae213335138627530fa2c0b4f554f68f1b84fdb7a57ba540f
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: systemd development files
+Source: systemd
+
+Package: systemd
+Version: 255.4-1ubuntu8.16
+Architecture: arm64
+Multi-Arch: foreign
+Priority: important
+Section: admin
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 15432
+Provides:
+ systemd-repart (= 255.4-1ubuntu8.16), systemd-sysusers (=
+ 255.4-1ubuntu8.16), systemd-tmpfiles (= 255.4-1ubuntu8.16)
+Pre-Depends:
+ libblkid1 (>= 2.30.2), libc6 (>= 2.39), libcap2 (>= 1:2.10), libgcrypt20
+ (>= 1.10.0), liblz4-1 (>= 0.0~r122), liblzma5 (>= 5.1.1alpha+20120614),
+ libmount1 (>= 2.30), libselinux1 (>= 3.1~), libssl3t64 (>= 3.0.0),
+ libzstd1 (>= 1.5.5)
+Depends:
+ libacl1 (>= 2.2.23), libapparmor1 (>= 2.13), libaudit1 (>= 1:2.2.1),
+ libcryptsetup12 (>= 2:2.4), libfdisk1 (>= 2.33), libkmod2 (>= 15),
+ libpam0g (>= 0.99.7.1), libseccomp2 (>= 2.3.1), libsystemd-shared (=
+ 255.4-1ubuntu8.16), libsystemd0 (= 255.4-1ubuntu8.16), systemd-dev (>=
+ 255.4-1ubuntu8.16), mount
+Recommends:
+ default-dbus-system-bus | dbus-system-bus, networkd-dispatcher,
+ systemd-timesyncd | time-daemon, systemd-resolved
+Suggests:
+ systemd-container, systemd-homed, systemd-userdbd, systemd-boot,
+ libfido2-1, libip4tc2, libp11-kit0, libqrencode4, libtss2-esys-3.0.2-0,
+ libtss2-mu-4.0.1-0, libtss2-rc0, libtss2-tcti-device0, polkitd
+Conflicts: consolekit, libpam-ck-connector, opensysusers, systemd-shim
+Breaks:
+ dracut (<< 059-5), less (<< 563), sicherboot (<< 0.1.6), systemd-repart
+ (<< 250.2-3~)
+Replaces: systemd-repart (<< 250.2-3~)
+Filename: systemd_255.4-1ubuntu8.16_arm64.deb
+Size: 3407776
+SHA256: 37f1261b595eb485464e29ced7182110cec8eb5f47c88cbe6b0fd6b50b5f0550
+Homepage: https://www.freedesktop.org/wiki/Software/systemd
+Description: system and service manager
+
+Package: zlib1g
+Version: 1:1.3.dfsg-3.1ubuntu2.2
+Architecture: arm64
+Multi-Arch: same
+Priority: required
+Section: libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Installed-Size: 183
+Provides: libz1
+Depends: libc6 (>= 2.17)
+Conflicts: zlib1 (<= 1:1.0.4-7)
+Breaks:
+ libxml2 (<< 2.7.6.dfsg-2), texlive-binaries (<< 2023.20230311.66589-8)
+Filename: zlib1g_1.3.dfsg-3.1ubuntu2.2_arm64.deb
+Size: 61898
+SHA256: e55ab3b4fb7b6edc4a628e28ec13f8780b08abe427d33ae148f030d8586d0e9a
+Homepage: http://zlib.net/
+Description: compression library - runtime

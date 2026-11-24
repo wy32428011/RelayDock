@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "appId": "consul",
+  "version": "1.22.6",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "arm64",
+  "source": "hashicorp-official",
+  "entrypoint": "consul_1.22.6_linux_arm64.zip",
+  "files": [
+    {
+      "path": "consul_1.22.6_linux_arm64.zip",
+      "size": 61522263,
+      "sha256": "a760371111ff3e1f0813672b240f833077f73c13ea37e75abc223ede534100b6",
+      "dependencies": []
+    },
+    {
+      "path": "libbz2-1.0_1.0.8-5ubuntu0.1_arm64.deb",
+      "size": 36102,
+      "sha256": "facd10a2446b6c75a95fcbaedf2303126ac2f669413f423dabda41047539f8a9",
+      "dependencies": []
+    },
+    {
+      "path": "unzip_6.0-26ubuntu3.2_arm64.deb",
+      "size": 171070,
+      "sha256": "793aedf54de24cf57a6c15b9d7710caaa119a934a1bba9c967a87792566e1c1e",
+      "dependencies": []
+    }
+  ]
+}

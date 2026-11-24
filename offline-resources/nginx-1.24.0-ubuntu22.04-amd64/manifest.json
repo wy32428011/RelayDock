@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "appId": "nginx",
+  "version": "1.24.0",
+  "os": "ubuntu",
+  "osVersion": "22.04",
+  "arch": "amd64",
+  "source": "nginx-official-and-distro-deps",
+  "files": [
+    {
+      "path": "deps/adduser_3.118ubuntu5_all.deb",
+      "size": 155528,
+      "sha256": "53c30389227d4d16f1108a1df7ae1540c890378318335d1dc7ee95b7257f1f17",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libc6_2.35-0ubuntu3.13_amd64.deb",
+      "size": 782987,
+      "sha256": "9237f2e5501b3b66e3d335871f9e4658705b8a10cccbbe579b7b50e256fd3d56",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libcrypt1_4.4.27-1_amd64.deb",
+      "size": 82004,
+      "sha256": "3fa566e9f861a08736cbc5a97562d9d6e4f0c00450fbeafcb6d7583423b04a98",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libpcre2-8-0_10.39-3ubuntu0.1_amd64.deb",
+      "size": 220512,
+      "sha256": "01a5a74f3d305cad32fffffdc200c2a92fd8e5a01bff97de76ac598fb444d53e",
+      "dependencies": []
+    },
+    {
+      "path": "deps/libssl3_3.0.2-0ubuntu1.23_amd64.deb",
+      "size": 1905500,
+      "sha256": "3f3c87935741455b4bee011785fa2f696d3417a6dc9e2e21321df6cace5f8e9b",
+      "dependencies": []
+    },
+    {
+      "path": "deps/lsb-base_11.1.0ubuntu4_all.deb",
+      "size": 12350,
+      "sha256": "23ac3e99b0c2cd0179a7f40fa5a24248345e16c515f222164dad2a638b4f04cf",
+      "dependencies": []
+    },
+    {
+      "path": "deps/zlib1g_1.2.11.dfsg-2ubuntu9.2_amd64.deb",
+      "size": 58406,
+      "sha256": "9dc17e51a1be2d9ed63b7b84ef0e4e29c5abe6f1bc62cb03e7181483cce8a2f2",
+      "dependencies": []
+    },
+    {
+      "path": "nginx_1.24.0-1~jammy_amd64.deb",
+      "size": 1012488,
+      "sha256": "5898adc99c31291a2783e198eb60ae4b715be54dbfac81a458f87358c3d69ba4",
+      "dependencies": []
+    }
+  ]
+}
