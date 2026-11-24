@@ -49,6 +49,10 @@ test('method and argument validation permits optional fields, not local paths or
   assert.equal(isMethod('hello'), false);
   assert.equal(isMethod('dialog.pick'), true);
   assert.equal(isMethod('core.status'), true);
+  assert.equal(isMethod('update.check'), true);
+  assert.equal(isMethod('update.download'), true);
+  assert.equal(isMethod('update.install'), true);
+  assert.throws(() => validate('update.check', { extra: 'x' }), code('BAD_PARAMS'));
   const draft = { name: '测试', address: 'local.invalid', port: 22, username: 'fixture', group: '', auth: 'password', keyToken: undefined };
   assert.doesNotThrow(() => validate('host.probe', { host: draft, hostId: undefined }));
   assert.throws(() => validate('host.probe', { host: { ...draft, auth: 'key', keyToken: 'file:///fixture/key' } }), code('BAD_PARAMS'));

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
-  Archive, CircleAlert, CircleCheck, Clock3, CodeXml, Files, LayoutPanelTop, ListTodo, MoonStar,
+  Archive, CircleAlert, CircleCheck, Clock3, CodeXml, Download, Files, LayoutPanelTop, ListTodo, MoonStar,
   RefreshCw, Server, Settings2, Sun, Terminal, Workflow,
 } from 'lucide-react';
 import { VERSION } from '@relaydock/protocol';
-import type { AppEntry, Bridge, Host, Task, Theme } from '@relaydock/protocol';
+import type { AppEntry, Bridge, Host, Task, Theme, UpdateState } from '@relaydock/protocol';
 import type { CoreStatus } from './core';
 import { endpoint, faultText, hostEligibility, isActive, osLabel, readBridge } from './core';
 import { HostDialog, HostRail, RemoveHostDialog } from './hosts';
@@ -112,6 +112,7 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
   const [taskId, setTaskId] = useState<string>();
   const [drawer, setDrawer] = useState<'hosts' | 'tasks'>();
   const [feedback, setFeedback] = useState('');
+  const [updateState, setUpdateState] = useState<UpdateState>();
   const small = useMedia('(max-width: 760px)');
   const tasksInDrawer = useMedia('(max-width: 1120px)');
   const systemLight = useMedia('(prefers-color-scheme: light)');
@@ -158,6 +159,20 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
     api.call('settings.get', {}).then((settings) => { if (live && settings) setTheme(settings.theme); }).catch(() => { /* Keep the usable default theme. */ });
     return () => { live = false; };
   }, [api, ready]);
+
+  useEffect(() => {
+    if (!api) return;
+    let live = true;
+    api.call('update.status', {}).then((next) => {
+      if (live && next && typeof next.status === 'string') setUpdateState(next);
+    }).catch(() => { /* Ignore when desktop updater is unavailable in tests or preview. */ });
+    const unsubscribe = api.subscribe((event) => {
+      if (event.topic === 'update.status' && event.data && typeof event.data === 'object' && typeof (event.data as UpdateState).status === 'string') {
+        setUpdateState(event.data as UpdateState);
+      }
+    });
+    return () => { live = false; unsubscribe(); };
+  }, [api]);
 
   function refresh() {
     setRevision((value) => value + 1);
@@ -234,6 +249,12 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
         <Brand />
       </div>
       <div className="rd-topbar-end">
+        {(updateState?.status === 'available' || updateState?.status === 'downloaded') && updateState.latestVersion && (
+          <button className="rd-button primary" onClick={() => navigate('settings')} title={updateState.message}>
+            <Download size={15} aria-hidden="true" />
+            <span>{updateState.status === 'downloaded' ? `安装 v${updateState.latestVersion}` : `新版本 v${updateState.latestVersion}`}</span>
+          </button>
+        )}
         {tasksInDrawer && <button className="rd-button topbar-queue" aria-label={`打开任务队列，${activeCount} 项活动任务`} aria-haspopup="dialog" onClick={() => setDrawer('tasks')}>
           <ListTodo size={17} aria-hidden="true" /><span>任务</span>{activeCount > 0 && <span className="rail-count">{activeCount}</span>}
         </button>}

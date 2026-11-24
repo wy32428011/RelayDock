@@ -57,6 +57,26 @@ export interface MigrationPreview {
   warnings: string[];
 }
 export interface LegacyRecord { kind: string; id: string; summary: string; at: string; detail?: string }
+export type UpdateStatus = 'idle' | 'checking' | 'available' | 'up-to-date' | 'downloading' | 'downloaded' | 'error' | 'unsupported';
+export interface UpdateState {
+  status: UpdateStatus;
+  currentVersion: string;
+  platform: string;
+  arch: string;
+  repo: string;
+  latestVersion?: string;
+  releaseName?: string;
+  releaseNotes?: string;
+  releaseUrl?: string;
+  publishedAt?: string;
+  assetName?: string;
+  assetSize?: number;
+  downloadedBytes?: number;
+  percent?: number;
+  verified?: boolean;
+  canInstall: boolean;
+  message: string;
+}
 export interface CoreEvent {
   v: 1; type: 'event'; topic: string; taskId?: string; sessionId?: string; seq?: number; data: unknown;
 }
@@ -66,6 +86,11 @@ export interface ElectronMethods {
   'core.status': [Empty, {ready: boolean; version?: string; platform: string; arch: string; detail?: string}];
   'dialog.pick': [{purpose: 'key'|'upload'|'uploadDirectory'|'download'|'resource'|'migration'|'export'}, {token: string; name: string}|null];
   'dialog.export': [{token: string; text: string}, {ok: boolean}];
+  'update.status': [Empty, UpdateState];
+  'update.check': [Empty, UpdateState];
+  'update.download': [Empty, UpdateState];
+  'update.cancel': [Empty, UpdateState];
+  'update.install': [Empty, {ok: boolean}];
 }
 export interface CoreMethods {
   'host.list': [Empty, Host[]];

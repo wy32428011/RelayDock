@@ -13,6 +13,7 @@ import { isRecord } from './protocol';
 import { isMethod, validate } from './validation';
 import type { Purpose } from './validation';
 import { APP_ID, PRODUCT_NAME, corePaths, rendererPath, rendererRequestAllowed, userDataPath } from './paths';
+import { AppUpdater } from './updater';
 
 const rendererRoot = join(__dirname, 'renderer');
 const rendererEntry = join(rendererRoot, 'index.html');
@@ -25,6 +26,8 @@ interface WindowContext {
   picking: boolean;
 }
 let workspace: WindowContext | undefined;
+let updater: AppUpdater | undefined;
+let startupUpdateTimer: ReturnType<typeof setTimeout> | undefined;
 let quitting = false;
 let allowQuit = false;
 let coreWasReady = false;
@@ -172,7 +175,29 @@ function registerCalls(): void {
       }
       validate(method, input);
       if (method === 'core.status') return { ok: true, result: core.status };
+      if (method === 'update.status') {
+        if (!updater) throw new BridgeError('UPDATE_UNAVAILABLE', '更新服务尚未初始化。', true);
+        return { ok: true, result: updater.getState() };
+      }
       if (quitting) throw new BridgeError('APP_CLOSING', '应用正在准备退出，不能开始新操作。', true);
+      if (method === 'update.check') {
+        if (!updater) throw new BridgeError('UPDATE_UNAVAILABLE', '更新服务尚未初始化。', true);
+        return { ok: true, result: await updater.check({ silent: false }) };
+      }
+      if (method === 'update.download') {
+        if (!updater) throw new BridgeError('UPDATE_UNAVAILABLE', '更新服务尚未初始化。', true);
+        return { ok: true, result: await updater.download() };
+      }
+      if (method === 'update.cancel') {
+        if (!updater) throw new BridgeError('UPDATE_UNAVAILABLE', '更新服务尚未初始化。', true);
+        return { ok: true, result: updater.cancel() };
+      }
+      if (method === 'update.install') {
+        if (!updater) throw new BridgeError('UPDATE_UNAVAILABLE', '更新服务尚未初始化。', true);
+        const installerPath = await updater.prepareInstall();
+        const started = await requestQuit(installerPath);
+        return { ok: true, result: { ok: started } };
+      }
       const scope = context.scope;
       const stillAllowed = () => !quitting && context.scope === scope && trustedContext(event) === context;
       if (method === 'dialog.pick') {
@@ -207,28 +232,43 @@ async function quitWarning(): Promise<string | undefined> {
   }
 }
 
-async function requestQuit(): Promise<void> {
-  if (quitting) return;
+async function requestQuit(installerPath?: string): Promise<boolean> {
+  if (quitting) return false;
   quitting = true;
+  if (startupUpdateTimer) {
+    clearTimeout(startupUpdateTimer);
+    startupUpdateTimer = undefined;
+  }
   try {
     const context = workspace;
     if (context && !context.window.isDestroyed()) {
       const warning = await quitWarning();
       if (warning && !context.window.isDestroyed()) {
         const { response } = await dialog.showMessageBox(context.window, {
-          type: 'warning', title: '退出 RelayDock', message: warning,
-          detail: '退出会关闭本地连接，但未必会停止远端操作。重开应用后请复查任务状态。',
-          buttons: ['继续工作', '仍然退出'], defaultId: 0, cancelId: 0, noLink: true,
+          type: 'warning',
+          title: installerPath ? '安装更新并退出 RelayDock' : '退出 RelayDock',
+          message: warning,
+          detail: installerPath
+            ? '继续安装会先关闭本地连接并启动新版安装程序，但未必会停止远端操作。升级重开后请复查任务状态。'
+            : '退出会关闭本地连接，但未必会停止远端操作。重开应用后请复查任务状态。',
+          buttons: ['继续工作', installerPath ? '仍然退出并安装' : '仍然退出'],
+          defaultId: 0, cancelId: 0, noLink: true,
         });
-        if (response !== 1) return;
+        if (response !== 1) return false;
       }
       resetGrants(context);
     }
+    updater?.cancel();
     await core.stop();
+    if (installerPath && updater) {
+      updater.launchInstaller(installerPath);
+    }
     allowQuit = true;
     app.quit();
+    return true;
   } catch {
     // Do not dismiss an active-task warning due to a desktop dialog error.
+    return false;
   } finally {
     if (!allowQuit) quitting = false;
   }
@@ -304,6 +344,16 @@ export function runDesktop(): void {
     ]) : null);
     const ui = session.fromPartition('relaydock-ui');
     secureSession(ui);
+    const customApiUrl = !app.isPackaged ? process.env.RELAYDOCK_UPDATE_API_URL : undefined;
+    updater = new AppUpdater({
+      currentVersion: app.getVersion(),
+      platform: process.platform,
+      arch: process.arch,
+      updatesDir: join(data, 'updates'),
+      publish,
+      apiUrl: customApiUrl,
+      allowLoopbackHttp: !app.isPackaged && Boolean(customApiUrl),
+    });
     registerCalls();
     createWindow(ui);
     app.on('activate', () => { if (!workspace && !quitting) createWindow(ui); });
@@ -314,6 +364,12 @@ export function runDesktop(): void {
       // Let CoreProcess publish an actionable unavailable status to the window.
     }
     void core.start(paths);
+    if (app.isPackaged || customApiUrl) {
+      startupUpdateTimer = setTimeout(() => {
+        startupUpdateTimer = undefined;
+        if (!quitting) void updater?.check({ silent: true });
+      }, 3_000);
+    }
   }).catch(() => {
     dialog.showErrorBox(PRODUCT_NAME, '无法初始化桌面窗口，请重新打开应用。');
     core.forceKill();

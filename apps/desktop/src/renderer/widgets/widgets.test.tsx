@@ -250,6 +250,35 @@ describe('RelayDock 工作区 · 合成桥接', () => {
     expect(screen.queryByText('无可用更新')).toBeNull();
   });
 
+  it('桌面客户端更新支持检查、下载并在确认后触发安装重启', async () => {
+    const base = { currentVersion: '0.1.1', platform: 'win32', arch: 'x64', repo: 'wy32428011/RelayDock' };
+    const { api, call } = fixture({
+      'settings.get': () => settings,
+      'update.status': () => ({ ...base, status: 'idle', canInstall: false, message: '尚未检查 GitHub 新版本。' }),
+      'update.check': () => ({
+        ...base, status: 'available', latestVersion: '0.1.2', releaseName: 'RelayDock v0.1.2',
+        releaseNotes: '新增自动更新能力。', assetName: 'RelayDock-0.1.2-win-x64.exe', assetSize: 10 * 1024 * 1024,
+        canInstall: false, message: '发现新版本 v0.1.2。',
+      }),
+      'update.download': () => ({
+        ...base, status: 'downloaded', latestVersion: '0.1.2', assetName: 'RelayDock-0.1.2-win-x64.exe',
+        assetSize: 10 * 1024 * 1024, downloadedBytes: 10 * 1024 * 1024, percent: 100, verified: true,
+        canInstall: true, message: '新版本 v0.1.2 已下载并通过 SHA-256 校验。',
+      }),
+      'update.install': () => ({ ok: true }),
+    });
+    render(pane(api, 'settings'));
+    await screen.findByText('尚未检查 GitHub 新版本。');
+    fireEvent.click(button('检查桌面更新'));
+    await screen.findByText('新增自动更新能力。');
+    fireEvent.click(button('下载安装包'));
+    await screen.findByText('新版本 v0.1.2 已下载并通过 SHA-256 校验。');
+    fireEvent.click(button('立即安装并重启'));
+    expect(call.mock.calls.some(([method]) => method === 'update.install')).toBe(false);
+    accept('立即安装并重启');
+    await waitFor(() => expect(call).toHaveBeenCalledWith('update.install', {}));
+  });
+
   it('保留远端卷根与文本换行，并处理已知脱敏格式', () => {
     expect(parentRemotePath('/C:/Users')).toBe('/C:/');
     expect(parentRemotePath('/C:/')).toBe('/C:/');

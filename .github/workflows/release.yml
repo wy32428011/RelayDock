@@ -1,0 +1,111 @@
+name: Release Windows Installers
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '发布标签（需与 package.json 版本一致，例如 v0.1.2）'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2025
+            arch: x64
+          - runner: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.11'
+          cache-dependency-path: backend/go.sum
+      - name: Verify target runner architecture
+        run: node -e "if(process.arch !== '${{ matrix.arch }}') process.exit(1)"
+      - name: Verify release tag matches package.json version
+        shell: bash
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            const tag = (process.env.RELEASE_TAG || "").trim();
+            if (!/^v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(tag)) {
+              console.error("无效的发布标签:", tag);
+              process.exit(1);
+            }
+            if (tag.slice(1) !== pkg.version) {
+              console.error(`标签版本 (${tag}) 与 package.json (${pkg.version}) 不一致`);
+              process.exit(1);
+            }
+          '
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:contract
+      - run: npm run test:ui
+      - run: go -C backend vet ./...
+      - run: go -C backend test ./... -count=1 -timeout=2m
+      - run: npm run package:local
+      - run: npm run test:core:stdio
+      - run: npm run test:e2e:packaged
+      - uses: actions/upload-artifact@v5
+        with:
+          name: RelayDock-win-${{ matrix.arch }}
+          if-no-files-found: error
+          path: |
+            artifacts/*/RelayDock-*-win-*.exe
+            artifacts/*/BUILD.json
+
+  publish-release:
+    needs: build-windows
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: downloaded
+      - name: Assemble release assets and SHA256SUMS.txt
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-dist
+          find downloaded -type f -name 'RelayDock-*-win-*.exe' -exec cp {} release-dist/ \;
+          ls -la release-dist
+          (cd release-dist && sha256sum RelayDock-*-win-*.exe > SHA256SUMS.txt)
+          cat release-dist/SHA256SUMS.txt
+      - name: Create or update GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${RELEASE_TAG}"
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release upload "$TAG" release-dist/* --repo "${{ github.repository }}" --clobber
+          else
+            gh release create "$TAG" release-dist/* \
+              --repo "${{ github.repository }}" \
+              --title "RelayDock $TAG" \
+              --generate-notes
+          fi

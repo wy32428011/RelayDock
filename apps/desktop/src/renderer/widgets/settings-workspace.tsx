@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Database, FolderOpen, RefreshCw, Save, Settings2 } from 'lucide-react';
-import type { Bridge, Methods, MigrationPreview, Settings, Theme } from '@relaydock/protocol';
+import { Database, Download, FolderOpen, RefreshCw, RotateCw, Save, Settings2, X } from 'lucide-react';
+import type { Bridge, Methods, MigrationPreview, Settings, Theme, UpdateState, UpdateStatus } from '@relaydock/protocol';
 import { Button, Card, DetailList, Empty, Field, Notice, PaneHeading, faultText, useAction, useConfirmation, useLocalQuery } from './ui';
 
 const themeLabel: Record<Theme, string> = { dark: '深色', light: '浅色', system: '跟随系统' };
@@ -127,6 +127,152 @@ function SettingsForm({ api, initial, onTheme, onDirty, onBusy }: { api: Bridge;
   </form>;
 }
 
+const updateStatusLabel: Record<UpdateStatus, string> = {
+  idle: '未检查',
+  checking: '正在检查',
+  available: '发现新版本',
+  'up-to-date': '已是最新',
+  downloading: '正在下载',
+  downloaded: '已下载并校验',
+  error: '更新失败',
+  unsupported: '需手动获取',
+};
+
+const updateStatusTone: Partial<Record<UpdateStatus, 'accent' | 'good' | 'warning' | 'error'>> = {
+  available: 'accent',
+  'up-to-date': 'good',
+  downloading: 'accent',
+  downloaded: 'good',
+  error: 'error',
+  unsupported: 'warning',
+};
+
+function formatBytes(bytes?: number): string {
+  if (!bytes || bytes <= 0) return '0 B';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KiB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MiB`;
+}
+
+function isUpdateState(value: unknown): value is UpdateState {
+  return !!value && typeof value === 'object' && typeof (value as UpdateState).status === 'string' &&
+    typeof (value as UpdateState).currentVersion === 'string';
+}
+
+function DesktopUpdater({ api }: { api: Bridge }) {
+  const [state, setState] = useState<UpdateState>();
+  const action = useAction();
+  const { confirm, dialog } = useConfirmation();
+
+  useEffect(() => {
+    let live = true;
+    api.call('update.status', {}).then(next => {
+      if (live && isUpdateState(next)) setState(next);
+    }).catch(() => {
+      // Ignore if running under a test stub that does not implement desktop updater calls.
+    });
+    const unsubscribe = api.subscribe(event => {
+      if (event.topic === 'update.status' && isUpdateState(event.data)) {
+        setState(event.data);
+      }
+    });
+    return () => { live = false; unsubscribe(); };
+  }, [api]);
+
+  const busy = action.busy || state?.status === 'checking' || state?.status === 'downloading';
+
+  function checkRelease() {
+    void action.run(async current => {
+      const next = await api.call('update.check', {});
+      if (current() && isUpdateState(next)) setState(next);
+    });
+  }
+
+  function downloadRelease() {
+    void action.run(async current => {
+      const next = await api.call('update.download', {});
+      if (current() && isUpdateState(next)) setState(next);
+    });
+  }
+
+  function cancelDownload() {
+    void action.run(async current => {
+      const next = await api.call('update.cancel', {});
+      if (current() && isUpdateState(next)) setState(next);
+    });
+  }
+
+  function installRelease() {
+    if (!state?.canInstall) return;
+    confirm({
+      title: `安装 RelayDock v${state.latestVersion ?? ''}？`,
+      description: '安装前会先关闭本地核心与当前窗口，然后启动新版 Windows 安装向导。本地主机、设置与历史数据会保留。',
+      acceptLabel: '立即安装并重启',
+      info: [
+        ['当前版本', `v${state.currentVersion}`],
+        ['目标版本', state.latestVersion ? `v${state.latestVersion}` : '未知'],
+        ['安装包', state.assetName ?? '未指定'],
+        ['完整性校验', state.verified ? 'SHA-256 已通过' : '未校验'],
+      ],
+      perform: () => {
+        void action.run(async current => {
+          const result = await api.call('update.install', {});
+          if (current() && !result.ok) {
+            action.setNotice({ tone: 'info', text: '已取消安装，当前工作台继续运行。' });
+          }
+        });
+      },
+    });
+  }
+
+  const tone = state ? updateStatusTone[state.status] : undefined;
+  const canDownload = !!state && state.platform === 'win32' && !!state.assetName &&
+    (state.status === 'available' || state.status === 'error');
+
+  return <>
+    <Card
+      title="桌面客户端更新（GitHub Releases）"
+      subtitle="检测 GitHub 最新正式版，按本机系统架构下载并通过 SHA-256 校验后安装。"
+      actions={<div className="rd-w-actions">
+        <Button onClick={checkRelease} disabled={busy}>
+          <RefreshCw aria-hidden="true" size={16} />{state?.status === 'checking' ? '正在检查' : '检查桌面更新'}
+        </Button>
+        {canDownload && <Button variant="primary" onClick={downloadRelease} disabled={busy}>
+          <Download aria-hidden="true" size={16} />下载安装包
+        </Button>}
+        {state?.status === 'downloading' && <Button onClick={cancelDownload}>
+          <X aria-hidden="true" size={16} />取消下载
+        </Button>}
+        {state?.status === 'downloaded' && state.canInstall && <Button variant="primary" onClick={installRelease} disabled={action.busy}>
+          <RotateCw aria-hidden="true" size={16} />立即安装并重启
+        </Button>}
+      </div>}
+    >
+      <Notice value={action.notice} />
+      {state && <>
+        <DetailList items={[
+          ['当前版本', `v${state.currentVersion}`],
+          ['本机环境', `${state.platform} / ${state.arch}`],
+          ['更新源', state.repo],
+          ['最新版本', state.latestVersion ? `v${state.latestVersion}` : '未取得'],
+          ['更新状态', <span className={`rd-w-chip${tone ? ` rd-w-chip--${tone}` : ''}`}>{updateStatusLabel[state.status]}</span>],
+          ...(state.assetName ? [['安装包', `${state.assetName}${state.assetSize ? ` (${formatBytes(state.assetSize)})` : ''}`] as const] : []),
+        ]} />
+        {state.status === 'downloading' && <div className="rd-w-progress">
+          <progress max={100} value={state.percent ?? 0} aria-label="更新安装包下载进度" />
+          <span>{state.percent ?? 0}% · {formatBytes(state.downloadedBytes)} / {formatBytes(state.assetSize)}</span>
+        </div>}
+        <Notice value={{ tone: state.status === 'error' ? 'error' : state.status === 'downloaded' || state.status === 'up-to-date' ? 'success' : 'info', text: state.message }} />
+        {state.releaseNotes && <div className="rd-w-subcard">
+          <strong>版本说明{state.releaseName ? ` · ${state.releaseName}` : ''}</strong>
+          <pre className="rd-w-release-notes">{state.releaseNotes}</pre>
+        </div>}
+      </>}
+    </Card>
+    {dialog}
+  </>;
+}
+
 function Preferences({ api, onTheme, onDirty, onBusy }: { api: Bridge; onTheme: (theme: Theme) => void; onDirty: (value: boolean) => void } & BusyObserver) {
   const load = useCallback(() => api.call('settings.get', {}), [api]);
   const query = useLocalQuery(load);
@@ -143,7 +289,8 @@ function Preferences({ api, onTheme, onDirty, onBusy }: { api: Bridge; onTheme: 
     {query.pending && <Card title="正在读取设置"><p className="rd-w-subtle" role="status">从本地核心读取工作台偏好…</p></Card>}
     {query.error && <Card title="无法读取设置" actions={<Button onClick={query.refresh}>重新读取</Button>}><Notice value={{ tone: 'error', text: query.error }} /></Card>}
     {query.data && <SettingsForm api={api} initial={query.data} onTheme={onTheme} onDirty={onDirty} onBusy={onBusy} />}
-    <Card title="检查应用更新" subtitle="只使用已保存的地址。检查仅显示版本信息，不会下载或安装更新。"
+    <DesktopUpdater api={api} />
+    <Card title="检查应用更新" subtitle="只使用已保存的自定义更新地址。检查仅显示版本信息，不会下载或安装更新。"
       actions={<Button onClick={check} disabled={action.busy}><RefreshCw aria-hidden="true" size={16} />{action.busy ? '正在检查' : '检查更新'}</Button>}>
       <Notice value={action.notice} />
       {result && <>

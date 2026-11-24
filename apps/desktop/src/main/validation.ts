@@ -76,6 +76,11 @@ const schemas = {
   'core.status': empty,
   'dialog.pick': shape({ purpose: oneOf(purposes) }),
   'dialog.export': shape({ token, text }),
+  'update.status': empty,
+  'update.check': empty,
+  'update.download': empty,
+  'update.cancel': empty,
+  'update.install': empty,
   'host.list': empty,
   'host.probe': (value, budget) => {
     if (!probe(value, budget) || !isRecord(value) || (value.host === undefined) === (value.hostId === undefined)) return false;
