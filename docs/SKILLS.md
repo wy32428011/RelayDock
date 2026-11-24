@@ -1,45 +1,50 @@
 # 开发技能目录
 
-本目录回答“在哪个阶段用什么技能、用到什么程度”。技能是开发协助，不是 Go/Electron 的运行依赖。以下按本次会话的可用清单与 2026-11-18 的公开目录核对；**未安装或更新任何技能**。其他工作站或新会话应先核对自己实际暴露的名称。阶段编号对应[执行方案](EXECUTION.md)。
+本目录回答“在哪个阶段用什么技能、用到什么程度”。技能是开发协助，不是 Go/Electron 的运行依赖。以下按 2026-11-23 的实装状态与公开目录核对；项目级已安装技能由根目录 [skills-lock.json](../skills-lock.json) 锁定上游提交与哈希，安装目录为 `.claude/skills/`。其他工作站或新会话应先核对自己实际暴露的名称。阶段编号对应[执行方案](EXECUTION.md)。
 
-## 1. 本次环境已提供
+## 1. 会话内置技能（无需安装）
 
 | 技能的准确名称 | 适用任务 | 期待的结果 / 不适用范围 |
 |---|---|---|
-| `ui-ux-pro-max` | P2–P4：主机表单、长任务列表、危险确认与键盘交互 | 给出可操作的焦点恢复、可见焦点、长列表窗口化验收；本次已检索确认框焦点、React 长列表。不要把 Web 页面示例照搬成运维桌面布局 |
+| `ui-ux-pro-max` | P2–P4：主机表单、长任务列表、危险确认与键盘交互 | 给出可操作的焦点恢复、可见焦点、长列表窗口化验收；不要把 Web 页面示例照搬成运维桌面布局 |
 | `anthropic-skills:frontend-design` | P2–P4：设计应用卡片、参数表单、任务详情的界面层次 | 输出组件和交互设计；不负责系统凭据、IPC 或安装规则。应同时满足离线字体/资源和高密度信息展示 |
 | `run` | P1 起，实际开发/安装入口出现后启动桌面应用做冒烟 | 观察窗口、Go 就绪和报错；Vite 页面或开发窗口跑起来不是安装版通过 |
 | `code-review`、`security-review` | P2–P6，已有源码或差异后审查协议、权限、迁移、打包及代码改动 | 给可复核的文件/行为和修复建议；不能用技能评语替代目标机试装、系统密钥库或签名验证 |
 | `find-skills` | 现有能力不覆盖某项具体工作时，查找外部候选 | 从目录到发布方仓库核实，再检查安装脚本、权限、适用版本与 license；查到不等于启用 |
 
-## 2. 已核实、尚未安装的外部候选
+## 2. 项目已安装技能（由 `skills-lock.json` 锁定）
 
-先查 [skills.sh 排行目录](https://skills.sh/)，再核对条目、上游 `SKILL.md` 和仓库。页面的 `Installs` 未注明统计周期，星数是**整个仓库**的数量；热度只用于初筛，不是安全或兼容性证明。
+以下 9 项技能已按项目级（`--copy -a claude-code`）安装至本仓库 `.claude/skills/`，可在新工作站按需恢复或复核。
 
-| 技能 / 来源 | 适用边界 | 此次核验 |
+| 技能名称 | 上游来源与锁定提交 | 适用范围与使用边界 |
 |---|---|---|
-| `vercel-react-best-practices` · [目录](https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practices) · [上游规则](https://raw.githubusercontent.com/vercel-labs/agent-skills/main/skills/react-best-practices/SKILL.md) · [Vercel 仓库](https://github.com/vercel-labs/agent-skills) | 推荐在 P4 有性能数据后针对 React/Vite：去重监听、减少不必要渲染、按需加载日志详情；跳过 Next.js、RSC、SSR 专属规则 | `Installs` 910.5K；仓库约 3.4 万星。适合 renderer，不改变 IPC 信任边界 |
-| `webapp-testing` · [目录](https://skills.sh/anthropics/skills/webapp-testing) · [上游规则](https://raw.githubusercontent.com/anthropics/skills/main/skills/webapp-testing/SKILL.md) · [Anthropic 仓库](https://github.com/anthropics/skills) | 可选，用 Python Playwright 驱动本地 Vite 页面和模拟 preload，验证任务错误/取消/重试等界面行为；已有 Vitest/Playwright 覆盖足够时可以不装 | `Installs` 208.3K；仓库约 19.7 万星。**不能**证明 Electron IPC、真实 Go、操作系统凭据库或安装包可用 |
+| `golang-concurrency` | [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang) (`d68d80a`) | 审查 `backend/` 任务队列、`context` 取消、goroutine 生命周期与并发检测/卸载限流；**禁止**将通用工作池套用到必须全局串行的批量安装 |
+| `golang-security` | [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang) (`d68d80a`) | 审查 SSH/SFTP 路径穿越、命令拼接注入、凭据脱敏与主机密钥校验 |
+| `golang-testing` | [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang) (`d68d80a`) | 规范 Go 表格驱动测试、子测试、竞态检测与回环夹具测试 |
+| `golang-database` | [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang) (`d68d80a`) | 优化 `modernc.org/sqlite` 事务边界、旧库迁移一致性与分页查询 |
+| `vercel-react-best-practices` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) (`5a37a63`) | 优化 `apps/desktop/src/renderer/` React 19 渲染性能、去重事件监听、长日志流渲染；**跳过** Next.js / RSC / SSR 专属规则，不改变 IPC 信任边界 |
+| `vitest` | [antfu/skills](https://github.com/antfu/skills) (`4a6bb39`) | 扩展 `tests/workbench.test.tsx` 等前端组件与交互单测 |
+| `playwright-best-practices` | [currents-dev/playwright-best-practices-skill](https://github.com/currents-dev/playwright-best-practices-skill) (`0b75b58`) | 规范定位器、断言等待与防抖动模式，提升 `tests/desktop-smoke.mjs` 等 Electron 冒烟测试稳定性 |
+| `bash-defensive-patterns` | [wshobson/agents](https://github.com/wshobson/agents) (`34e50fe`) | 防御性 Bash 编写、严格错误处理、引号与安全清理，适用于 `resources/scripts/` 下远端 Linux `.sh` 脚本审查与扩展 |
+| `native-feel-cross-platform-desktop` | [yetone/native-feel-skill](https://github.com/yetone/native-feel-skill) (`9bd88c6`) | 改善 Windows / macOS / Linux 三端桌面菜单、快捷键、窗口行为与原生质感 |
 
-**Go 专项候选：** [`go-concurrency-patterns`](https://skills.sh/wshobson/agents/go-concurrency-patterns)（[上游 SKILL.md](https://raw.githubusercontent.com/wshobson/agents/main/plugins/systems-programming/skills/go-concurrency-patterns/SKILL.md)，[社区仓库](https://github.com/wshobson/agents)，不是 Go 官方技能）。页面 `Installs` 11.8K、仓库约 4.3 万星。P3/P4 可用来评审 `context` 取消、goroutine 退出、并发检测/卸载的限流与优雅关闭。**不能**将其中的通用工作池套到必须全局串行的批量安装；用可控时钟和模拟执行器验证实际并发数、取消后无泄漏、没有重复写操作。
-
-**可选安装方式，不是项目初始化步骤，本次未执行。** 若日后决定试用，在独立分支或隔离目录核对发布者、上游版本/提交、许可证、会写入的位置和附带脚本；确认后才执行，为项目记录所选版本。不要默认全局安装或跳过审核。三个候选独立选择：
-
-```bash
-npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices
-```
-
-```bash
-npx skills add https://github.com/anthropics/skills --skill webapp-testing
-```
+**恢复或更新方式（新环境按需执行，不作为项目构建依赖）：**
 
 ```bash
-npx skills add https://github.com/wshobson/agents --skill go-concurrency-patterns
+npx skills experimental_install -a claude-code
 ```
 
-## 3. Go、Electron 和迁移专项：先用一手资料
+## 3. 未安装的可选候选
 
-本次未选入额外的 Go 远程执行、Electron 打包或生产迁移类第三方技能；不意味着不存在。对掌握 SSH 凭据、签名身份和真实数据库的项目，优先用受限的本地工具、带审查的小型夹具和以下规范。它们是**文档，不是可安装技能**。
+| 技能 / 来源 | 适用边界 | 核验备注 |
+|---|---|---|
+| `webapp-testing` · [目录](https://skills.sh/anthropics/skills/webapp-testing) · [Anthropic 仓库](https://github.com/anthropics/skills) | 可选，用 Python Playwright 驱动本地 Vite 页面和模拟 preload，验证界面交互；当前已有 Vitest + JS Playwright 覆盖，暂不安装 | **不能**证明 Electron IPC、真实 Go、操作系统凭据库或安装包可用 |
+
+> 说明：此前在索引中出现的 `partme-ai/full-stack-skills@electron` 经实测上游仓库已不包含该技能条目，已移除。Electron 主进程安全、预加载白名单与打包配置继续以第 4 节官方文档为准。
+
+## 4. Go、Electron 和迁移专项：以一手资料为准
+
+对掌握 SSH 凭据、签名身份和真实数据库的核心链路，优先以官方文档、受限本地工具和脱敏夹具为准。以下为**权威文档，不是可安装技能**。
 
 | 领域 | 官方/上游入口 | 用它核对什么 |
 |---|---|---|
