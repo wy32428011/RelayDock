@@ -1,0 +1,5 @@
+{"v":1,"type":"request","id":"hello-1","method":"hello","params":{"supported":[1]}}
+{"v":1,"type":"request","id":"list-1","method":"host.list","params":{}}
+{"v":1,"type":"response","id":"bad-1","ok":false,"error":{"code":"BAD_PARAMS","message":"参数格式不符","retryable":false}}
+{"v":1,"type":"event","topic":"task.progress","taskId":"example","seq":1,"data":{"stage":"detecting","percent":40}}
+{"v":1,"type":"event","topic":"terminal.output","sessionId":"example-term","data":{"bytesB64":"5rWL6K+VCg=="}}

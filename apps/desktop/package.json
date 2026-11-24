@@ -1,0 +1,7 @@
+{
+  "name": "@relaydock/desktop",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {"@relaydock/protocol": "1.0.0"}
+}

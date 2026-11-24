@@ -1,0 +1,68 @@
+name: Local-style desktop packages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2025
+            arch: x64
+          - runner: windows-11-arm
+            arch: arm64
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x64
+          - runner: ubuntu-24.04
+            arch: x64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.11'
+          cache-dependency-path: backend/go.sum
+      - name: Verify target runner architecture
+        run: node -e "if(process.arch !== '${{ matrix.arch }}') process.exit(1)"
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:contract
+      - run: npm run test:ui
+      - run: go -C backend vet ./...
+      - run: go -C backend test ./... -count=1 -timeout=2m
+      - run: npm run package:local
+      - run: npm run test:core:stdio
+      - name: Packaged smoke outside Linux
+        if: runner.os != 'Linux'
+        run: npm run test:e2e:packaged
+      - name: Packaged smoke under Xvfb
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test:e2e:packaged
+      - uses: actions/upload-artifact@v5
+        with:
+          name: RelayDock-${{ runner.os }}-${{ matrix.arch }}-unsigned
+          if-no-files-found: error
+          path: |
+            artifacts/*/BUILD.json
+            artifacts/*/RelayDock-*.exe
+            artifacts/*/RelayDock-*.dmg
+            artifacts/*/RelayDock-*.deb
+            artifacts/*/RelayDock-*.AppImage
+            artifacts/verification/workbench.png

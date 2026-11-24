@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RelayDock stdio v1 frame",
+  "oneOf": [
+    {"$ref": "#/$defs/request"}, {"$ref": "#/$defs/success"},
+    {"$ref": "#/$defs/failure"}, {"$ref": "#/$defs/event"}
+  ],
+  "$defs": {
+    "id": {"type":"string","maxLength":100},
+    "request": {"type":"object","additionalProperties":false,"required":["v","type","id","method","params"],"properties":{"v":{"const":1},"type":{"const":"request"},"id":{"allOf":[{"$ref":"#/$defs/id"},{"type":"string","minLength":1}]},"method":{"type":"string","minLength":1},"params":{"type":"object"}}},
+    "success": {"type":"object","additionalProperties":false,"required":["v","type","id","ok","result"],"properties":{"v":{"const":1},"type":{"const":"response"},"id":{"$ref":"#/$defs/id"},"ok":{"const":true},"result":{}}},
+    "failure": {"type":"object","additionalProperties":false,"required":["v","type","id","ok","error"],"properties":{"v":{"const":1},"type":{"const":"response"},"id":{"$ref":"#/$defs/id"},"ok":{"const":false},"error":{"type":"object","additionalProperties":false,"required":["code","message","retryable"],"properties":{"code":{"type":"string","minLength":1},"message":{"type":"string"},"retryable":{"type":"boolean"}}}}},
+    "event": {"type":"object","additionalProperties":false,"required":["v","type","topic","data"],"properties":{"v":{"const":1},"type":{"const":"event"},"topic":{"type":"string","minLength":1},"taskId":{"$ref":"#/$defs/id"},"sessionId":{"$ref":"#/$defs/id"},"seq":{"type":"integer","minimum":1},"data":{}}}
+  }
+}

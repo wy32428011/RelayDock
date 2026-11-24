@@ -1,0 +1,95 @@
+[
+  {
+    "name": "nonzero exit but independently installed",
+    "kind": "install",
+    "scriptFailed": true,
+    "checked": "INSTALLED:true\r\nRUNNING:inactive\nVERSION:2.1.2",
+    "expected": "succeeded_with_warning",
+    "installed": true,
+    "running": false
+  },
+  {
+    "name": "zero exit is not installation evidence",
+    "kind": "install",
+    "script": "PROGRESS:Installing:40\nSTATUS:SUCCESS",
+    "checked": "INSTALLED:false\nRUNNING:false",
+    "expected": "failed",
+    "installed": false,
+    "running": false
+  },
+  {
+    "name": "success stage and script evidence only",
+    "kind": "install",
+    "script": "{\"type\":\"result\",\"stage\":\"SUCCESS\"}\n{\"type\":\"status\",\"installed\":true,\"running\":false}",
+    "checked": "INSTALLED:false\nRUNNING:false",
+    "expected": "succeeded_with_warning",
+    "installed": true,
+    "running": false
+  },
+  {
+    "name": "install running",
+    "kind": "install",
+    "checked": "INSTALLED:true\nSERVICE_ACTIVE:active",
+    "expected": "succeeded",
+    "installed": true,
+    "running": true
+  },
+  {
+    "name": "unknown install result needs follow-up",
+    "kind": "install",
+    "scriptFailed": true,
+    "script": "STATUS:FAILED",
+    "expected": "interrupted"
+  },
+  {
+    "name": "uninstall script cannot by itself confirm absence",
+    "kind": "uninstall",
+    "script": "UNINSTALLED:true\nDATA_PRESERVED:true\nNON_TARGETS_UNCHANGED:true",
+    "expected": "interrupted"
+  },
+  {
+    "name": "running overrides not installed",
+    "kind": "uninstall",
+    "checked": "INSTALLED:false\nRUNNING:false\nPROCESS_FOUND:true",
+    "expected": "failed",
+    "installed": true,
+    "running": true
+  },
+  {
+    "name": "retained data and config are explicit residue",
+    "kind": "uninstall",
+    "script": "DATA_PRESERVED:true\nNON_TARGETS_UNCHANGED:true",
+    "checked": "INSTALLED:false\nRUNNING:false\nCONFIG_ONLY_RESIDUE:true",
+    "expected": "succeeded_with_warning",
+    "installed": false,
+    "running": false,
+    "residue": true
+  },
+  {
+    "name": "non-target changed",
+    "kind": "uninstall",
+    "script": "DATA_PRESERVED:true\nNON_TARGETS_UNCHANGED:false",
+    "checked": "INSTALLED:false\nRUNNING:false",
+    "expected": "failed",
+    "installed": false,
+    "running": false
+  },
+  {
+    "name": "no evidence that data survived",
+    "kind": "uninstall",
+    "script": "NON_TARGETS_UNCHANGED:true",
+    "checked": "INSTALLED:false\nRUNNING:false",
+    "expected": "interrupted",
+    "installed": false,
+    "running": false
+  },
+  {
+    "name": "no residue and both safeguards confirmed",
+    "kind": "uninstall",
+    "script": "DATA_PRESERVED:true\nNON_TARGETS_UNCHANGED:true",
+    "checked": "INSTALLED:false\nRUNNING:false",
+    "expected": "succeeded",
+    "installed": false,
+    "running": false
+  }
+]
