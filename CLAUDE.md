@@ -23,6 +23,16 @@ This file provides Claude Code-specific guidance when working in this repository
   - 检索外部扩展能力：`find-skills`。
 - **区分本地开发与高权限/外部操作：** 阅读技能或文档说明不等于获得授权去安装外部技能/插件、执行第三方远程脚本、向外部服务发送项目内容、使用发布签名凭据或连接真实服务器。此类操作必须与本地开发/模拟验收分开，仅在用户明确批准后执行。
 
+## 提交规则
+
+遵循 [AGENTS.md](AGENTS.md) 中的「提交与发布规则」，Claude Code 执行提交与发布任务时严格按以下步骤操作：
+
+1. **更新 `version.md` 与版本号：** 将每次改动信息写入根目录 [version.md](version.md)（保持 `## v<版本号>（YYYY-MM-DD）` 章节格式），并同步更新 `package.json`、`apps/desktop/package.json`、`package-lock.json`、`backend/internal/state/store.go` 中的版本号。
+2. **拉取合并后提交推送：** 先拉取远端最新代码并合并，再执行提交与推送。
+3. **中文分点提交注释：** 使用简体中文编写提交注释，按 `1.`、`2.`、`3.`、`4.` 形式列出本次修改点。
+4. **触发 GitHub 打包与 Release 更新说明：** 推送与版本号一致的 `v<版本号>` 标签以触发 `.github/workflows/release.yml` 打包，并确保 GitHub Release 中写入本次更新内容（由工作流自动从 `version.md` 对应章节提取，必要时核对或补充）。
+5. **跳过测试与验证：** 改动提交、推送与发布流程中**不需要进行本地测试和验证**（仅在用户明确要求测试或验收时再执行相关检查）。
+
 ## 验证与结论汇报
 
 - 汇报测试或验收结果时，必须写明**执行目录、平台/架构、使用的测试命令与夹具/安装包类型**（单测、回环模拟、开发版还是打包产物）。

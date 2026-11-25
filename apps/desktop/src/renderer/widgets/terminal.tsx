@@ -46,6 +46,21 @@ interface Runtime {
   copy: () => void;
   paste: () => void;
   fitAndFocus: () => void;
+  sendInput: (text: string) => boolean;
+}
+
+function buildCdCommand(targetPath: string, os?: string): string | undefined {
+  const trimmed = targetPath.trim();
+  if (!trimmed || /[\r\n\0]/.test(trimmed)) return undefined;
+  const isWindows = (os ?? '').toLowerCase().includes('windows') || /^[a-zA-Z]:[\\/]/.test(trimmed);
+  if (isWindows) {
+    if (trimmed.includes('"')) return undefined;
+    return `cd "${trimmed}"\r`;
+  }
+  if (/^[a-zA-Z0-9_./~-]+$/.test(trimmed) && !trimmed.startsWith('-')) {
+    return `cd ${trimmed}\r`;
+  }
+  return `cd -- '${trimmed.replace(/'/g, `'\\''`)}'\r`;
 }
 
 export interface TerminalOpenRequest {
@@ -71,8 +86,9 @@ function outputBlock(data: unknown) {
   return data && typeof data === 'object' && 'bytesB64' in data && typeof data.bytesB64 === 'string' ? data.bytesB64 : undefined;
 }
 
-function TerminalSessionView({ api, host, active, autoConnect, onStatusChange }: {
+function TerminalSessionView({ api, host, active, autoConnect, onStatusChange, onRuntimeChange }: {
   api: Bridge; host: Host; active: boolean; autoConnect: boolean; onStatusChange: (status: Status) => void;
+  onRuntimeChange?: (handle: Runtime | null) => void;
 }) {
   const { id: hostId } = host;
   const scope = hostKey(host);
@@ -80,6 +96,8 @@ function TerminalSessionView({ api, host, active, autoConnect, onStatusChange }:
   const runtime = useRef<Runtime>(null);
   const onStatusRef = useRef(onStatusChange);
   onStatusRef.current = onStatusChange;
+  const onRuntimeRef = useRef(onRuntimeChange);
+  onRuntimeRef.current = onRuntimeChange;
   const [status, setStatus] = useState<Status>('idle');
   const [notice, setNotice] = useState<NoticeValue>();
   const [dimensions, setDimensions] = useState<Dimensions>();
@@ -389,12 +407,25 @@ function TerminalSessionView({ api, host, active, autoConnect, onStatusChange }:
         measure();
         if (session && !session.ending && !session.inputFailed) terminal.focus();
       },
+      sendInput: (text: string) => {
+        if (disposed || !session || session.ending || session.inputFailed || !text) return false;
+        const bytes = encoder.encode(text);
+        if (bytes.length > MAX_INPUT_QUEUE) {
+          warnLargeInput();
+          return false;
+        }
+        enqueue(bytes);
+        terminal.focus();
+        return true;
+      },
     };
+    onRuntimeRef.current?.(runtime.current);
     if (autoConnect) void open();
 
     return () => {
       disposed = true;
       runtime.current = null;
+      onRuntimeRef.current?.(null);
       unsubscribe();
       observer.disconnect();
       window.cancelAnimationFrame(initialFrame);
@@ -464,6 +495,7 @@ export function TerminalPane({ api, host, hosts, openRequest, onSelectHost }: {
   const [filesWidth, setFilesWidth] = useState(360);
   const [fileClipboard, setFileClipboard] = useState<FileClipboard>();
   const workbenchRef = useRef<HTMLDivElement>(null);
+  const tabRuntimes = useRef<Map<string, Runtime>>(new Map());
 
   const openTabForHost = useCallback((target: Host, options: { forceNew: boolean; autoConnect: boolean }) => {
     if (!canConnect(target)) return;
@@ -548,6 +580,26 @@ export function TerminalPane({ api, host, hosts, openRequest, onSelectHost }: {
     setTabs(previous => previous.map(item => (item.id === tabId && item.status !== nextStatus ? { ...item, status: nextStatus } : item)));
   }
 
+  function registerTabRuntime(tabId: string, handle: Runtime | null) {
+    if (handle) tabRuntimes.current.set(tabId, handle);
+    else tabRuntimes.current.delete(tabId);
+  }
+
+  function changeActiveTerminalDirectory(targetPath: string): { ok: boolean; message: string } {
+    const command = buildCdCommand(targetPath, activeHost?.os);
+    if (!command) {
+      return { ok: false, message: '目录路径包含不安全字符，已阻止发送到终端。' };
+    }
+    if (!activeTab || activeTab.status !== 'open') {
+      return { ok: false, message: '当前终端尚未连接，请先建立终端会话后再切换目录。' };
+    }
+    const handle = tabRuntimes.current.get(activeTab.id);
+    if (!handle || !handle.sendInput(command)) {
+      return { ok: false, message: '无法向当前终端发送切换目录命令，请检查终端连接状态。' };
+    }
+    return { ok: true, message: `已切换终端到 ${targetPath}` };
+  }
+
   function startResize(event: ReactPointerEvent<HTMLDivElement>) {
     if (!filesOpen) return;
     event.preventDefault();
@@ -625,7 +677,8 @@ export function TerminalPane({ api, host, hosts, openRequest, onSelectHost }: {
           const tabHost = hostMap.get(tab.hostId);
           if (!tabHost) return null;
           return <TerminalSessionView key={tab.id} api={api} host={tabHost} active={activeTab?.id === tab.id}
-            autoConnect={tab.autoConnect} onStatusChange={next => updateTabStatus(tab.id, next)} />;
+            autoConnect={tab.autoConnect} onStatusChange={next => updateTabStatus(tab.id, next)}
+            onRuntimeChange={handle => registerTabRuntime(tab.id, handle)} />;
         })}
         {tabs.length === 0 && <div className="rd-tw-empty">
           <Empty icon={<SquareTerminal size={24} />}
@@ -648,6 +701,7 @@ export function TerminalPane({ api, host, hosts, openRequest, onSelectHost }: {
       </button>
     </div>
 
-    {filesOpen && <TerminalFilePanel api={api} host={activeHost} hosts={allHosts} clipboard={fileClipboard} onClipboardChange={setFileClipboard} />}
+    {filesOpen && <TerminalFilePanel api={api} host={activeHost} hosts={allHosts} clipboard={fileClipboard}
+      onClipboardChange={setFileClipboard} onTerminalCd={changeActiveTerminalDirectory} />}
   </div>;
 }

@@ -240,6 +240,42 @@ describe('RelayDock 工作区 · 合成桥接', () => {
     }));
   });
 
+  it('右侧文件列表右键菜单支持「终端切到当前目录」并安全转义路径', async () => {
+    const { api, call } = fixture({
+      'terminal.open': () => ({ sessionId: 'pty-cd' }),
+      'terminal.input': () => ({ ok: true }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': () => ({
+        path: '/mnt/disk02/my app',
+        entries: [{ name: 'start.sh', path: '/mnt/disk02/my app/start.sh', size: 128, directory: false }],
+      }),
+    });
+    render(pane(api, 'terminal', { host, hosts: [host] }));
+    const fileCell = await screen.findByText('start.sh');
+
+    // Before connecting terminal, clicking "终端切到当前目录" prompts user to connect first.
+    fireEvent.contextMenu(fileCell);
+    const menuIdle = screen.getByRole('menu', { name: '文件操作菜单' });
+    fireEvent.click(within(menuIdle).getByRole('button', { name: '终端切到当前目录' }));
+    expect(await screen.findByText(/当前终端尚未连接/)).toBeTruthy();
+    expect(call.mock.calls.some(([method]) => method === 'terminal.input')).toBe(false);
+
+    // Connect terminal, then click "终端切到当前目录" to send quoted cd command.
+    fireEvent.click(button('建立会话'));
+    await waitFor(() => expect(call).toHaveBeenCalledWith('terminal.open', expect.objectContaining({ hostId: host.id })));
+
+    fireEvent.contextMenu(fileCell);
+    const menuOpen = screen.getByRole('menu', { name: '文件操作菜单' });
+    fireEvent.click(within(menuOpen).getByRole('button', { name: '终端切到当前目录' }));
+
+    const expectedBytes = btoa("cd -- '/mnt/disk02/my app'\r");
+    await waitFor(() => expect(call).toHaveBeenCalledWith('terminal.input', {
+      sessionId: 'pty-cd',
+      bytesB64: expectedBytes,
+    }));
+    expect(await screen.findByText('已切换终端到 /mnt/disk02/my app')).toBeTruthy();
+  });
+
   it('文本写入提交原摘要并保留 CRLF；远端冲突后保留草稿', async () => {
     const { api, call } = fixture({ 'files.read': () => ({ content: '# 注释\r\nport=1\r\n', digest: oldDigest }),
       'files.write': () => { throw { code: 'FILE_CHANGED', message: '远端文件已经变化' }; } });

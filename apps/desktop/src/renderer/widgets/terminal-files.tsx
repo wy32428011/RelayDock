@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboa
 import {
   Archive, ArrowDown, ArrowUp, ArrowUpDown, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight,
   ClipboardPaste, Copy, Download, File, FileEdit, Folder, FolderOpen, FolderPlus, FolderUp,
-  Link2, MoreHorizontal, Pencil, RefreshCw, Scissors, Search, Send, Shield, Trash2, Upload, X,
+  Link2, LocateFixed, MoreHorizontal, Pencil, RefreshCw, Scissors, Search, Send, Shield, Trash2, Upload, X,
 } from 'lucide-react';
 import type { Bridge, FileEntry, Host, Methods } from '@relaydock/protocol';
 import { Button, Empty, Notice, canConnect, faultText, formatBytes, formatDate, remoteTarget, requireOk, useAction, useConfirmation } from './ui';
@@ -143,12 +143,14 @@ export function TerminalFilePanel({
   hosts,
   clipboard: externalClipboard,
   onClipboardChange,
+  onTerminalCd,
 }: {
   api: Bridge;
   host?: Host;
   hosts?: Host[];
   clipboard?: FileClipboard;
   onClipboardChange?: (next: FileClipboard | undefined) => void;
+  onTerminalCd?: (path: string) => { ok: boolean; message: string };
 }) {
   const hostId = host && canConnect(host) ? host.id : undefined;
   const hostPaths = useRef<Map<string, string>>(new Map());
@@ -855,10 +857,15 @@ export function TerminalFilePanel({
       <div className="rd-tf-menu-header">
         <span className="rd-tf-menu-title">操作</span>
         <div className="rd-tf-menu-quick">
-          <button type="button" className="rd-tf-menu-qbtn" title="新建文件夹" aria-label="新建文件夹"
-            disabled={action.busy}
-            onClick={() => { closeMenu(); setInlineMode('mkdir'); setInlineValue(''); }}>
-            <FolderPlus size={14} aria-hidden="true" />
+          <button type="button" className="rd-tf-menu-qbtn" title="终端切到当前目录" aria-label="终端切到当前目录"
+            disabled={!onTerminalCd || !activeDir || action.busy}
+            onClick={() => {
+              closeMenu();
+              if (!onTerminalCd || !activeDir) return;
+              const result = onTerminalCd(activeDir.path);
+              action.setNotice({ tone: result.ok ? 'success' : 'info', text: result.message });
+            }}>
+            <LocateFixed size={14} aria-hidden="true" />
           </button>
           <button type="button" className="rd-tf-menu-qbtn"
             title={clipboard ? `粘贴 ${clipboard.name}（来自 ${clipboard.hostName}）` : '粘贴（剪贴板为空）'}
@@ -981,6 +988,11 @@ export function TerminalFilePanel({
             <ChevronDown size={14} aria-hidden="true" /><span>更多</span><MoreHorizontal size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
           </button>
           {openSubmenu === 'more' && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="更多文件操作">
+            <button type="button" role="menuitem" className="rd-tf-menu-item"
+              disabled={action.busy}
+              onClick={() => { closeMenu(); setInlineMode('mkdir'); setInlineValue(''); }}>
+              <FolderPlus size={13} aria-hidden="true" /><span>新建文件夹</span>
+            </button>
             <button type="button" role="menuitem" className="rd-tf-menu-item"
               onClick={() => { closeMenu(); void copyText(menuEntry ? menuEntry.path : currentPath, '完整路径'); }}>
               <Copy size={13} aria-hidden="true" /><span>复制完整路径</span>
