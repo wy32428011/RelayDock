@@ -1,7 +1,7 @@
 {
   "name": "relaydock",
   "productName": "RelayDock",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "RelayDock 远程安装工作台",
   "private": true,
   "license": "MIT",
