@@ -28,7 +28,7 @@ const applicationID = 0x52494e53 // RINS
 const schemaVersion = 1
 
 // DefaultVersion is used for standalone core builds that do not set a release version.
-const DefaultVersion = "0.1.2"
+const DefaultVersion = "0.1.3"
 
 type Store struct {
 	DB      *sql.DB

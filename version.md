@@ -4,6 +4,24 @@
 
 ---
 
+## v0.1.3（2026-11-24）
+
+### 变更内容：终端三栏工作台重构、右侧文件列表右键菜单与跨服务器文件传输
+
+1. **升级终端视图为三栏工作台并支持多开标签**
+   - 终端工作区升级为“左侧服务器列表 + 中间可多开终端标签 + 右侧远端文件列表”的三栏联动布局（`terminal.tsx`、`hosts.tsx`、`App.tsx`），支持拖拽调整右侧栏宽度与快速折叠展开。
+   - 切换或关闭终端标签时自动同步右侧当前主机的文件目录，并支持为同一主机或不同主机多开独立终端会话。
+2. **右侧远端文件列表新增右键操作菜单与快捷编辑**
+   - 新增 `terminal-files.tsx`，在文件条目或空白区域右击可弹出完整操作菜单，覆盖新建文件夹、复制/剪切/粘贴、打开、在线文本编辑（内置编辑弹窗）、刷新、收藏路径、下载/上传文件与目录、SCP 定向传输、压缩/解压、重命名及删除。
+3. **支持文件与文件夹跨服务器传输及远端归档解压**
+   - 扩展 `files.transfer`、`files.archive`、`files.extract` 跨进程协议与 Electron 主进程白名单校验（`packages/protocol/index.ts`、`core.ts`、`validation.ts`），高危写入与传输动作均需用户显式确认。
+   - 在 Go 核心（`backend/internal/remote/transfer_remote.go`）实现同机与跨服务器递归流式文件/目录传输（含复制与剪切、权限保留与覆盖控制）及 `.tar.gz`/`.zip` 归档解压能力。
+4. **补充配套测试并升级版本号至 `0.1.3`**
+   - 补充 Go 核心跨机传输/归档单元测试（`transfer_remote_test.go`）及前端多开终端与右键菜单单测（`widgets.test.tsx`）。
+   - 统一将版本号升级至 `0.1.3`（`package.json`、`apps/desktop/package.json`、`package-lock.json`、`backend/internal/state/store.go`）。
+
+---
+
 ## v0.1.2（2026-11-24）
 
 ### 变更内容：GitHub Releases 自动更新、Windows 发布工作流与离线资源 Git LFS 托管
