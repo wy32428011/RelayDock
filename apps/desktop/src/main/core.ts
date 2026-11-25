@@ -8,7 +8,7 @@ export type CoreStatus = ElectronMethods['core.status'][1];
 const handshakeTimeout = 15000;
 const defaultTimeout = 120000;
 const transferTimeout = 30 * 60 * 1000;
-const transferMethods = new Set<keyof CoreMethods>(['files.upload', 'files.download', 'files.transfer', 'files.archive', 'files.extract', 'custom.run', 'resource.inspect', 'resource.import', 'migration.preview', 'migration.apply']);
+const transferMethods = new Set<keyof CoreMethods>(['files.upload', 'files.download', 'files.transfer', 'files.archive', 'files.extract', 'files.chmod', 'custom.run', 'resource.inspect', 'resource.import', 'migration.preview', 'migration.apply']);
 
 type Pending = { resolve: (result: unknown) => void; reject: (error: DesktopFault) => void; timer: NodeJS.Timeout };
 

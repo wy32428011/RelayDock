@@ -45,7 +45,7 @@ export interface OfflineResource {
   id: string; appId: string; version: string; os: string; osVersion: string; arch: string;
   source: string; bytes: number; fileCount: number; digest: string; trust: 'reviewed' | 'signed';
 }
-export interface FileEntry { name: string; path: string; size: number; directory: boolean; modifiedAt?: string; link?: boolean }
+export interface FileEntry { name: string; path: string; size: number; directory: boolean; modifiedAt?: string; link?: boolean; mode?: number }
 export interface CustomApp {
   id: string; name: string; kind: 'SUPPORT' | 'GENERIC' | 'CUSTOM'; description: string; directory: string;
   frontendDirectory: string; configPath: string; startCommand: string; stopCommand: string;
@@ -123,6 +123,7 @@ export interface CoreMethods {
   'files.transfer': [{sourceHostId: string; sourcePath: string; targetHostId: string; targetPath: string; mode: 'copy'|'move'; overwrite?: boolean; confirmed: boolean}, {ok: boolean; files: number; dirs: number; bytes: number}];
   'files.archive': [HostPath & {destination: string; overwrite?: boolean; confirmed: boolean}, {ok: boolean; path: string; files: number; bytes: number}];
   'files.extract': [HostPath & {destination: string; overwrite?: boolean; confirmed: boolean}, {ok: boolean; path: string; files: number; dirs: number}];
+  'files.chmod': [HostPath & {mode: string; recursive?: boolean; sudo?: boolean; fast?: boolean; confirmed: boolean}, {ok: boolean; updated: number}];
   'custom.list': [Empty, CustomApp[]];
   'custom.save': [CustomApp, CustomApp];
   'custom.delete': [{id: string}, {ok: boolean}];
@@ -139,7 +140,7 @@ export const coreMethods = [
   'operation.validate','operation.start','operation.batch','operation.list','operation.get','operation.cancel','operation.clearLogs',
   'resource.list','resource.inspect','resource.import',
   'terminal.open','terminal.input','terminal.resize','terminal.close',
-  'files.list','files.read','files.write','files.mkdir','files.rename','files.delete','files.upload','files.download','files.transfer','files.archive','files.extract',
+  'files.list','files.read','files.write','files.mkdir','files.rename','files.delete','files.upload','files.download','files.transfer','files.archive','files.extract','files.chmod',
   'custom.list','custom.save','custom.delete','custom.run',
   'settings.get','settings.save','settings.updateCheck','migration.preview','migration.apply','migration.history',
 ] as const satisfies readonly (keyof CoreMethods)[];

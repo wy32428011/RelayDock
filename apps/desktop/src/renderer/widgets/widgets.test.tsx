@@ -199,6 +199,47 @@ describe('RelayDock 工作区 · 合成桥接', () => {
     }));
   });
 
+  it('右侧文件列表右键菜单支持打开权限弹窗并提交修改权限', async () => {
+    const { api, call } = fixture({
+      'terminal.open': () => ({ sessionId: 'pty-perm' }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': () => ({
+        path: '/opt',
+        entries: [{ name: 'app-dir', path: '/opt/app-dir', size: 0, directory: true, mode: 0o755 }],
+      }),
+      'files.chmod': () => ({ ok: true, updated: 1 }),
+    });
+    render(pane(api, 'terminal', { host, hosts: [host] }));
+    const folderCell = await screen.findByText('app-dir');
+
+    fireEvent.contextMenu(folderCell);
+    const menu = screen.getByRole('menu', { name: '文件操作菜单' });
+    fireEvent.click(within(menu).getByRole('menuitem', { name: '修改权限' }));
+
+    const permDialog = screen.getByRole('dialog', { name: '权限' });
+    expect(within(permDialog).getByText('权限:755，文本:drwxr-xr-x')).toBeTruthy();
+
+    // Toggle group-write (+20), other-write (+2), other-exec (-1) => 776 (drwxrwxrw-)
+    fireEvent.click(within(permDialog).getByRole('checkbox', { name: '组-写' }));
+    fireEvent.click(within(permDialog).getByRole('checkbox', { name: '任何人-写' }));
+    fireEvent.click(within(permDialog).getByRole('checkbox', { name: '任何人-执行' }));
+    expect(within(permDialog).getByText('权限:776，文本:drwxrwxrw-')).toBeTruthy();
+
+    fireEvent.click(within(permDialog).getByLabelText('sudo 提权'));
+    fireEvent.click(within(permDialog).getByLabelText('递归修改子目录及文件'));
+    fireEvent.click(within(permDialog).getByRole('button', { name: '确定' }));
+
+    await waitFor(() => expect(call).toHaveBeenCalledWith('files.chmod', {
+      hostId: host.id,
+      path: '/opt/app-dir',
+      mode: '776',
+      recursive: true,
+      sudo: true,
+      fast: true,
+      confirmed: true,
+    }));
+  });
+
   it('文本写入提交原摘要并保留 CRLF；远端冲突后保留草稿', async () => {
     const { api, call } = fixture({ 'files.read': () => ({ content: '# 注释\r\nport=1\r\n', digest: oldDigest }),
       'files.write': () => { throw { code: 'FILE_CHANGED', message: '远端文件已经变化' }; } });

@@ -48,6 +48,7 @@ const token: Rule = isFileToken;
 const kind = oneOf(['detect', 'install', 'uninstall']);
 const state = oneOf([...activeStates, 'succeeded', 'succeeded_with_warning', 'failed', 'cancelled', 'interrupted']);
 const hostPath = { hostId: id, path };
+const fileMode: Rule = value => typeof value === 'string' && /^[0-7]{3,4}$/u.test(value);
 const taskId = { taskId: id };
 const dimensions = { rows: num(1, 1000), cols: num(1, 1000) };
 const parameterValue = str(65536);
@@ -115,6 +116,7 @@ const schemas = {
   'files.transfer': shape({ sourceHostId: id, sourcePath: path, targetHostId: id, targetPath: path, mode: oneOf(['copy', 'move']), confirmed: bool }, { overwrite: bool }),
   'files.archive': shape({ ...hostPath, destination: path, confirmed: bool }, { overwrite: bool }),
   'files.extract': shape({ ...hostPath, destination: path, confirmed: bool }, { overwrite: bool }),
+  'files.chmod': shape({ ...hostPath, mode: fileMode, confirmed: bool }, { recursive: bool, sudo: bool, fast: bool }),
   'custom.list': empty,
   'custom.save': shape({ id: str(256), name: label, kind: oneOf(['SUPPORT', 'GENERIC', 'CUSTOM']), description: str(65536),
     directory: path, frontendDirectory: path, configPath: path, startCommand: str(65536), stopCommand: str(65536),

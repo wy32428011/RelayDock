@@ -721,6 +721,73 @@
 }
 .rd-widgets .rd-tf-format-chips { display: flex; gap: 6px; }
 
+.rd-widgets .rd-tf-perm-modal { width: min(500px, 94vw); display: grid; gap: 14px; }
+.rd-widgets .rd-tf-perm-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.rd-widgets .rd-tf-perm-head h3 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+.rd-widgets .rd-tf-perm-path {
+  font-size: .78rem;
+  color: var(--rd-w-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 72%;
+}
+.rd-widgets .rd-tf-perm-card {
+  display: grid;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--rd-w-line);
+  background: var(--rd-w-field);
+}
+.rd-widgets .rd-tf-perm-section { display: grid; gap: 12px; }
+.rd-widgets .rd-tf-perm-section-title {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--divider, var(--rd-w-line));
+  font-size: .84rem;
+  color: var(--rd-w-muted);
+}
+.rd-widgets .rd-tf-perm-checks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+.rd-widgets .rd-tf-perm-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .86rem;
+  color: var(--rd-w-text);
+  cursor: pointer;
+  user-select: none;
+}
+.rd-widgets .rd-tf-perm-check.is-disabled { opacity: .48; cursor: not-allowed; }
+.rd-widgets .rd-tf-perm-check input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  cursor: inherit;
+}
+.rd-widgets .rd-tf-perm-check.is-read input[type="checkbox"] { accent-color: #10b981; }
+.rd-widgets .rd-tf-perm-check.is-write input[type="checkbox"] { accent-color: #f59e0b; }
+.rd-widgets .rd-tf-perm-check.is-exec input[type="checkbox"] { accent-color: #ef4444; }
+.rd-widgets .rd-tf-perm-check.is-opt input[type="checkbox"] { accent-color: #3b82f6; }
+.rd-widgets .rd-tf-perm-summary {
+  font: .84rem/1.5 var(--rd-w-mono);
+  color: var(--rd-w-text);
+  letter-spacing: .01em;
+}
+.rd-widgets .rd-tf-perm-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  padding-top: 2px;
+}
+.rd-widgets .rd-tf-perm-actions { justify-content: flex-end; gap: 10px; }
+
 .rd-widgets .rd-tf-editor-modal { width: min(760px, 94vw); height: min(560px, 86vh); display: flex; flex-direction: column; gap: 10px; }
 .rd-widgets .rd-tf-editor-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .rd-widgets .rd-tf-editor-head h3 { margin: 0 0 2px; }

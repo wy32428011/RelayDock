@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboa
 import {
   Archive, ArrowDown, ArrowUp, ArrowUpDown, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight,
   ClipboardPaste, Copy, Download, File, FileEdit, Folder, FolderOpen, FolderPlus, FolderUp,
-  Link2, MoreHorizontal, Pencil, RefreshCw, Scissors, Search, Send, Trash2, Upload, X,
+  Link2, MoreHorizontal, Pencil, RefreshCw, Scissors, Search, Send, Shield, Trash2, Upload, X,
 } from 'lucide-react';
 import type { Bridge, FileEntry, Host, Methods } from '@relaydock/protocol';
 import { Button, Empty, Notice, canConnect, faultText, formatBytes, formatDate, remoteTarget, requireOk, useAction, useConfirmation } from './ui';
@@ -49,6 +49,45 @@ interface ArchiveDialogState {
   entry: FileEntry;
   destination: string;
   overwrite: boolean;
+}
+
+interface ChmodDialogState {
+  entry: FileEntry;
+  bits: number;
+  specialBits: number;
+  sudo: boolean;
+  fast: boolean;
+  recursive: boolean;
+}
+
+const PERM_GROUPS = [
+  { key: 'user', label: '用户', read: 0o400, write: 0o200, exec: 0o100 },
+  { key: 'group', label: '组', read: 0o040, write: 0o020, exec: 0o010 },
+  { key: 'other', label: '任何人', read: 0o004, write: 0o002, exec: 0o001 },
+] as const;
+
+function formatOctalPerm(bits: number): string {
+  return (bits & 0o777).toString(8).padStart(3, '0');
+}
+
+function formatCommandMode(bits: number, specialBits: number): string {
+  const octal3 = formatOctalPerm(bits);
+  const special = (specialBits >> 9) & 0o7;
+  return special > 0 ? `${special}${octal3}` : octal3;
+}
+
+function formatSymbolicPerm(directory: boolean, bits: number, specialBits: number): string {
+  const prefix = directory ? 'd' : '-';
+  const uR = bits & 0o400 ? 'r' : '-';
+  const uW = bits & 0o200 ? 'w' : '-';
+  const uX = specialBits & 0o4000 ? (bits & 0o100 ? 's' : 'S') : (bits & 0o100 ? 'x' : '-');
+  const gR = bits & 0o040 ? 'r' : '-';
+  const gW = bits & 0o020 ? 'w' : '-';
+  const gX = specialBits & 0o2000 ? (bits & 0o010 ? 's' : 'S') : (bits & 0o010 ? 'x' : '-');
+  const oR = bits & 0o004 ? 'r' : '-';
+  const oW = bits & 0o002 ? 'w' : '-';
+  const oX = specialBits & 0o1000 ? (bits & 0o001 ? 't' : 'T') : (bits & 0o001 ? 'x' : '-');
+  return `${prefix}${uR}${uW}${uX}${gR}${gW}${gX}${oR}${oW}${oX}`;
 }
 
 const BOOKMARKS_KEY = 'relaydock.terminalFiles.bookmarks.v1';
@@ -131,6 +170,7 @@ export function TerminalFilePanel({
   const [editor, setEditor] = useState<EditorState>();
   const [scpDialog, setScpDialog] = useState<ScpDialogState>();
   const [archiveDialog, setArchiveDialog] = useState<ArchiveDialogState>();
+  const [chmodDialog, setChmodDialog] = useState<ChmodDialogState>();
   const menuRef = useRef<HTMLDivElement>(null);
   const action = useAction();
   const { confirm, dialog } = useConfirmation();
@@ -550,6 +590,41 @@ export function TerminalFilePanel({
     });
   }
 
+  function openChmodDialog(entry: FileEntry) {
+    const rawMode = entry.mode ?? (entry.directory ? 0o755 : 0o644);
+    setChmodDialog({
+      entry,
+      bits: rawMode & 0o777,
+      specialBits: rawMode & 0o7000,
+      sudo: false,
+      fast: true,
+      recursive: false,
+    });
+  }
+
+  function submitChmodAction() {
+    if (!hostId || !activeDir || !chmodDialog) return;
+    const dir = activeDir.path;
+    const currentDialog = chmodDialog;
+    const mode = formatCommandMode(currentDialog.bits, currentDialog.specialBits);
+    const recursive = currentDialog.entry.directory && currentDialog.recursive;
+    setChmodDialog(undefined);
+    void action.run(async current => {
+      const res = await api.call('files.chmod', {
+        hostId,
+        path: currentDialog.entry.path,
+        mode,
+        recursive,
+        sudo: currentDialog.sudo,
+        fast: currentDialog.fast,
+        confirmed: true,
+      });
+      requireOk(res, '核心未确认权限修改完成。');
+      const scope = recursive ? '（含子目录及文件）' : '';
+      await refreshAfterMutation(hostId, dir, current, `已修改 ${currentDialog.entry.name} 权限为 ${mode}${scope}。`);
+    });
+  }
+
   function toggleBookmark(pathToBookmark: string) {
     if (!hostId || !pathToBookmark) return;
     setBookmarks(prev => {
@@ -881,6 +956,11 @@ export function TerminalFilePanel({
 
       <div className="rd-tf-menu-group">
         <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryValid || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) openChmodDialog(menuEntry); }}>
+          <Shield size={14} aria-hidden="true" /><span>修改权限</span>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
           disabled={!menuEntry || action.busy}
           onClick={() => {
             closeMenu();
@@ -1001,6 +1081,70 @@ export function TerminalFilePanel({
           <Button variant="primary" disabled={!archiveDialog.destination.trim()} onClick={submitArchiveAction}>
             <Archive size={14} aria-hidden="true" />{archiveDialog.kind === 'archive' ? '确认压缩' : '确认解压'}
           </Button>
+        </div>
+      </div>
+    </div>}
+
+    {chmodDialog && <div className="rd-w-dialog-backdrop" role="presentation" onClick={() => setChmodDialog(undefined)}>
+      <div className="rd-w-dialog rd-tf-perm-modal" role="dialog" aria-modal="true" aria-label="权限" onClick={e => e.stopPropagation()}>
+        <div className="rd-tf-perm-head">
+          <h3>权限</h3>
+          <code className="rd-tf-perm-path" title={chmodDialog.entry.path}>{chmodDialog.entry.path}</code>
+        </div>
+        <div className="rd-tf-perm-card">
+          {PERM_GROUPS.map(group => (
+            <section key={group.key} className="rd-tf-perm-section">
+              <div className="rd-tf-perm-section-title">{group.label}</div>
+              <div className="rd-tf-perm-checks">
+                <label className="rd-tf-perm-check is-read">
+                  <input type="checkbox" aria-label={`${group.label}-读`}
+                    checked={Boolean(chmodDialog.bits & group.read)}
+                    onChange={() => setChmodDialog(prev => prev ? { ...prev, bits: prev.bits ^ group.read } : prev)} />
+                  <span>读</span>
+                </label>
+                <label className="rd-tf-perm-check is-write">
+                  <input type="checkbox" aria-label={`${group.label}-写`}
+                    checked={Boolean(chmodDialog.bits & group.write)}
+                    onChange={() => setChmodDialog(prev => prev ? { ...prev, bits: prev.bits ^ group.write } : prev)} />
+                  <span>写</span>
+                </label>
+                <label className="rd-tf-perm-check is-exec">
+                  <input type="checkbox" aria-label={`${group.label}-执行`}
+                    checked={Boolean(chmodDialog.bits & group.exec)}
+                    onChange={() => setChmodDialog(prev => prev ? { ...prev, bits: prev.bits ^ group.exec } : prev)} />
+                  <span>执行</span>
+                </label>
+              </div>
+            </section>
+          ))}
+          <section className="rd-tf-perm-section">
+            <div className="rd-tf-perm-section-title">操作</div>
+            <div className="rd-tf-perm-summary">
+              权限:{formatOctalPerm(chmodDialog.bits)}，文本:{formatSymbolicPerm(chmodDialog.entry.directory, chmodDialog.bits, chmodDialog.specialBits)}
+            </div>
+            <div className="rd-tf-perm-options">
+              <label className="rd-tf-perm-check is-opt">
+                <input type="checkbox" checked={chmodDialog.sudo}
+                  onChange={e => { const checked = e.currentTarget.checked; setChmodDialog(prev => prev ? { ...prev, sudo: checked } : prev); }} />
+                <span>sudo 提权</span>
+              </label>
+              <label className="rd-tf-perm-check is-opt">
+                <input type="checkbox" checked={chmodDialog.fast}
+                  onChange={e => { const checked = e.currentTarget.checked; setChmodDialog(prev => prev ? { ...prev, fast: checked } : prev); }} />
+                <span>快速执行</span>
+              </label>
+              <label className={`rd-tf-perm-check is-opt${chmodDialog.entry.directory ? '' : ' is-disabled'}`}>
+                <input type="checkbox" checked={chmodDialog.entry.directory && chmodDialog.recursive}
+                  disabled={!chmodDialog.entry.directory}
+                  onChange={e => { const checked = e.currentTarget.checked; setChmodDialog(prev => prev ? { ...prev, recursive: checked } : prev); }} />
+                <span>递归修改子目录及文件</span>
+              </label>
+            </div>
+          </section>
+        </div>
+        <div className="rd-w-dialog-actions rd-tf-perm-actions">
+          <Button onClick={() => setChmodDialog(undefined)}>关闭</Button>
+          <Button variant="primary" disabled={action.busy} onClick={submitChmodAction}>确定</Button>
         </div>
       </div>
     </div>}

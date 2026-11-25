@@ -29,12 +29,13 @@ type filePath struct {
 }
 
 type fileEntry struct {
-	Name       string `json:"name"`
-	Path       string `json:"path"`
-	Size       int64  `json:"size"`
-	Directory  bool   `json:"directory"`
-	ModifiedAt string `json:"modifiedAt,omitempty"`
-	Link       bool   `json:"link,omitempty"`
+	Name       string  `json:"name"`
+	Path       string  `json:"path"`
+	Size       int64   `json:"size"`
+	Directory  bool    `json:"directory"`
+	ModifiedAt string  `json:"modifiedAt,omitempty"`
+	Link       bool    `json:"link,omitempty"`
+	Mode       *uint32 `json:"mode,omitempty"`
 }
 
 type directoryResult struct {
@@ -264,6 +265,10 @@ func (f *remoteFS) list(ctx context.Context, p string) (directoryResult, error) 
 			return directoryResult{}, rpc.Error("DIRECTORY_LIMIT", "远程目录条目过多，请直接打开更小的子目录")
 		}
 		entry := fileEntry{Name: info.Name(), Path: target, Size: max(info.Size(), 0), Directory: info.IsDir() && !isLink(info), Link: isLink(info)}
+		if !f.windows {
+			bits := posixPermBits(info.Mode())
+			entry.Mode = &bits
+		}
 		if !info.ModTime().IsZero() {
 			entry.ModifiedAt = info.ModTime().UTC().Format(time.RFC3339)
 		}

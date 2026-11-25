@@ -113,6 +113,28 @@ func newSigner(t *testing.T) (ed25519.PrivateKey, ssh.Signer) {
 	return private, signer
 }
 
+type chmodAwareFileCmd struct {
+	base sftp.FileCmder
+	list sftp.FileLister
+}
+
+func (c chmodAwareFileCmd) Filecmd(r *sftp.Request) error {
+	err := c.base.Filecmd(r)
+	if err != nil && r.Method == "Setstat" && r.AttrFlags().Permissions && !r.AttrFlags().Size {
+		if _, statErr := c.list.Filelist(sftp.NewRequest("Stat", r.Filepath)); statErr == nil {
+			return nil
+		}
+	}
+	return err
+}
+
+func (c chmodAwareFileCmd) PosixRename(r *sftp.Request) error {
+	if pr, ok := c.base.(sftp.PosixRenameFileCmder); ok {
+		return pr.PosixRename(r)
+	}
+	return sftp.ErrSSHFxOpUnsupported
+}
+
 func startSSH(t *testing.T, windows, noSFTP bool, key ssh.PublicKey) *sshFixture {
 	t.Helper()
 	listener, err := net.Listen("tcp4", "127.0.0.1:0")
@@ -120,7 +142,9 @@ func startSSH(t *testing.T, windows, noSFTP bool, key ssh.PublicKey) *sshFixture
 		t.Fatal(err)
 	}
 	_, signer := newSigner(t)
-	f := &sshFixture{listener: listener, handlers: sftp.InMemHandler(), windows: windows, noSFTP: noSFTP,
+	handlers := sftp.InMemHandler()
+	handlers.FileCmd = chmodAwareFileCmd{base: handlers.FileCmd, list: handlers.FileList}
+	f := &sshFixture{listener: listener, handlers: handlers, windows: windows, noSFTP: noSFTP,
 		key: key, signer: signer, sizes: make(chan [2]uint32, 8), conns: make(map[net.Conn]bool)}
 	f.wg.Go(func() {
 		for {
@@ -303,6 +327,9 @@ func (f *sshFixture) exec(ch ssh.Channel, cmd string) uint32 {
 	case "test-stop", "test-start":
 		_, _ = io.WriteString(ch, cmd+" ok\n")
 	default:
+		if strings.HasPrefix(cmd, "chmod ") || strings.HasPrefix(cmd, "sudo -n chmod ") {
+			return 0
+		}
 		return 1
 	}
 	return 0
