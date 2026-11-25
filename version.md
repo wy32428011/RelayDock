@@ -4,6 +4,22 @@
 
 ---
 
+## v0.1.4（2026-11-24）
+
+### 变更内容：右侧远端文件列表右键菜单新增修改权限功能
+
+1. **右键菜单新增「修改权限」弹窗**
+   - 在终端右侧文件列表右键菜单中新增 **修改权限** 入口（`terminal-files.tsx`、`widgets.css`），弹出权限配置弹窗并回显当前文件/目录的 POSIX 权限位。
+   - 支持 **用户 / 组 / 任何人** 的 **读 / 写 / 执行** 复选框配置与实时八进制及符号文本预览（如 `权限:776，文本:drwxrwxrw-`），并提供 **sudo 提权**、**快速执行** 与 **递归修改子目录及文件**（目录可用）选项。
+2. **新增 `files.chmod` 跨进程协议与 Go 核心权限修改实现**
+   - 扩展 `RemoteEntry.mode` 与 `files.chmod` 协议契约及 Electron 主进程白名单校验（`packages/protocol/index.ts`、`core.ts`、`validation.ts`），拒绝根目录 `/` 修改且要求用户显式确认。
+   - 在 Go 核心（`backend/internal/remote/chmod.go`、`files.go`、`service.go`）实现 `files.list` 权限位回传及 `files.chmod` 执行逻辑，支持 SFTP 单项/后序递归 `Chmod` 与 SSH `chmod` / `sudo -n chmod` 快速执行模式。
+3. **补充配套测试并升级版本号至 `0.1.4`**
+   - 补充 Go 核心权限解析、SFTP 递归、快速执行与 `sudo` 命令单测（`chmod_test.go`）及前端权限弹窗交互单测（`widgets.test.tsx`）。
+   - 统一将版本号升级至 `0.1.4`（`package.json`、`apps/desktop/package.json`、`package-lock.json`、`backend/internal/state/store.go`）。
+
+---
+
 ## v0.1.3（2026-11-24）
 
 ### 变更内容：终端三栏工作台重构、右侧文件列表右键菜单与跨服务器文件传输
