@@ -102,8 +102,10 @@ func (s *Service) Handle(ctx context.Context, method string, raw json.RawMessage
 		return s.openTerminal(ctx, raw)
 	case "terminal.input", "terminal.resize", "terminal.close":
 		return s.terminalAction(ctx, method, raw)
-	case "files.list", "files.read", "files.write", "files.mkdir", "files.rename", "files.delete", "files.upload", "files.download":
+	case "files.list", "files.read", "files.write", "files.mkdir", "files.rename", "files.delete", "files.upload", "files.download", "files.archive", "files.extract":
 		return s.fileAction(ctx, method, raw)
+	case "files.transfer":
+		return s.fileTransfer(ctx, raw)
 	case "custom.run":
 		return s.runCustom(ctx, raw)
 	default:

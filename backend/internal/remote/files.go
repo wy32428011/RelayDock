@@ -158,6 +158,48 @@ func (s *Service) fileAction(ctx context.Context, method string, raw json.RawMes
 		apply = func(ctx context.Context, f *remoteFS, src string) (any, error) {
 			return okResult{OK: true}, f.download(ctx, src, p.Token)
 		}
+	case "files.archive":
+		var p struct {
+			filePath
+			Destination string `json:"destination"`
+			Overwrite   bool   `json:"overwrite"`
+			Confirmed   bool   `json:"confirmed"`
+		}
+		if err := rpc.Decode(raw, &p); err != nil {
+			return nil, err
+		}
+		target, confirmed, timeout = p.filePath, p.Confirmed, transferTime
+		if p.Destination == "" || !smallText(p.Destination, maxRemotePath) {
+			return nil, remotePathError()
+		}
+		apply = func(ctx context.Context, f *remoteFS, src string) (any, error) {
+			dst, err := f.resolve(p.Destination)
+			if err != nil {
+				return nil, err
+			}
+			return f.archive(ctx, src, dst, p.Overwrite)
+		}
+	case "files.extract":
+		var p struct {
+			filePath
+			Destination string `json:"destination"`
+			Overwrite   bool   `json:"overwrite"`
+			Confirmed   bool   `json:"confirmed"`
+		}
+		if err := rpc.Decode(raw, &p); err != nil {
+			return nil, err
+		}
+		target, confirmed, timeout = p.filePath, p.Confirmed, transferTime
+		if p.Destination == "" || !smallText(p.Destination, maxRemotePath) {
+			return nil, remotePathError()
+		}
+		apply = func(ctx context.Context, f *remoteFS, src string) (any, error) {
+			dst, err := f.resolve(p.Destination)
+			if err != nil {
+				return nil, err
+			}
+			return f.extract(ctx, src, dst, p.Overwrite)
+		}
 	default:
 		return nil, rpc.Error("UNKNOWN_METHOD", "不受支持的文件操作")
 	}

@@ -5,9 +5,9 @@ import type { Bridge, Host, HostDraft, Probe } from '@relaydock/protocol';
 import { endpoint, faultText, hostEligibility, osLabel } from './core';
 import { Badge, EmptyState, Modal, Notice, Spinner } from './ui';
 
-export function HostRail({ hosts, selectedId, ready, loading, error, onAdd, onSelect, tools }: {
+export function HostRail({ hosts, selectedId, ready, loading, error, onAdd, onSelect, onOpenTerminal, tools }: {
   hosts: Host[]; selectedId?: string; ready: boolean; loading: boolean; error: string;
-  onAdd: () => void; onSelect: (id: string) => void; tools: ReactNode;
+  onAdd: () => void; onSelect: (id: string) => void; onOpenTerminal?: (id: string) => void; tools: ReactNode;
 }) {
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
@@ -52,12 +52,17 @@ export function HostRail({ hosts, selectedId, ready, loading, error, onAdd, onSe
             {open ? <ChevronDown size={14} aria-hidden="true" /> : <ChevronRight size={14} aria-hidden="true" />}
             <Folder size={15} aria-hidden="true" /><span>{group}</span><small>{members.length}</small>
           </button>
-          {open && <ul className="host-list">{members.map((host) => <li key={host.id}>
-            <button className="host-row" aria-current={selectedId === host.id ? 'true' : undefined} title={`${host.name} (${endpoint(host)})`} onClick={() => onSelect(host.id)}>
-              <Server size={16} aria-hidden="true" /><span className="host-row-label"><strong>{host.name}</strong><small>{endpoint(host)}</small></span>
-              {hostEligibility(host) && <span className="host-attention" title={hostEligibility(host)}><span className="sr-only">{hostEligibility(host)}</span></span>}
-            </button>
-          </li>)}</ul>}
+          {open && <ul className="host-list">{members.map((host) => {
+            const restriction = hostEligibility(host);
+            return <li key={host.id} className="host-list-item">
+              <button className="host-row" aria-current={selectedId === host.id ? 'true' : undefined} title={`${host.name} (${endpoint(host)})`} onClick={() => onSelect(host.id)}>
+                <Server size={16} aria-hidden="true" /><span className="host-row-label"><strong>{host.name}</strong><small>{endpoint(host)}</small></span>
+                {restriction && <span className="host-attention" title={restriction}><span className="sr-only">{restriction}</span></span>}
+              </button>
+              {onOpenTerminal && !restriction && <button type="button" className="host-row-open" aria-label={`为 ${host.name} 新开终端`} title={`为 ${host.name} 新开终端标签`}
+                onClick={() => onOpenTerminal(host.id)}><Plus size={14} aria-hidden="true" /></button>}
+            </li>;
+          })}</ul>}
         </section>;
       })}
     </div>

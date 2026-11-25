@@ -1,11 +1,15 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { ClipboardPaste, Copy, Plug, PlugZap, SquareTerminal } from 'lucide-react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
+import {
+  ChevronLeft, ChevronRight, ClipboardPaste, Copy, FolderOpen, Plug, PlugZap, Plus, SquareTerminal, X,
+} from 'lucide-react';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';
 import type { Bridge, CoreEvent, Host } from '@relaydock/protocol';
-import { Button, Notice, PaneHeading, faultText, requireOk } from './ui';
+import { Button, Empty, Notice, canConnect, faultText, remoteTarget, requireOk } from './ui';
 import type { NoticeValue } from './ui';
+import { TerminalFilePanel, type FileClipboard } from './terminal-files';
 
 const INPUT_CHUNK = 4096;
 const MAX_INPUT_QUEUE = 256 * 1024;
@@ -41,28 +45,58 @@ interface Runtime {
   close: () => void;
   copy: () => void;
   paste: () => void;
+  fitAndFocus: () => void;
+}
+
+export interface TerminalOpenRequest {
+  hostId: string;
+  nonce: number;
+  forceNew?: boolean;
+}
+
+interface TerminalTab {
+  id: string;
+  hostId: string;
+  hostScope: string;
+  sequence: number;
+  status: Status;
+  autoConnect: boolean;
+}
+
+function hostKey(host: Host) {
+  return JSON.stringify([host.id, host.address, host.port, host.username, host.auth, host.fingerprint, host.credentialReady]);
 }
 
 function outputBlock(data: unknown) {
   return data && typeof data === 'object' && 'bytesB64' in data && typeof data.bytesB64 === 'string' ? data.bytesB64 : undefined;
 }
 
-export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
+function TerminalSessionView({ api, host, active, autoConnect, onStatusChange }: {
+  api: Bridge; host: Host; active: boolean; autoConnect: boolean; onStatusChange: (status: Status) => void;
+}) {
   const { id: hostId } = host;
+  const scope = hostKey(host);
   const container = useRef<HTMLDivElement>(null);
   const runtime = useRef<Runtime>(null);
+  const onStatusRef = useRef(onStatusChange);
+  onStatusRef.current = onStatusChange;
   const [status, setStatus] = useState<Status>('idle');
   const [notice, setNotice] = useState<NoticeValue>();
   const [dimensions, setDimensions] = useState<Dimensions>();
   const [hasSelection, setHasSelection] = useState(false);
+
+  const updateStatus = useCallback((next: Status) => {
+    setStatus(next);
+    onStatusRef.current(next);
+  }, []);
 
   useLayoutEffect(() => {
     const element = container.current;
     if (!element) return;
     const terminal = new Terminal({
       theme: { background: '#0B1422', foreground: '#E7EDF6', cursor: '#91CAFA', selectionBackground: '#35577F' },
-      fontFamily: 'Cascadia Mono, Consolas, "Microsoft YaHei UI", monospace', fontSize: 14, lineHeight: 1.18,
-      scrollback: 2000, cursorBlink: false, disableStdin: true,
+      fontFamily: 'Cascadia Mono, Consolas, "Microsoft YaHei UI", monospace', fontSize: 14, lineHeight: 1.2,
+      scrollback: 3000, cursorBlink: true, disableStdin: true,
       // Remote output can contain OSC links. Never navigate outside the workbench from a PTY.
       linkHandler: { activate: () => undefined },
     });
@@ -78,7 +112,7 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
     let early: CoreEvent[] = [];
     let earlySize = 0;
     let earlyTruncated = false;
-    setStatus('idle');
+    updateStatus('idle');
     setNotice(undefined);
     setHasSelection(false);
 
@@ -101,7 +135,7 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       terminal.options.disableStdin = true;
       session = undefined;
       closing = false;
-      setStatus('closed');
+      updateStatus('closed');
       if (reason && typeof reason === 'object' && 'reason' in reason && typeof reason.reason === 'string' && reason.reason) {
         setNotice({ tone: 'info', text: reason.reason.slice(0, 300) });
       }
@@ -132,7 +166,7 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
           early = [];
           earlySize = 0;
           if (session) ended(session, undefined);
-          else setStatus('closed');
+          else updateStatus('closed');
           setNotice({ tone: 'info', text: '本地核心已断开。恢复后请手动连接，未确认的输入不会重发。' });
         }
         return;
@@ -189,7 +223,7 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
           target.input = [];
           target.inputBytes = 0;
           terminal.options.disableStdin = true;
-          setStatus('inputFailed');
+          updateStatus('inputFailed');
           setNotice({ tone: 'error', text: `终端输入中止，未确认的字节不会重发。请断开后重新连接。${faultText(error)}` });
         }
       } finally {
@@ -223,7 +257,6 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       const next = desired;
       if (target.sentSize.cols === next.cols && target.sentSize.rows === next.rows) return;
       target.resizeSending = true;
-      // Reconcile newer sizes, without replaying a request whose outcome was uncertain.
       target.sentSize = next;
       try {
         requireOk(await api.call('terminal.resize', { sessionId: target.id, ...next }), '核心未确认终端尺寸。');
@@ -300,7 +333,7 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       earlySize = 0;
       earlyTruncated = false;
       setNotice(undefined);
-      setStatus('opening');
+      updateStatus('opening');
       terminal.reset();
       measure();
       const firstSize = desired;
@@ -313,13 +346,13 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
           input: [], inputBytes: 0, resizeSending: false, resizeTimer: undefined, sentSize: firstSize,
         };
         session = target;
-        setStatus('open');
+        updateStatus('open');
         terminal.options.disableStdin = false;
         if (earlyTruncated) setNotice({ tone: 'info', text: '连接时终端输出过快，起始输出可能不完整。' });
         for (const event of early) deliver(event, target);
         if (session === target) { scheduleResize(target); terminal.focus(); }
       } catch (error) {
-        if (!disposed && attempt === generation) { setNotice({ tone: 'error', text: faultText(error) }); setStatus('closed'); }
+        if (!disposed && attempt === generation) { setNotice({ tone: 'error', text: faultText(error) }); updateStatus('closed'); }
       } finally {
         if (attempt === generation) { opening = false; early = []; earlySize = 0; }
       }
@@ -333,13 +366,13 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       dropQueue(target);
       terminal.options.disableStdin = true;
       setNotice(undefined);
-      setStatus('closing');
+      updateStatus('closing');
       try {
         requireOk(await api.call('terminal.close', { sessionId: target.id }), '核心未确认终端断开。');
         ended(target, undefined);
       } catch (error) {
         if (!disposed && session === target) {
-          setStatus('closeFailed');
+          updateStatus('closeFailed');
           setNotice({ tone: 'error', text: `无法确认会话已关闭。${faultText(error)}` });
         }
       } finally {
@@ -347,7 +380,18 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       }
     }
 
-    runtime.current = { open: () => void open(), close: () => void close(), copy: () => void copy(), paste: () => void paste() };
+    runtime.current = {
+      open: () => void open(),
+      close: () => void close(),
+      copy: () => void copy(),
+      paste: () => void paste(),
+      fitAndFocus: () => {
+        measure();
+        if (session && !session.ending && !session.inputFailed) terminal.focus();
+      },
+    };
+    if (autoConnect) void open();
+
     return () => {
       disposed = true;
       runtime.current = null;
@@ -359,24 +403,251 @@ export function TerminalPane({ api, host }: { api: Bridge; host: Host }) {
       early = [];
       terminal.dispose();
     };
-  }, [api, hostId]);
+  }, [api, hostId, scope, autoConnect, updateStatus]);
 
-  return <>
-    <PaneHeading title="远程终端" description="在独立 SSH 会话中操作所选主机。切换主机或离开终端时会关闭本次会话。" icon={<SquareTerminal size={25} />} host={host} />
-    <section className="rd-w-terminal" aria-label="SSH 远程终端">
-      <header className="rd-w-terminal-bar">
-        <div className="rd-w-terminal-status" role="status"><span className={`rd-w-led${status === 'open' ? ' rd-w-led--active' : ''}`} aria-hidden="true" />{statusLabel[status]}</div>
-        <div className="rd-w-actions">
-          <Button disabled={!hasSelection} onClick={() => runtime.current?.copy()}><Copy aria-hidden="true" size={16} />复制选区</Button>
-          <Button disabled={status !== 'open'} onClick={() => runtime.current?.paste()}><ClipboardPaste aria-hidden="true" size={16} />粘贴</Button>
-          {status === 'open' || status === 'inputFailed' || status === 'closing' || status === 'closeFailed'
-            ? <Button disabled={status === 'closing'} onClick={() => runtime.current?.close()}><Plug aria-hidden="true" size={16} />{status === 'closeFailed' ? '重试断开' : status === 'closing' ? '正在断开' : '断开会话'}</Button>
-            : <Button variant="primary" disabled={status === 'opening'} onClick={() => runtime.current?.open()}><PlugZap aria-hidden="true" size={16} />{status === 'opening' ? '正在建立会话' : status === 'closed' ? '重新连接' : '建立会话'}</Button>}
+  useEffect(() => {
+    if (!active) return;
+    const frame = window.requestAnimationFrame(() => runtime.current?.fitAndFocus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [active]);
+
+  return <section className="rd-w-terminal rd-tw-session" aria-label={`SSH 远程终端 · ${host.name || host.address}`} hidden={!active}>
+    <header className="rd-w-terminal-bar">
+      <div className="rd-tw-session-meta">
+        <div className="rd-w-terminal-status" role="status">
+          <span className={`rd-w-led${status === 'open' ? ' rd-w-led--active' : status === 'opening' ? ' rd-w-led--busy' : ''}`} aria-hidden="true" />
+          {statusLabel[status]}
+        </div>
+        <span className="rd-tw-session-target" title={remoteTarget(host)}>{remoteTarget(host)}</span>
+      </div>
+      <div className="rd-w-actions">
+        <Button disabled={!hasSelection} onClick={() => runtime.current?.copy()}><Copy aria-hidden="true" size={15} />复制选区</Button>
+        <Button disabled={status !== 'open'} onClick={() => runtime.current?.paste()}><ClipboardPaste aria-hidden="true" size={15} />粘贴</Button>
+        {status === 'open' || status === 'inputFailed' || status === 'closing' || status === 'closeFailed'
+          ? <Button disabled={status === 'closing'} onClick={() => runtime.current?.close()}><Plug aria-hidden="true" size={15} />{status === 'closeFailed' ? '重试断开' : status === 'closing' ? '正在断开' : '断开会话'}</Button>
+          : <Button variant="primary" disabled={status === 'opening'} onClick={() => runtime.current?.open()}><PlugZap aria-hidden="true" size={15} />{status === 'opening' ? '正在建立会话' : status === 'closed' ? '重新连接' : '建立会话'}</Button>}
+      </div>
+    </header>
+    {notice && <div className="rd-tw-session-notice"><Notice value={notice} /></div>}
+    <div className="rd-w-terminal-view rd-tw-view"><div ref={container} className="rd-w-xterm" /></div>
+    <footer className="rd-w-terminal-footer">
+      <span><kbd>Ctrl+C</kbd> 发送中断 · <kbd>Shift+Tab</kbd> 返回操作区 · 支持系统粘贴</span>
+      <span>{dimensions ? `${dimensions.cols} 列 × ${dimensions.rows} 行` : '尺寸待测'}</span>
+    </footer>
+  </section>;
+}
+
+export function TerminalPane({ api, host, hosts, openRequest, onSelectHost }: {
+  api: Bridge; host?: Host; hosts?: Host[]; openRequest?: TerminalOpenRequest; onSelectHost?: (id: string) => void;
+}) {
+  const allHosts = useMemo(() => {
+    if (hosts && hosts.length > 0) return hosts;
+    return host ? [host] : [];
+  }, [hosts, host]);
+
+  const hostMap = useMemo(() => {
+    const map = new Map<string, Host>();
+    for (const item of allHosts) map.set(item.id, item);
+    if (host && !map.has(host.id)) map.set(host.id, host);
+    return map;
+  }, [allHosts, host]);
+
+  const tabCounter = useRef(0);
+  const lastRequestNonce = useRef<number>(openRequest?.nonce ?? 0);
+  const [tabs, setTabs] = useState<TerminalTab[]>(() => {
+    if (!canConnect(host)) return [];
+    tabCounter.current = 1;
+    return [{ id: 'tab-1', hostId: host.id, hostScope: hostKey(host), sequence: 1, status: 'idle', autoConnect: false }];
+  });
+  const [activeTabId, setActiveTabId] = useState<string | undefined>(() => (canConnect(host) ? 'tab-1' : undefined));
+  const [filesOpen, setFilesOpen] = useState(true);
+  const [filesWidth, setFilesWidth] = useState(360);
+  const [fileClipboard, setFileClipboard] = useState<FileClipboard>();
+  const workbenchRef = useRef<HTMLDivElement>(null);
+
+  const openTabForHost = useCallback((target: Host, options: { forceNew: boolean; autoConnect: boolean }) => {
+    if (!canConnect(target)) return;
+    const scope = hostKey(target);
+    setTabs(previous => {
+      if (!options.forceNew) {
+        const existing = [...previous].reverse().find(item => item.hostId === target.id && item.hostScope === scope);
+        if (existing) {
+          setActiveTabId(existing.id);
+          return previous;
+        }
+      }
+      const nextId = `tab-${++tabCounter.current}`;
+      const sameHostCount = previous.filter(item => item.hostId === target.id).length;
+      const nextTab: TerminalTab = {
+        id: nextId,
+        hostId: target.id,
+        hostScope: scope,
+        sequence: sameHostCount + 1,
+        status: 'idle',
+        autoConnect: options.autoConnect,
+      };
+      setActiveTabId(nextId);
+      return [...previous, nextTab];
+    });
+  }, []);
+
+  // Remove tabs whose hosts were deleted, invalidated, or had connection credentials changed.
+  useEffect(() => {
+    setTabs(previous => {
+      const next = previous.filter(tab => {
+        const current = hostMap.get(tab.hostId);
+        return canConnect(current) && hostKey(current) === tab.hostScope;
+      });
+      if (next.length === previous.length) return previous;
+      setActiveTabId(currentActive => (currentActive && next.some(t => t.id === currentActive) ? currentActive : next[next.length - 1]?.id));
+      return next;
+    });
+  }, [hostMap]);
+
+  // Handle explicit open/switch requests from the left server rail.
+  useEffect(() => {
+    if (!openRequest || openRequest.nonce === lastRequestNonce.current) return;
+    lastRequestNonce.current = openRequest.nonce;
+    const target = hostMap.get(openRequest.hostId);
+    if (canConnect(target)) {
+      openTabForHost(target, { forceNew: Boolean(openRequest.forceNew), autoConnect: true });
+    }
+  }, [openRequest, hostMap, openTabForHost]);
+
+  // When no tabs are open yet and a connectable host becomes selected, create a ready-to-connect tab.
+  useEffect(() => {
+    if (tabs.length === 0 && canConnect(host)) {
+      openTabForHost(host, { forceNew: false, autoConnect: false });
+    }
+  }, [tabs.length, host, openTabForHost]);
+
+  const activeTab = tabs.find(item => item.id === activeTabId) ?? tabs[tabs.length - 1];
+  const activeHost = activeTab ? hostMap.get(activeTab.hostId) : (canConnect(host) ? host : undefined);
+  const newTabTarget = activeHost ?? (canConnect(host) ? host : allHosts.find(canConnect));
+
+  function selectTab(tab: TerminalTab) {
+    setActiveTabId(tab.id);
+    if (onSelectHost && tab.hostId !== host?.id) onSelectHost(tab.hostId);
+  }
+
+  function closeTab(tabId: string) {
+    setTabs(previous => {
+      const idx = previous.findIndex(item => item.id === tabId);
+      if (idx < 0) return previous;
+      const next = previous.filter(item => item.id !== tabId);
+      if (activeTabId === tabId) {
+        const fallback = next[Math.min(idx, next.length - 1)];
+        setActiveTabId(fallback?.id);
+        if (fallback && onSelectHost && fallback.hostId !== host?.id) onSelectHost(fallback.hostId);
+      }
+      return next;
+    });
+  }
+
+  function updateTabStatus(tabId: string, nextStatus: Status) {
+    setTabs(previous => previous.map(item => (item.id === tabId && item.status !== nextStatus ? { ...item, status: nextStatus } : item)));
+  }
+
+  function startResize(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!filesOpen) return;
+    event.preventDefault();
+    const startX = event.clientX;
+    const startWidth = filesWidth;
+    const containerWidth = workbenchRef.current?.clientWidth ?? 1200;
+    const maxFilesWidth = Math.max(280, Math.min(640, Math.floor(containerWidth * 0.55)));
+
+    function onMove(moveEvent: PointerEvent) {
+      const delta = startX - moveEvent.clientX;
+      setFilesWidth(Math.max(260, Math.min(maxFilesWidth, startWidth + delta)));
+    }
+    function onUp() {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    }
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  }
+
+  const hostTabCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const tab of tabs) counts.set(tab.hostId, (counts.get(tab.hostId) ?? 0) + 1);
+    return counts;
+  }, [tabs]);
+
+  return <div ref={workbenchRef} className={`rd-tw-workbench${filesOpen ? '' : ' rd-tw-files-collapsed'}`}
+    style={filesOpen ? { gridTemplateColumns: `minmax(0, 1fr) 8px ${filesWidth}px` } : { gridTemplateColumns: 'minmax(0, 1fr) auto' }}>
+    <div className="rd-tw-center">
+      <header className="rd-tw-tabbar">
+        <div className="rd-tw-brand">
+          <SquareTerminal size={16} aria-hidden="true" />
+          <h2>远程终端</h2>
+        </div>
+        <div className="rd-tw-tabs" role="tablist" aria-label="已打开的终端会话">
+          {tabs.map(tab => {
+            const tabHost = hostMap.get(tab.hostId);
+            if (!tabHost) return null;
+            const isSelected = activeTab?.id === tab.id;
+            const showSeq = (hostTabCounts.get(tab.hostId) ?? 0) > 1 || tab.sequence > 1;
+            const title = `${tabHost.name || tabHost.address}${showSeq ? ` #${tab.sequence}` : ''}`;
+            return <div key={tab.id} className={`rd-tw-tab${isSelected ? ' is-active' : ''}`}
+              onAuxClick={event => { if (event.button === 1) { event.preventDefault(); closeTab(tab.id); } }}>
+              <button type="button" role="tab" aria-selected={isSelected} className="rd-tw-tab-main"
+                title={`${title} (${remoteTarget(tabHost)})`} onClick={() => selectTab(tab)}>
+                <span className={`rd-tw-tab-dot is-${tab.status}`} aria-hidden="true" />
+                <span className="rd-tw-tab-title">{title}</span>
+              </button>
+              <button type="button" className="rd-tw-tab-close" aria-label={`关闭终端 ${title}`} title="关闭标签"
+                onClick={() => closeTab(tab.id)}>
+                <X size={13} aria-hidden="true" />
+              </button>
+            </div>;
+          })}
+        </div>
+        <div className="rd-tw-tabbar-actions">
+          <button type="button" className="rd-tw-icon-btn" disabled={!newTabTarget}
+            title={newTabTarget ? `为 ${newTabTarget.name || newTabTarget.address} 新开终端标签` : '请先在左侧选择可用服务器'}
+            aria-label="新建终端标签"
+            onClick={() => { if (newTabTarget) openTabForHost(newTabTarget, { forceNew: true, autoConnect: true }); }}>
+            <Plus size={16} aria-hidden="true" />
+          </button>
+          <button type="button" className={`rd-tw-icon-btn${filesOpen ? ' is-active' : ''}`}
+            title={filesOpen ? '收起右侧文件列表' : '展开右侧文件列表'}
+            aria-label={filesOpen ? '收起右侧文件列表' : '展开右侧文件列表'}
+            aria-expanded={filesOpen}
+            onClick={() => setFilesOpen(prev => !prev)}>
+            <FolderOpen size={15} aria-hidden="true" />
+          </button>
         </div>
       </header>
-      <div className="rd-w-terminal-view"><div ref={container} className="rd-w-xterm" /></div>
-      <footer className="rd-w-terminal-footer"><span><kbd>Ctrl+C</kbd> 发送中断 · <kbd>Shift+Tab</kbd> 返回操作区 · 支持系统粘贴</span><span>{dimensions ? `${dimensions.cols} 列 × ${dimensions.rows} 行` : '尺寸待测'}</span></footer>
-    </section>
-    <Notice value={notice} />
-  </>;
+
+      <div className="rd-tw-stage">
+        {tabs.map(tab => {
+          const tabHost = hostMap.get(tab.hostId);
+          if (!tabHost) return null;
+          return <TerminalSessionView key={tab.id} api={api} host={tabHost} active={activeTab?.id === tab.id}
+            autoConnect={tab.autoConnect} onStatusChange={next => updateTabStatus(tab.id, next)} />;
+        })}
+        {tabs.length === 0 && <div className="rd-tw-empty">
+          <Empty icon={<SquareTerminal size={24} />}
+            title={host && !canConnect(host) ? '当前主机尚不能建立会话' : '点击左侧服务器列表打开终端'}
+            description={host && !canConnect(host)
+              ? '请在主机管理中补录凭据并验证 SSH 主机指纹，保存后即可打开终端。'
+              : '支持同时多开多个服务器终端标签，右侧将同步显示当前服务器的远端文件列表。'} />
+        </div>}
+      </div>
+    </div>
+
+    <div className="rd-tw-splitter" role="separator" aria-orientation="vertical" aria-label="调整终端与文件列表宽度"
+      onPointerDown={startResize}>
+      <button type="button" className="rd-tw-splitter-toggle"
+        title={filesOpen ? '收起文件列表' : '展开文件列表'}
+        aria-label={filesOpen ? '收起文件列表' : '展开文件列表'}
+        onPointerDown={event => event.stopPropagation()}
+        onClick={() => setFilesOpen(prev => !prev)}>
+        {filesOpen ? <ChevronRight size={14} aria-hidden="true" /> : <ChevronLeft size={14} aria-hidden="true" />}
+      </button>
+    </div>
+
+    {filesOpen && <TerminalFilePanel api={api} host={activeHost} hosts={allHosts} clipboard={fileClipboard} onClipboardChange={setFileClipboard} />}
+  </div>;
 }

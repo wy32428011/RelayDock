@@ -9,12 +9,17 @@ import { lazy, Suspense } from 'react';
 import { Card, PaneHeading, TargetRequired, canConnect } from './ui';
 import './widgets.css';
 
+import type { TerminalOpenRequest } from './terminal';
+
 const TerminalPane = lazy(() => import('./terminal').then(module => ({ default: module.TerminalPane })));
 
 export interface WorkspacePaneProps {
   pane: 'terminal' | 'files' | 'scripts' | 'resources' | 'history' | 'deploy' | 'settings';
   api: Bridge;
   host?: Host;
+  hosts?: Host[];
+  terminalOpenRequest?: TerminalOpenRequest;
+  onSelectHost?: (id: string) => void;
   tasks: Task[];
   catalog: AppEntry[];
   onTheme: (theme: Theme) => void;
@@ -27,19 +32,19 @@ const remotePanes = {
   scripts: { title: '脚本与配置', icon: FileCode2 },
 };
 
-export function WorkspacePane({ pane, api, host, tasks, catalog, onTheme, onImport }: WorkspacePaneProps) {
+export function WorkspacePane({ pane, api, host, hosts, terminalOpenRequest, onSelectHost, tasks, catalog, onTheme, onImport }: WorkspacePaneProps) {
   // Re-key remote state even when an existing host is edited in place.
   const hostScope = host ? JSON.stringify([host.id, host.address, host.port, host.username, host.auth, host.fingerprint, host.credentialReady]) : '';
-  if ((pane === 'terminal' || pane === 'files' || pane === 'scripts') && !canConnect(host)) {
+  if ((pane === 'files' || pane === 'scripts') && !canConnect(host)) {
     const { title, icon: Icon } = remotePanes[pane];
     return <section className="rd-widgets">
       <PaneHeading title={title} description="仅对所选并已验证的目标提供远程操作。" icon={<Icon size={25} />} host={host} />
       <Card title="目标主机"><TargetRequired host={host} /></Card>
     </section>;
   }
-  return <section className="rd-widgets">
-    {pane === 'terminal' && canConnect(host) && <Suspense fallback={<Card title="远程终端"><p className="rd-w-subtle" role="status">正在加载终端组件…</p></Card>}>
-      <TerminalPane key={hostScope} api={api} host={host} />
+  return <section className={`rd-widgets${pane === 'terminal' ? ' rd-widgets--terminal' : ''}`}>
+    {pane === 'terminal' && <Suspense fallback={<Card title="远程终端"><p className="rd-w-subtle" role="status">正在加载终端组件…</p></Card>}>
+      <TerminalPane api={api} host={host} hosts={hosts} openRequest={terminalOpenRequest} onSelectHost={onSelectHost} />
     </Suspense>}
     {(pane === 'files' || pane === 'scripts') && canConnect(host) && <FileWorkspace key={`${pane}:${hostScope}`} api={api} host={host} mode={pane} />}
     {pane === 'resources' && <ResourceWorkspace api={api} host={host} catalog={catalog} />}

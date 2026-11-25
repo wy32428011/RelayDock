@@ -1,0 +1,1034 @@
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent } from 'react';
+import {
+  Archive, ArrowDown, ArrowUp, ArrowUpDown, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight,
+  ClipboardPaste, Copy, Download, File, FileEdit, Folder, FolderOpen, FolderPlus, FolderUp,
+  Link2, MoreHorizontal, Pencil, RefreshCw, Scissors, Search, Send, Trash2, Upload, X,
+} from 'lucide-react';
+import type { Bridge, FileEntry, Host, Methods } from '@relaydock/protocol';
+import { Button, Empty, Notice, canConnect, faultText, formatBytes, formatDate, remoteTarget, requireOk, useAction, useConfirmation } from './ui';
+import { joinRemotePath, parentRemotePath, validLeaf } from './text';
+
+type Directory = Methods['files.list'][1];
+type SortKey = 'name' | 'modifiedAt' | 'size';
+type SortDir = 'asc' | 'desc';
+
+export interface FileClipboard {
+  hostId: string;
+  hostName: string;
+  path: string;
+  name: string;
+  directory: boolean;
+  mode: 'copy' | 'move';
+}
+
+interface ContextMenuState {
+  x: number;
+  y: number;
+  entry?: FileEntry;
+}
+
+interface EditorState {
+  hostId: string;
+  path: string;
+  name: string;
+  content: string;
+  original: string;
+  digest: string;
+}
+
+interface ScpDialogState {
+  sourceEntry: FileEntry;
+  targetHostId: string;
+  targetDir: string;
+  mode: 'copy' | 'move';
+  overwrite: boolean;
+}
+
+interface ArchiveDialogState {
+  kind: 'archive' | 'extract';
+  entry: FileEntry;
+  destination: string;
+  overwrite: boolean;
+}
+
+const BOOKMARKS_KEY = 'relaydock.terminalFiles.bookmarks.v1';
+
+function loadBookmarks(): Record<string, string[]> {
+  try {
+    const raw = window.localStorage.getItem(BOOKMARKS_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== 'object') return {};
+    const out: Record<string, string[]> = {};
+    for (const [k, v] of Object.entries(parsed as Record<string, unknown>)) {
+      if (Array.isArray(v)) out[k] = v.filter((item): item is string => typeof item === 'string' && item.trim().length > 0);
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+function saveBookmarks(next: Record<string, string[]>) {
+  try {
+    window.localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(next));
+  } catch { /* ignore storage quota errors */ }
+}
+
+function isArchiveFile(name: string): boolean {
+  const lower = name.toLowerCase();
+  return lower.endsWith('.tar.gz') || lower.endsWith('.tgz') || lower.endsWith('.tar') || lower.endsWith('.zip');
+}
+
+function defaultExtractDir(dir: string, name: string): string {
+  const lower = name.toLowerCase();
+  let stem = name;
+  if (lower.endsWith('.tar.gz')) stem = name.slice(0, -7);
+  else if (lower.endsWith('.tgz')) stem = name.slice(0, -4);
+  else if (lower.endsWith('.tar')) stem = name.slice(0, -4);
+  else if (lower.endsWith('.zip')) stem = name.slice(0, -4);
+  return stem ? joinRemotePath(dir, stem) : dir;
+}
+
+function formatCompactDate(value?: string) {
+  if (!value) return '—';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return formatDate(value);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())} ${pad(parsed.getHours())}:${pad(parsed.getMinutes())}`;
+}
+
+export function TerminalFilePanel({
+  api,
+  host,
+  hosts,
+  clipboard: externalClipboard,
+  onClipboardChange,
+}: {
+  api: Bridge;
+  host?: Host;
+  hosts?: Host[];
+  clipboard?: FileClipboard;
+  onClipboardChange?: (next: FileClipboard | undefined) => void;
+}) {
+  const hostId = host && canConnect(host) ? host.id : undefined;
+  const hostPaths = useRef<Map<string, string>>(new Map());
+  const [directory, setDirectory] = useState<Directory>();
+  const [pathInput, setPathInput] = useState('.');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filter, setFilter] = useState('');
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
+  const [selected, setSelected] = useState<FileEntry>();
+  const [inlineMode, setInlineMode] = useState<'mkdir' | 'rename' | undefined>();
+  const [inlineValue, setInlineValue] = useState('');
+  const [loadedHostId, setLoadedHostId] = useState<string>();
+  const [internalClipboard, setInternalClipboard] = useState<FileClipboard>();
+  const [menu, setMenu] = useState<ContextMenuState>();
+  const [openSubmenu, setOpenSubmenu] = useState<'scp' | 'more' | undefined>();
+  const [bookmarks, setBookmarks] = useState<Record<string, string[]>>(() => loadBookmarks());
+  const [bookmarksOpen, setBookmarksOpen] = useState(false);
+  const [editor, setEditor] = useState<EditorState>();
+  const [scpDialog, setScpDialog] = useState<ScpDialogState>();
+  const [archiveDialog, setArchiveDialog] = useState<ArchiveDialogState>();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const action = useAction();
+  const { confirm, dialog } = useConfirmation();
+
+  const clipboard = onClipboardChange ? externalClipboard : internalClipboard;
+  const setClipboard = onClipboardChange ?? setInternalClipboard;
+
+  const connectableHosts = useMemo(() => {
+    const list = hosts && hosts.length > 0 ? hosts : host ? [host] : [];
+    return list.filter(canConnect);
+  }, [hosts, host]);
+
+  const otherHosts = useMemo(
+    () => connectableHosts.filter(item => item.id !== hostId),
+    [connectableHosts, hostId],
+  );
+
+  const isCurrentHost = Boolean(hostId && loadedHostId === hostId);
+  const activeDir = isCurrentHost ? directory : undefined;
+  const entries = activeDir?.entries ?? [];
+  const currentPath = activeDir?.path ?? pathInput;
+  const parentPath = activeDir ? parentRemotePath(activeDir.path) : '.';
+  const hasParent = Boolean(activeDir && parentPath !== activeDir.path);
+  const hostBookmarks = useMemo(() => (hostId ? (bookmarks[hostId] ?? []) : []), [bookmarks, hostId]);
+
+  function loadDirectory(targetHostId: string, targetPath: string) {
+    if (!targetPath.trim()) return;
+    void action.run(async current => {
+      const result = await api.call('files.list', { hostId: targetHostId, path: targetPath });
+      if (!current()) return;
+      hostPaths.current.set(targetHostId, result.path);
+      setLoadedHostId(targetHostId);
+      setDirectory(result);
+      setPathInput(result.path);
+      setSelected(undefined);
+      setInlineMode(undefined);
+    });
+  }
+
+  useEffect(() => {
+    setSelected(undefined);
+    setInlineMode(undefined);
+    setFilter('');
+    setMenu(undefined);
+    setOpenSubmenu(undefined);
+    setBookmarksOpen(false);
+    if (!hostId) {
+      setDirectory(undefined);
+      setLoadedHostId(undefined);
+      setPathInput('.');
+      action.setNotice(undefined);
+      return;
+    }
+    const remembered = hostPaths.current.get(hostId) ?? '.';
+    setPathInput(remembered);
+    loadDirectory(hostId, remembered);
+  }, [api, hostId]);
+
+  useEffect(() => {
+    if (!menu) return;
+    function onPointerDown(event: PointerEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenu(undefined);
+        setOpenSubmenu(undefined);
+      }
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setMenu(undefined);
+        setOpenSubmenu(undefined);
+      }
+    }
+    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menu]);
+
+  const stats = useMemo(() => {
+    let fileCount = 0;
+    let dirCount = 0;
+    let totalBytes = 0;
+    for (const entry of entries) {
+      if (entry.directory) dirCount++;
+      else {
+        fileCount++;
+        totalBytes += entry.size || 0;
+      }
+    }
+    return { fileCount, dirCount, totalBytes };
+  }, [entries]);
+
+  const visibleEntries = useMemo(() => {
+    const needle = filter.trim().toLowerCase();
+    const list = needle ? entries.filter(item => item.name.toLowerCase().includes(needle)) : [...entries];
+    list.sort((a, b) => {
+      if (a.directory !== b.directory) return a.directory ? -1 : 1;
+      let cmp = 0;
+      if (sortKey === 'name') cmp = a.name.localeCompare(b.name, 'zh-CN');
+      else if (sortKey === 'size') cmp = (a.size || 0) - (b.size || 0);
+      else cmp = (a.modifiedAt ?? '').localeCompare(b.modifiedAt ?? '');
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+    return list;
+  }, [entries, filter, sortKey, sortDir]);
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
+    else {
+      setSortKey(key);
+      setSortDir('asc');
+    }
+  }
+
+  function closeMenu() {
+    setMenu(undefined);
+    setOpenSubmenu(undefined);
+  }
+
+  function openContextMenu(event: ReactMouseEvent, entry?: FileEntry) {
+    if (!hostId || !activeDir) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (entry) setSelected(entry);
+    const menuWidth = 236;
+    const menuHeight = 430;
+    const x = Math.max(8, Math.min(event.clientX, window.innerWidth - menuWidth - 8));
+    const y = Math.max(8, Math.min(event.clientY, window.innerHeight - menuHeight - 8));
+    setOpenSubmenu(undefined);
+    setMenu({ x, y, entry });
+  }
+
+  async function refreshAfterMutation(targetHostId: string, dirPath: string, current: () => boolean, message: string) {
+    if (!current()) return;
+    action.setNotice({ tone: 'success', text: message });
+    try {
+      const result = await api.call('files.list', { hostId: targetHostId, path: dirPath });
+      if (!current()) return;
+      hostPaths.current.set(targetHostId, result.path);
+      setLoadedHostId(targetHostId);
+      setDirectory(result);
+      setPathInput(result.path);
+      setSelected(undefined);
+    } catch (error) {
+      if (current()) action.setNotice({ tone: 'info', text: `${message} 目录未能刷新：${faultText(error)}` });
+    }
+  }
+
+  function submitMkdir() {
+    if (!hostId || !activeDir || !validLeaf(inlineValue)) return;
+    const dir = activeDir.path;
+    const target = joinRemotePath(dir, inlineValue.trim());
+    void action.run(async current => {
+      requireOk(await api.call('files.mkdir', { hostId, path: target }), '核心未确认目录已创建。');
+      if (current()) { setInlineMode(undefined); setInlineValue(''); }
+      await refreshAfterMutation(hostId, dir, current, `已创建目录 ${target}。`);
+    });
+  }
+
+  function submitRename() {
+    if (!host || !hostId || !activeDir || !selected || !validLeaf(inlineValue) || inlineValue.trim() === selected.name) return;
+    const dir = activeDir.path;
+    const from = selected.path;
+    const to = joinRemotePath(dir, inlineValue.trim());
+    confirm({
+      title: '重命名远程条目？',
+      description: '将修改远端目录中的名称，请核对完整路径。',
+      acceptLabel: '确认重命名',
+      danger: true,
+      info: [['主机', remoteTarget(host)], ['原路径', <code>{from}</code>], ['新路径', <code>{to}</code>]],
+      perform: () => {
+        void action.run(async current => {
+          requireOk(await api.call('files.rename', { hostId, path: from, to, confirmed: true }), '核心未确认重命名结果。');
+          if (current()) { setInlineMode(undefined); setInlineValue(''); }
+          await refreshAfterMutation(hostId, dir, current, `已重命名为 ${to}。`);
+        });
+      },
+    });
+  }
+
+  function handleDelete(entry: FileEntry) {
+    if (!host || !hostId || !activeDir) return;
+    const dir = activeDir.path;
+    const recursive = Boolean(entry.directory && !entry.link);
+    confirm({
+      title: recursive ? '删除远程目录？' : '删除远程条目？',
+      description: recursive ? '将递归删除该目录及其中的全部子目录和文件，且不可撤销。' : '将删除此远端条目，且不可撤销。',
+      acceptLabel: '确认删除',
+      danger: true,
+      info: [['主机', remoteTarget(host)], ['目标路径', <code>{entry.path}</code>], ['类型', entry.link ? '符号链接' : entry.directory ? '目录（递归）' : '文件']],
+      perform: () => {
+        void action.run(async current => {
+          requireOk(await api.call('files.delete', { hostId, path: entry.path, recursive, confirmed: true }), '核心未确认删除结果。');
+          await refreshAfterMutation(hostId, dir, current, `已删除 ${entry.path}。`);
+        });
+      },
+    });
+  }
+
+  function handleDownload(entry: FileEntry) {
+    if (!hostId || entry.directory || entry.link) return;
+    void action.run(async current => {
+      const picked = await api.call('dialog.pick', { purpose: 'download' });
+      if (!picked || !current()) return;
+      requireOk(await api.call('files.download', { hostId, path: entry.path, token: picked.token }), '核心未确认下载完成。');
+      if (current()) action.setNotice({ tone: 'success', text: `已下载 ${entry.name} 到 ${picked.name}。` });
+    });
+  }
+
+  function handleUpload(isDirectory: boolean) {
+    if (!host || !hostId || !activeDir) return;
+    const dir = activeDir.path;
+    void action.run(async current => {
+      const picked = await api.call('dialog.pick', { purpose: isDirectory ? 'uploadDirectory' : 'upload' });
+      if (!picked || !current()) return;
+      if (!validLeaf(picked.name)) throw new Error('选中来源的名称不能作为远端条目名称。');
+      const targetPath = joinRemotePath(dir, picked.name);
+      confirm({
+        title: isDirectory ? '上传文件夹到远端？' : '上传文件到远端？',
+        description: '将把所选本地内容上传到当前远端目录。',
+        acceptLabel: '确认上传',
+        info: [['主机', remoteTarget(host)], ['本地来源', picked.name], ['目标路径', <code>{targetPath}</code>]],
+        perform: () => {
+          void action.run(async innerCurrent => {
+            requireOk(await api.call('files.upload', { hostId, path: targetPath, token: picked.token, overwrite: true, confirmed: true }), '核心未确认上传完成。');
+            await refreshAfterMutation(hostId, dir, innerCurrent, `已上传 ${picked.name} 到 ${dir}。`);
+          });
+        },
+      });
+    });
+  }
+
+  function handleEdit(entry: FileEntry) {
+    if (!hostId || entry.directory || entry.link) return;
+    void action.run(async current => {
+      const result = await api.call('files.read', { hostId, path: entry.path });
+      if (!current()) return;
+      setEditor({
+        hostId,
+        path: entry.path,
+        name: entry.name,
+        content: result.content,
+        original: result.content,
+        digest: result.digest,
+      });
+    });
+  }
+
+  function submitEditorSave() {
+    if (!editor) return;
+    const snapshot = editor;
+    void action.run(async current => {
+      const result = await api.call('files.write', {
+        hostId: snapshot.hostId,
+        path: snapshot.path,
+        content: snapshot.content,
+        expectedDigest: snapshot.digest,
+        confirmed: true,
+      });
+      if (!current()) return;
+      setEditor(prev => (prev && prev.path === snapshot.path ? { ...prev, original: snapshot.content, digest: result.digest } : prev));
+      action.setNotice({ tone: 'success', text: `已保存 ${snapshot.path}。` });
+    });
+  }
+
+  function handleOpenEntry(entry: FileEntry) {
+    if (!hostId || entry.link) return;
+    if (entry.directory) loadDirectory(hostId, entry.path);
+    else handleEdit(entry);
+  }
+
+  function setClipboardFromEntry(entry: FileEntry, mode: 'copy' | 'move') {
+    if (!host || !hostId || entry.link) return;
+    const label = host.name || host.address;
+    setClipboard({
+      hostId,
+      hostName: label,
+      path: entry.path,
+      name: entry.name,
+      directory: entry.directory,
+      mode,
+    });
+    action.setNotice({
+      tone: 'info',
+      text: `已${mode === 'copy' ? '复制' : '剪切'}「${entry.name}」（${label}），可粘贴到本机或其他服务器目录。`,
+    });
+  }
+
+  function handlePaste(overwrite = false) {
+    if (!host || !hostId || !activeDir || !clipboard) return;
+    const dir = activeDir.path;
+    const targetPath = joinRemotePath(dir, clipboard.name);
+    const crossHost = clipboard.hostId !== hostId;
+    const verb = clipboard.mode === 'move' ? '移动' : '复制';
+    const scopeLabel = crossHost ? `跨服务器${verb}` : verb;
+    confirm({
+      title: `${scopeLabel}到当前目录？`,
+      description: crossHost
+        ? `将通过双端 SFTP 把「${clipboard.name}」从 ${clipboard.hostName} ${verb}到 ${host.name || host.address}。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止以防止误覆盖。'}`
+        : `将把「${clipboard.name}」${verb}到当前目录。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止。'}`,
+      acceptLabel: overwrite ? `确认${scopeLabel}（覆盖）` : `确认${scopeLabel}`,
+      danger: overwrite || clipboard.mode === 'move',
+      info: [
+        ['来源服务器', clipboard.hostName],
+        ['来源路径', <code>{clipboard.path}</code>],
+        ['目标服务器', host.name || host.address],
+        ['目标路径', <code>{targetPath}</code>],
+        ['类型', clipboard.directory ? '文件夹（递归）' : '文件'],
+      ],
+      perform: () => {
+        const item = clipboard;
+        void action.run(async current => {
+          const res = await api.call('files.transfer', {
+            sourceHostId: item.hostId,
+            sourcePath: item.path,
+            targetHostId: hostId,
+            targetPath,
+            mode: item.mode,
+            overwrite,
+            confirmed: true,
+          });
+          requireOk(res, `核心未确认${scopeLabel}完成。`);
+          if (current() && item.mode === 'move') setClipboard(undefined);
+          await refreshAfterMutation(
+            hostId,
+            dir,
+            current,
+            `已完成${scopeLabel}：${item.name}（${res.files} 个文件${res.dirs ? `，${res.dirs} 个目录` : ''}，${formatBytes(res.bytes)}）。`,
+          );
+        });
+      },
+    });
+  }
+
+  function openScpDialog(entry: FileEntry, targetHostId?: string) {
+    const destId = targetHostId ?? otherHosts[0]?.id ?? hostId ?? '';
+    if (!destId) return;
+    const remembered = hostPaths.current.get(destId) ?? '.';
+    setScpDialog({
+      sourceEntry: entry,
+      targetHostId: destId,
+      targetDir: remembered,
+      mode: 'copy',
+      overwrite: false,
+    });
+  }
+
+  function submitScpTransfer() {
+    if (!host || !hostId || !activeDir || !scpDialog) return;
+    const targetHost = connectableHosts.find(item => item.id === scpDialog.targetHostId);
+    if (!targetHost) return;
+    const dir = activeDir.path;
+    const targetDir = scpDialog.targetDir.trim() || '.';
+    const targetPath = joinRemotePath(targetDir, scpDialog.sourceEntry.name);
+    const currentDialog = scpDialog;
+    setScpDialog(undefined);
+    void action.run(async current => {
+      const res = await api.call('files.transfer', {
+        sourceHostId: hostId,
+        sourcePath: currentDialog.sourceEntry.path,
+        targetHostId: currentDialog.targetHostId,
+        targetPath,
+        mode: currentDialog.mode,
+        overwrite: currentDialog.overwrite,
+        confirmed: true,
+      });
+      requireOk(res, '核心未确认跨服务器传输完成。');
+      const verb = currentDialog.mode === 'move' ? '移动' : '复制';
+      const summary = `已将 ${currentDialog.sourceEntry.name} ${verb}到 ${targetHost.name || targetHost.address}:${targetPath}（${res.files} 个文件，${formatBytes(res.bytes)}）。`;
+      if (currentDialog.mode === 'move' || currentDialog.targetHostId === hostId) {
+        await refreshAfterMutation(hostId, dir, current, summary);
+      } else if (current()) {
+        action.setNotice({ tone: 'success', text: summary });
+      }
+    });
+  }
+
+  function openArchiveDialog(entry: FileEntry, kind: 'archive' | 'extract') {
+    if (!activeDir) return;
+    const destination = kind === 'archive'
+      ? joinRemotePath(activeDir.path, `${entry.name}.tar.gz`)
+      : defaultExtractDir(activeDir.path, entry.name);
+    setArchiveDialog({ kind, entry, destination, overwrite: false });
+  }
+
+  function submitArchiveAction() {
+    if (!hostId || !activeDir || !archiveDialog) return;
+    const dir = activeDir.path;
+    const currentDialog = archiveDialog;
+    const dest = currentDialog.destination.trim();
+    if (!dest) return;
+    setArchiveDialog(undefined);
+    void action.run(async current => {
+      if (currentDialog.kind === 'archive') {
+        const res = await api.call('files.archive', {
+          hostId,
+          path: currentDialog.entry.path,
+          destination: dest,
+          overwrite: currentDialog.overwrite,
+          confirmed: true,
+        });
+        requireOk(res, '核心未确认压缩完成。');
+        await refreshAfterMutation(hostId, dir, current, `已压缩为 ${res.path}（${res.files} 个文件，${formatBytes(res.bytes)}）。`);
+      } else {
+        const res = await api.call('files.extract', {
+          hostId,
+          path: currentDialog.entry.path,
+          destination: dest,
+          overwrite: currentDialog.overwrite,
+          confirmed: true,
+        });
+        requireOk(res, '核心未确认解压完成。');
+        await refreshAfterMutation(hostId, dir, current, `已解压到 ${res.path}（${res.files} 个文件，${res.dirs} 个目录）。`);
+      }
+    });
+  }
+
+  function toggleBookmark(pathToBookmark: string) {
+    if (!hostId || !pathToBookmark) return;
+    setBookmarks(prev => {
+      const existing = prev[hostId] ?? [];
+      const has = existing.includes(pathToBookmark);
+      const nextList = has ? existing.filter(item => item !== pathToBookmark) : [pathToBookmark, ...existing].slice(0, 20);
+      const next = { ...prev, [hostId]: nextList };
+      saveBookmarks(next);
+      action.setNotice({ tone: 'info', text: has ? `已取消收藏路径 ${pathToBookmark}` : `已收藏路径 ${pathToBookmark}` });
+      return next;
+    });
+  }
+
+  async function copyText(text: string, label: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      action.setNotice({ tone: 'info', text: `已复制${label}：${text}` });
+    } catch {
+      action.setNotice({ tone: 'info', text: `${label}：${text}` });
+    }
+  }
+
+  function handleKeyDown(event: ReactKeyboardEvent<HTMLElement>) {
+    if (!hostId || !activeDir || action.busy) return;
+    const target = event.target as HTMLElement | null;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')) return;
+
+    if (event.key === 'F5') {
+      event.preventDefault();
+      loadDirectory(hostId, currentPath);
+    } else if (event.key === 'Enter' && selected) {
+      event.preventDefault();
+      handleOpenEntry(selected);
+    } else if (event.key === 'F2' && selected) {
+      event.preventDefault();
+      setInlineMode('rename');
+      setInlineValue(selected.name);
+    } else if ((event.key === 'Backspace' || event.key === 'Delete') && selected) {
+      event.preventDefault();
+      handleDelete(selected);
+    } else if (event.ctrlKey && event.altKey && event.key.toLowerCase() === 'e' && selected && !selected.directory && !selected.link) {
+      event.preventDefault();
+      handleEdit(selected);
+    } else if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey) {
+      const lower = event.key.toLowerCase();
+      if (lower === 'c' && selected && !selected.link) {
+        event.preventDefault();
+        setClipboardFromEntry(selected, 'copy');
+      } else if (lower === 'x' && selected && !selected.link) {
+        event.preventDefault();
+        setClipboardFromEntry(selected, 'move');
+      } else if (lower === 'v' && clipboard) {
+        event.preventDefault();
+        handlePaste(false);
+      }
+    }
+  }
+
+  function renderSortIcon(key: SortKey) {
+    if (sortKey !== key) return <ArrowUpDown size={12} aria-hidden="true" className="rd-tf-sort-idle" />;
+    return sortDir === 'asc' ? <ArrowUp size={12} aria-hidden="true" /> : <ArrowDown size={12} aria-hidden="true" />;
+  }
+
+  const menuEntry = menu?.entry;
+  const menuEntryEditable = Boolean(menuEntry && !menuEntry.directory && !menuEntry.link);
+  const menuEntryValid = Boolean(menuEntry && !menuEntry.link);
+  const menuEntryExtractable = Boolean(menuEntryEditable && menuEntry && isArchiveFile(menuEntry.name));
+  const bookmarkTarget = menuEntry && menuEntry.directory && !menuEntry.link ? menuEntry.path : currentPath;
+  const isBookmarked = hostBookmarks.includes(bookmarkTarget);
+  const submenuAlignLeft = Boolean(menu && menu.x + 420 > window.innerWidth);
+
+  return <aside className="rd-tf-panel" aria-label="服务器文件列表" tabIndex={-1} onKeyDown={handleKeyDown}>
+    <header className="rd-tf-toolbar">
+      <button type="button" className="rd-tf-icon-btn" title="返回上级目录" aria-label="返回上级目录"
+        disabled={!hostId || !hasParent || action.busy} onClick={() => hostId && loadDirectory(hostId, parentPath)}>
+        <ChevronLeft size={16} aria-hidden="true" />
+      </button>
+      <button type="button" className="rd-tf-icon-btn" title="刷新目录" aria-label="刷新目录"
+        disabled={!hostId || action.busy} onClick={() => hostId && loadDirectory(hostId, currentPath)}>
+        <RefreshCw size={15} aria-hidden="true" className={action.busy ? 'rd-tf-spin' : undefined} />
+      </button>
+      <form className="rd-tf-path-form" onSubmit={event => { event.preventDefault(); if (hostId) loadDirectory(hostId, pathInput); }}>
+        <input aria-label="当前远端路径" spellCheck={false} value={pathInput} placeholder="输入远端路径并回车"
+          disabled={!hostId || action.busy} onChange={event => setPathInput(event.currentTarget.value)} />
+      </form>
+      <button type="button" className={`rd-tf-icon-btn${filterOpen ? ' is-active' : ''}`} title="筛选当前目录" aria-label="筛选当前目录"
+        disabled={!hostId} onClick={() => { setFilterOpen(prev => !prev); if (filterOpen) setFilter(''); }}>
+        <Search size={15} aria-hidden="true" />
+      </button>
+      <button type="button" className={`rd-tf-icon-btn${bookmarksOpen ? ' is-active' : ''}`} title="收藏的路径" aria-label="收藏的路径"
+        disabled={!hostId} onClick={() => setBookmarksOpen(prev => !prev)}>
+        <Bookmark size={15} aria-hidden="true" />
+      </button>
+      <button type="button" className="rd-tf-icon-btn" title="新建文件夹" aria-label="新建文件夹"
+        disabled={!hostId || !activeDir || action.busy}
+        onClick={() => { setInlineMode(prev => prev === 'mkdir' ? undefined : 'mkdir'); setInlineValue(''); }}>
+        <FolderPlus size={15} aria-hidden="true" />
+      </button>
+      <button type="button" className="rd-tf-icon-btn" title="上传文件" aria-label="上传文件"
+        disabled={!hostId || !activeDir || action.busy} onClick={() => handleUpload(false)}>
+        <Upload size={15} aria-hidden="true" />
+      </button>
+    </header>
+
+    {bookmarksOpen && hostId && <div className="rd-tf-bookmarks">
+      <div className="rd-tf-bookmarks-head">
+        <span>已收藏路径 ({hostBookmarks.length})</span>
+        <button type="button" className="rd-tf-mini-btn" onClick={() => toggleBookmark(currentPath)}>
+          {hostBookmarks.includes(currentPath) ? '取消收藏当前' : '收藏当前路径'}
+        </button>
+      </div>
+      {hostBookmarks.length === 0
+        ? <div className="rd-tf-bookmarks-empty">暂无收藏路径，可点击上方按钮或右键菜单收藏常用目录。</div>
+        : <ul className="rd-tf-bookmarks-list">
+            {hostBookmarks.map(item => <li key={item}>
+              <button type="button" className="rd-tf-bookmark-jump" title={item}
+                onClick={() => { loadDirectory(hostId, item); setBookmarksOpen(false); }}>
+                <Folder size={13} aria-hidden="true" /><span>{item}</span>
+              </button>
+              <button type="button" className="rd-tf-icon-btn" aria-label={`移除收藏 ${item}`} title="移除收藏"
+                onClick={() => toggleBookmark(item)}>
+                <X size={12} aria-hidden="true" />
+              </button>
+            </li>)}
+          </ul>}
+    </div>}
+
+    {clipboard && hostId && <div className="rd-tf-clipboard-bar" role="status">
+      <span className="rd-tf-clipboard-text" title={`${clipboard.hostName}:${clipboard.path}`}>
+        {clipboard.mode === 'move' ? '剪切' : '复制'}：<strong>{clipboard.name}</strong>
+        {clipboard.hostId !== hostId && <em>（来自 {clipboard.hostName}）</em>}
+      </span>
+      <div className="rd-tf-clipboard-actions">
+        <button type="button" className="rd-tf-mini-btn is-primary" disabled={!activeDir || action.busy}
+          onClick={() => handlePaste(false)}>
+          粘贴到此处
+        </button>
+        <button type="button" className="rd-tf-icon-btn" title="清空剪贴板" aria-label="清空剪贴板"
+          onClick={() => setClipboard(undefined)}>
+          <X size={13} aria-hidden="true" />
+        </button>
+      </div>
+    </div>}
+
+    {filterOpen && hostId && <div className="rd-tf-inline-bar">
+      <Search size={14} aria-hidden="true" />
+      <input aria-label="按名称筛选文件" placeholder="筛选当前目录文件名…" value={filter} onChange={e => setFilter(e.currentTarget.value)} />
+      {filter && <button type="button" className="rd-tf-icon-btn" aria-label="清空筛选" onClick={() => setFilter('')}><X size={13} aria-hidden="true" /></button>}
+    </div>}
+
+    {inlineMode && hostId && <form className="rd-tf-inline-bar" onSubmit={event => { event.preventDefault(); if (inlineMode === 'mkdir') submitMkdir(); else submitRename(); }}>
+      <input aria-label={inlineMode === 'mkdir' ? '新目录名称' : '重命名新名称'} spellCheck={false} autoFocus
+        placeholder={inlineMode === 'mkdir' ? '输入新文件夹名称…' : '输入新名称…'}
+        value={inlineValue} disabled={action.busy} onChange={e => setInlineValue(e.currentTarget.value)} />
+      <Button type="submit" variant="primary" disabled={action.busy || !validLeaf(inlineValue)}>确定</Button>
+      <Button disabled={action.busy} onClick={() => { setInlineMode(undefined); setInlineValue(''); }}>取消</Button>
+    </form>}
+
+    {hostId && <div className="rd-tf-summary" role="status">
+      <span>共 {stats.fileCount} 个文件，{stats.dirCount} 个文件夹，{formatBytes(stats.totalBytes)}</span>
+      {host && <span className="rd-tf-host-tag" title={remoteTarget(host)}>{host.name || host.address}</span>}
+    </div>}
+
+    {action.notice && <div className="rd-tf-notice"><Notice value={action.notice} /></div>}
+
+    <div className="rd-tf-list-wrap" onContextMenu={event => openContextMenu(event, undefined)}>
+      {!hostId ? <div className="rd-tf-empty">
+        <Empty icon={<Folder size={22} />} title="未选择服务器" description="在左侧服务器列表选择已验证的主机后，此处将显示该服务器的文件列表。" />
+      </div> : <table className="rd-tf-table" aria-label="远端目录条目">
+        <thead>
+          <tr>
+            <th scope="col"><button type="button" className="rd-tf-sort" onClick={() => toggleSort('name')}><span>名称</span>{renderSortIcon('name')}</button></th>
+            <th scope="col" className="rd-tf-col-date"><button type="button" className="rd-tf-sort" onClick={() => toggleSort('modifiedAt')}><span>修改时间</span>{renderSortIcon('modifiedAt')}</button></th>
+            <th scope="col" className="rd-tf-col-size"><button type="button" className="rd-tf-sort" onClick={() => toggleSort('size')}><span>大小</span>{renderSortIcon('size')}</button></th>
+            <th scope="col" className="rd-tf-col-ops"><span className="rd-w-sr">操作</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {hasParent && <tr className="rd-tf-row" onDoubleClick={() => loadDirectory(hostId, parentPath)} onClick={() => loadDirectory(hostId, parentPath)}>
+            <td className="rd-tf-name-cell"><span className="rd-tf-name"><Folder size={15} aria-hidden="true" className="rd-tf-folder-icon" /><span>..</span></span></td>
+            <td className="rd-tf-col-date">—</td>
+            <td className="rd-tf-col-size">—</td>
+            <td className="rd-tf-col-ops" />
+          </tr>}
+          {visibleEntries.map(entry => {
+            const isSelected = selected?.path === entry.path;
+            return <tr key={entry.path} className={`rd-tf-row${isSelected ? ' is-selected' : ''}`}
+              onClick={() => setSelected(entry)}
+              onContextMenu={event => openContextMenu(event, entry)}
+              onDoubleClick={() => handleOpenEntry(entry)}>
+              <td className="rd-tf-name-cell" title={entry.path}>
+                <span className="rd-tf-name">
+                  {entry.link ? <Link2 size={15} aria-hidden="true" className="rd-tf-link-icon" />
+                    : entry.directory ? <Folder size={15} aria-hidden="true" className="rd-tf-folder-icon" />
+                    : <File size={15} aria-hidden="true" className="rd-tf-file-icon" />}
+                  <span>{entry.name}</span>
+                </span>
+              </td>
+              <td className="rd-tf-col-date">{formatCompactDate(entry.modifiedAt)}</td>
+              <td className="rd-tf-col-size">{entry.directory ? '—' : formatBytes(entry.size)}</td>
+              <td className="rd-tf-col-ops">
+                <div className="rd-tf-row-ops" onClick={e => e.stopPropagation()}>
+                  {!entry.directory && !entry.link && <button type="button" className="rd-tf-op-btn" title={`下载 ${entry.name}`} aria-label={`下载 ${entry.name}`}
+                    disabled={action.busy} onClick={() => handleDownload(entry)}>
+                    <Download size={13} aria-hidden="true" />
+                  </button>}
+                  <button type="button" className="rd-tf-op-btn" title={`重命名 ${entry.name}`} aria-label={`重命名 ${entry.name}`}
+                    disabled={action.busy} onClick={() => { setSelected(entry); setInlineMode('rename'); setInlineValue(entry.name); }}>
+                    <Pencil size={13} aria-hidden="true" />
+                  </button>
+                  <button type="button" className="rd-tf-op-btn is-danger" title={`删除 ${entry.name}`} aria-label={`删除 ${entry.name}`}
+                    disabled={action.busy} onClick={() => handleDelete(entry)}>
+                    <Trash2 size={13} aria-hidden="true" />
+                  </button>
+                </div>
+              </td>
+            </tr>;
+          })}
+          {!action.busy && visibleEntries.length === 0 && <tr>
+            <td colSpan={4} className="rd-tf-empty-row">{filter ? '当前筛选无匹配文件' : '目录为空（右键可新建文件夹、上传或粘贴）'}</td>
+          </tr>}
+        </tbody>
+      </table>}
+    </div>
+
+    {menu && hostId && activeDir && <div ref={menuRef} className="rd-tf-menu" role="menu" aria-label="文件操作菜单"
+      style={{ left: menu.x, top: menu.y }}>
+      <div className="rd-tf-menu-header">
+        <span className="rd-tf-menu-title">操作</span>
+        <div className="rd-tf-menu-quick">
+          <button type="button" className="rd-tf-menu-qbtn" title="新建文件夹" aria-label="新建文件夹"
+            disabled={action.busy}
+            onClick={() => { closeMenu(); setInlineMode('mkdir'); setInlineValue(''); }}>
+            <FolderPlus size={14} aria-hidden="true" />
+          </button>
+          <button type="button" className="rd-tf-menu-qbtn"
+            title={clipboard ? `粘贴 ${clipboard.name}（来自 ${clipboard.hostName}）` : '粘贴（剪贴板为空）'}
+            aria-label="粘贴"
+            disabled={!clipboard || action.busy}
+            onClick={() => { closeMenu(); handlePaste(false); }}>
+            <ClipboardPaste size={14} aria-hidden="true" />
+          </button>
+          <button type="button" className="rd-tf-menu-qbtn" title="剪切（支持跨服务器移动）" aria-label="剪切"
+            disabled={!menuEntryValid || action.busy}
+            onClick={() => { if (menuEntry) setClipboardFromEntry(menuEntry, 'move'); closeMenu(); }}>
+            <Scissors size={14} aria-hidden="true" />
+          </button>
+          <button type="button" className="rd-tf-menu-qbtn" title="复制（支持跨服务器传输）" aria-label="复制"
+            disabled={!menuEntryValid || action.busy}
+            onClick={() => { if (menuEntry) setClipboardFromEntry(menuEntry, 'copy'); closeMenu(); }}>
+            <Copy size={14} aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+
+      <div className="rd-tf-menu-group">
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryValid || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) handleOpenEntry(menuEntry); }}>
+          <FolderOpen size={14} aria-hidden="true" /><span>打开</span><kbd>Enter</kbd>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryEditable || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) handleEdit(menuEntry); }}>
+          <FileEdit size={14} aria-hidden="true" /><span>编辑</span><kbd>Ctrl+Alt+E</kbd>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={action.busy}
+          onClick={() => { closeMenu(); loadDirectory(hostId, currentPath); }}>
+          <RefreshCw size={14} aria-hidden="true" /><span>刷新</span><kbd>F5</kbd>
+        </button>
+      </div>
+
+      <div className="rd-tf-menu-group">
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          onClick={() => { closeMenu(); toggleBookmark(bookmarkTarget); }}>
+          <Bookmark size={14} aria-hidden="true" /><span>{isBookmarked ? '取消收藏路径' : '收藏路径'}</span>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryEditable || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) handleDownload(menuEntry); }}>
+          <Download size={14} aria-hidden="true" /><span>下载到...</span>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={action.busy}
+          onClick={() => { closeMenu(); handleUpload(false); }}>
+          <Upload size={14} aria-hidden="true" /><span>上传文件...</span>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={action.busy}
+          onClick={() => { closeMenu(); handleUpload(true); }}>
+          <FolderUp size={14} aria-hidden="true" /><span>上传文件夹...</span>
+        </button>
+
+        <div className={`rd-tf-menu-subwrap${openSubmenu === 'scp' ? ' is-open' : ''}`}
+          onMouseEnter={() => menuEntryValid && setOpenSubmenu('scp')}>
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded={openSubmenu === 'scp'}
+            className="rd-tf-menu-item" disabled={!menuEntryValid || action.busy}
+            onClick={() => setOpenSubmenu(prev => (prev === 'scp' ? undefined : 'scp'))}>
+            <Send size={14} aria-hidden="true" /><span>SCP</span><ChevronRight size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
+          </button>
+          {openSubmenu === 'scp' && menuEntry && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="SCP 跨服务器传输">
+            {otherHosts.length > 0 ? otherHosts.map(target => (
+              <button key={target.id} type="button" role="menuitem" className="rd-tf-menu-item"
+                onClick={() => { closeMenu(); openScpDialog(menuEntry, target.id); }}>
+                <Send size={13} aria-hidden="true" />
+                <span className="rd-tf-submenu-host">{target.name || target.address}</span>
+              </button>
+            )) : <div className="rd-tf-submenu-empty">暂无其他可用服务器</div>}
+            <div className="rd-tf-menu-sep" />
+            <button type="button" role="menuitem" className="rd-tf-menu-item"
+              onClick={() => { closeMenu(); openScpDialog(menuEntry); }}>
+              <Copy size={13} aria-hidden="true" /><span>指定目标路径传输...</span>
+            </button>
+          </div>}
+        </div>
+
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryValid || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) openArchiveDialog(menuEntry, 'archive'); }}>
+          <Archive size={14} aria-hidden="true" /><span>压缩</span>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntryExtractable || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) openArchiveDialog(menuEntry, 'extract'); }}>
+          <Archive size={14} aria-hidden="true" /><span>解压</span>
+        </button>
+      </div>
+
+      <div className="rd-tf-menu-group">
+        <button type="button" role="menuitem" className="rd-tf-menu-item"
+          disabled={!menuEntry || action.busy}
+          onClick={() => {
+            closeMenu();
+            if (menuEntry) { setSelected(menuEntry); setInlineMode('rename'); setInlineValue(menuEntry.name); }
+          }}>
+          <Pencil size={14} aria-hidden="true" /><span>重命名</span><kbd>F2</kbd>
+        </button>
+        <button type="button" role="menuitem" className="rd-tf-menu-item is-danger"
+          disabled={!menuEntry || action.busy}
+          onClick={() => { closeMenu(); if (menuEntry) handleDelete(menuEntry); }}>
+          <Trash2 size={14} aria-hidden="true" /><span>删除</span><kbd>Backspace</kbd>
+        </button>
+        <div className={`rd-tf-menu-subwrap${openSubmenu === 'more' ? ' is-open' : ''}`}
+          onMouseEnter={() => setOpenSubmenu('more')}>
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded={openSubmenu === 'more'}
+            className="rd-tf-menu-item"
+            onClick={() => setOpenSubmenu(prev => (prev === 'more' ? undefined : 'more'))}>
+            <ChevronDown size={14} aria-hidden="true" /><span>更多</span><MoreHorizontal size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
+          </button>
+          {openSubmenu === 'more' && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="更多文件操作">
+            <button type="button" role="menuitem" className="rd-tf-menu-item"
+              onClick={() => { closeMenu(); void copyText(menuEntry ? menuEntry.path : currentPath, '完整路径'); }}>
+              <Copy size={13} aria-hidden="true" /><span>复制完整路径</span>
+            </button>
+            {menuEntry && <button type="button" role="menuitem" className="rd-tf-menu-item"
+              onClick={() => { closeMenu(); void copyText(menuEntry.name, '名称'); }}>
+              <Copy size={13} aria-hidden="true" /><span>复制名称</span>
+            </button>}
+            {clipboard && <button type="button" role="menuitem" className="rd-tf-menu-item"
+              disabled={action.busy}
+              onClick={() => { closeMenu(); handlePaste(true); }}>
+              <ClipboardPaste size={13} aria-hidden="true" /><span>粘贴并覆盖同名项</span>
+            </button>}
+          </div>}
+        </div>
+      </div>
+    </div>}
+
+    {scpDialog && host && <div className="rd-w-dialog-backdrop" role="presentation" onClick={() => setScpDialog(undefined)}>
+      <div className="rd-w-dialog rd-tf-modal" role="dialog" aria-modal="true" aria-label="SCP 跨服务器传输" onClick={e => e.stopPropagation()}>
+        <h3>SCP 跨服务器传输</h3>
+        <p className="rd-w-subtle">将把选中的{scpDialog.sourceEntry.directory ? '文件夹（递归）' : '文件'}从当前服务器传输到目标服务器。</p>
+        <dl className="rd-w-kv">
+          <div><dt>来源服务器</dt><dd>{host.name || host.address}</dd></div>
+          <div><dt>来源路径</dt><dd><code>{scpDialog.sourceEntry.path}</code></dd></div>
+        </dl>
+        <div className="rd-tf-modal-fields">
+          <label className="rd-tf-modal-field">
+            <span>目标服务器</span>
+            <select value={scpDialog.targetHostId} onChange={e => {
+              const nextId = e.currentTarget.value;
+              setScpDialog(prev => prev ? { ...prev, targetHostId: nextId, targetDir: hostPaths.current.get(nextId) ?? '.' } : prev);
+            }}>
+              {connectableHosts.map(item => (
+                <option key={item.id} value={item.id}>{item.name || item.address} ({item.address})</option>
+              ))}
+            </select>
+          </label>
+          <label className="rd-tf-modal-field">
+            <span>目标目录</span>
+            <input spellCheck={false} value={scpDialog.targetDir}
+              onChange={e => setScpDialog(prev => prev ? { ...prev, targetDir: e.currentTarget.value } : prev)}
+              placeholder="例如 /opt 或 ." />
+          </label>
+          <label className="rd-tf-modal-field">
+            <span>传输模式</span>
+            <select value={scpDialog.mode} onChange={e => setScpDialog(prev => prev ? { ...prev, mode: e.currentTarget.value as 'copy' | 'move' } : prev)}>
+              <option value="copy">复制（保留源文件）</option>
+              <option value="move">移动（传输完成后删除源文件）</option>
+            </select>
+          </label>
+          <label className="rd-w-check">
+            <input type="checkbox" checked={scpDialog.overwrite}
+              onChange={e => setScpDialog(prev => prev ? { ...prev, overwrite: e.currentTarget.checked } : prev)} />
+            允许覆盖目标服务器上的同名条目
+          </label>
+        </div>
+        <div className="rd-w-dialog-actions">
+          <Button onClick={() => setScpDialog(undefined)}>取消</Button>
+          <Button variant="primary" disabled={!scpDialog.targetHostId || !scpDialog.targetDir.trim()} onClick={submitScpTransfer}>
+            <Send size={14} aria-hidden="true" />确认传输
+          </Button>
+        </div>
+      </div>
+    </div>}
+
+    {archiveDialog && <div className="rd-w-dialog-backdrop" role="presentation" onClick={() => setArchiveDialog(undefined)}>
+      <div className="rd-w-dialog rd-tf-modal" role="dialog" aria-modal="true"
+        aria-label={archiveDialog.kind === 'archive' ? '压缩远程条目' : '解压远程归档'} onClick={e => e.stopPropagation()}>
+        <h3>{archiveDialog.kind === 'archive' ? '压缩远程条目' : '解压远程归档'}</h3>
+        <dl className="rd-w-kv">
+          <div><dt>来源路径</dt><dd><code>{archiveDialog.entry.path}</code></dd></div>
+        </dl>
+        <div className="rd-tf-modal-fields">
+          <label className="rd-tf-modal-field">
+            <span>{archiveDialog.kind === 'archive' ? '输出压缩包路径（支持 .tar.gz 或 .zip）' : '解压目标目录'}</span>
+            <input spellCheck={false} value={archiveDialog.destination}
+              onChange={e => setArchiveDialog(prev => prev ? { ...prev, destination: e.currentTarget.value } : prev)} />
+          </label>
+          {archiveDialog.kind === 'archive' && activeDir && <div className="rd-tf-format-chips">
+            <button type="button" className="rd-tf-mini-btn"
+              onClick={() => setArchiveDialog(prev => prev ? { ...prev, destination: joinRemotePath(activeDir.path, `${prev.entry.name}.tar.gz`) } : prev)}>
+              .tar.gz
+            </button>
+            <button type="button" className="rd-tf-mini-btn"
+              onClick={() => setArchiveDialog(prev => prev ? { ...prev, destination: joinRemotePath(activeDir.path, `${prev.entry.name}.zip`) } : prev)}>
+              .zip
+            </button>
+          </div>}
+          <label className="rd-w-check">
+            <input type="checkbox" checked={archiveDialog.overwrite}
+              onChange={e => setArchiveDialog(prev => prev ? { ...prev, overwrite: e.currentTarget.checked } : prev)} />
+            允许覆盖目标位置已存在的同名文件
+          </label>
+        </div>
+        <div className="rd-w-dialog-actions">
+          <Button onClick={() => setArchiveDialog(undefined)}>取消</Button>
+          <Button variant="primary" disabled={!archiveDialog.destination.trim()} onClick={submitArchiveAction}>
+            <Archive size={14} aria-hidden="true" />{archiveDialog.kind === 'archive' ? '确认压缩' : '确认解压'}
+          </Button>
+        </div>
+      </div>
+    </div>}
+
+    {editor && <div className="rd-w-dialog-backdrop" role="presentation" onClick={() => setEditor(undefined)}>
+      <div className="rd-w-dialog rd-tf-editor-modal" role="dialog" aria-modal="true" aria-label={`编辑 ${editor.name}`} onClick={e => e.stopPropagation()}>
+        <div className="rd-tf-editor-head">
+          <div>
+            <h3>编辑远程文本文件</h3>
+            <code className="rd-tf-editor-path">{editor.path}</code>
+          </div>
+          <button type="button" className="rd-tf-icon-btn" aria-label="关闭编辑器" onClick={() => setEditor(undefined)}>
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
+        <textarea className="rd-tf-editor-area" spellCheck={false} value={editor.content}
+          disabled={action.busy}
+          onChange={e => setEditor(prev => prev ? { ...prev, content: e.currentTarget.value } : prev)} />
+        <div className="rd-w-dialog-actions">
+          <span className="rd-tf-editor-state">{editor.content === editor.original ? '未修改' : '有未保存更改'}</span>
+          <Button onClick={() => setEditor(undefined)}>关闭</Button>
+          <Button variant="primary" disabled={action.busy || editor.content === editor.original} onClick={submitEditorSave}>
+            <Check size={14} aria-hidden="true" />保存修改
+          </Button>
+        </div>
+      </div>
+    </div>}
+
+    {dialog}
+  </aside>;
+}

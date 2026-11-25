@@ -67,12 +67,17 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe('RelayDock 工作区 · 合成桥接', () => {
-  it('只向匹配的 PTY 发送字节，主机切换关闭旧会话', async () => {
+  it('只向匹配的 PTY 发送字节，主机移除后关闭旧会话', async () => {
     let resolve!: (value: Methods['terminal.open'][1]) => void;
     const openResult = new Promise<Methods['terminal.open'][1]>(done => { resolve = done; });
-    const { api, call, emit } = fixture({ 'terminal.open': () => openResult, 'terminal.close': () => ({ ok: true }), 'terminal.input': () => ({ ok: true }) });
+    const { api, call, emit } = fixture({
+      'terminal.open': () => openResult,
+      'terminal.close': () => ({ ok: true }),
+      'terminal.input': () => ({ ok: true }),
+      'files.list': () => ({ path: '/root', entries: [] }),
+    });
     const view = render(<StrictMode>{pane(api, 'terminal')}</StrictMode>);
-    expect(call).not.toHaveBeenCalled();
+    expect(call.mock.calls.some(([method]) => method === 'terminal.open')).toBe(false);
     fireEvent.click(await screen.findByRole('button', { name: '建立会话' }));
     expect(call).toHaveBeenCalledWith('terminal.open', { hostId: host.id, rows: 24, cols: 80 });
     function output(sessionId: string, seq: number, text: string) {
@@ -92,13 +97,106 @@ describe('RelayDock 工作区 · 合成桥接', () => {
 
   it('关闭在切换主机后才返回的会话', async () => {
     let resolve!: (value: Methods['terminal.open'][1]) => void;
-    const { api, call } = fixture({ 'terminal.open': () => new Promise(done => { resolve = done; }), 'terminal.close': () => ({ ok: true }) });
+    const { api, call } = fixture({
+      'terminal.open': () => new Promise(done => { resolve = done; }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': () => ({ path: '/root', entries: [] }),
+    });
     const view = render(pane(api, 'terminal'));
     fireEvent.click(await screen.findByRole('button', { name: '建立会话' }));
     view.rerender(pane(api, 'terminal', { host: { ...host, id: 'new' } }));
     await act(async () => resolve({ sessionId: 'late' }));
     expect(call).toHaveBeenCalledWith('terminal.close', { sessionId: 'late' });
     expect(screen.getByText('未连接')).toBeTruthy();
+  });
+
+  it('支持多开终端标签，并在切换标签时同步右侧服务器文件列表', async () => {
+    const hostB: Host = { ...host, id: 'host-b', name: '应用节点 B', address: 'node-b.invalid' };
+    let seq = 0;
+    const { api, call } = fixture({
+      'terminal.open': () => ({ sessionId: `pty-${++seq}` }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': params => {
+        const { hostId } = params as { hostId: string; path: string };
+        return hostId === hostB.id
+          ? { path: '/mnt/disk02', entries: [{ name: 'jdk-25', path: '/mnt/disk02/jdk-25', size: 0, directory: true }] }
+          : { path: '/opt', entries: [{ name: 'app.jar', path: '/opt/app.jar', size: 1024, directory: false }] };
+      },
+    });
+    const view = render(pane(api, 'terminal', { host, hosts: [host, hostB] }));
+    expect(await screen.findByText('app.jar')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: '新建终端标签' }));
+    await waitFor(() => expect(call).toHaveBeenCalledWith('terminal.open', { hostId: host.id, rows: 24, cols: 80 }));
+    expect(screen.getAllByRole('tab')).toHaveLength(2);
+
+    view.rerender(pane(api, 'terminal', { host: hostB, hosts: [host, hostB], terminalOpenRequest: { hostId: hostB.id, nonce: 1, forceNew: false } }));
+    await waitFor(() => expect(call).toHaveBeenCalledWith('terminal.open', { hostId: hostB.id, rows: 24, cols: 80 }));
+    expect(await screen.findByText('jdk-25')).toBeTruthy();
+    expect(screen.getAllByRole('tab')).toHaveLength(3);
+    expect(call.mock.calls.some(([method]) => method === 'terminal.close')).toBe(false);
+
+    fireEvent.click(screen.getByRole('button', { name: '关闭终端 应用节点 B' }));
+    await waitFor(() => expect(call).toHaveBeenCalledWith('terminal.close', { sessionId: 'pty-2' }));
+    expect(screen.getAllByRole('tab')).toHaveLength(2);
+    expect(await screen.findByText('app.jar')).toBeTruthy();
+  });
+
+  it('右侧文件列表右键菜单支持跨服务器复制粘贴与压缩归档', async () => {
+    const hostB: Host = { ...host, id: 'host-b', name: '应用节点 B', address: 'node-b.invalid' };
+    const { api, call } = fixture({
+      'terminal.open': () => ({ sessionId: 'pty-x' }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': params => {
+        const { hostId } = params as { hostId: string; path: string };
+        return hostId === hostB.id
+          ? { path: '/mnt/disk02', entries: [{ name: 'jdk-25', path: '/mnt/disk02/jdk-25', size: 0, directory: true }] }
+          : { path: '/opt', entries: [{ name: 'app-dir', path: '/opt/app-dir', size: 0, directory: true }] };
+      },
+      'files.transfer': () => ({ ok: true, files: 3, dirs: 1, bytes: 2048 }),
+      'files.archive': () => ({ ok: true, path: '/opt/app-dir.tar.gz', files: 3, bytes: 1024 }),
+    });
+    const view = render(pane(api, 'terminal', { host, hosts: [host, hostB] }));
+    const folderCell = await screen.findByText('app-dir');
+
+    // Right-click folder on host A and copy it.
+    fireEvent.contextMenu(folderCell);
+    const menu = screen.getByRole('menu', { name: '文件操作菜单' });
+    expect(within(menu).getByRole('menuitem', { name: /打开/ })).toBeTruthy();
+    expect(within(menu).getByRole('menuitem', { name: /SCP/ })).toBeTruthy();
+    expect(within(menu).getByRole('menuitem', { name: /压缩/ })).toBeTruthy();
+    fireEvent.click(within(menu).getByRole('button', { name: '复制' }));
+
+    // Switch to host B, right-click, and paste across servers.
+    view.rerender(pane(api, 'terminal', { host: hostB, hosts: [host, hostB], terminalOpenRequest: { hostId: hostB.id, nonce: 2, forceNew: false } }));
+    const targetCell = await screen.findByText('jdk-25');
+    fireEvent.contextMenu(targetCell);
+    const menuB = screen.getByRole('menu', { name: '文件操作菜单' });
+    fireEvent.click(within(menuB).getByRole('button', { name: '粘贴' }));
+    accept('确认跨服务器复制');
+    await waitFor(() => expect(call).toHaveBeenCalledWith('files.transfer', {
+      sourceHostId: host.id,
+      sourcePath: '/opt/app-dir',
+      targetHostId: hostB.id,
+      targetPath: '/mnt/disk02/app-dir',
+      mode: 'copy',
+      overwrite: false,
+      confirmed: true,
+    }));
+
+    // Switch back to host A and archive app-dir.
+    fireEvent.click(screen.getAllByRole('tab')[0]!);
+    const folderBack = await within(screen.getByRole('table', { name: '远端目录条目' })).findByText('app-dir');
+    fireEvent.contextMenu(folderBack);
+    fireEvent.click(within(screen.getByRole('menu', { name: '文件操作菜单' })).getByRole('menuitem', { name: '压缩' }));
+    fireEvent.click(within(screen.getByRole('dialog', { name: '压缩远程条目' })).getByRole('button', { name: '确认压缩' }));
+    await waitFor(() => expect(call).toHaveBeenCalledWith('files.archive', {
+      hostId: host.id,
+      path: '/opt/app-dir',
+      destination: '/opt/app-dir.tar.gz',
+      overwrite: false,
+      confirmed: true,
+    }));
   });
 
   it('文本写入提交原摘要并保留 CRLF；远端冲突后保留草稿', async () => {

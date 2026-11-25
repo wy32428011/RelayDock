@@ -120,6 +120,9 @@ export interface CoreMethods {
   'files.delete': [HostPath & {recursive?: boolean; confirmed: boolean}, {ok: boolean}];
   'files.upload': [HostPath & {token: string; overwrite?: boolean; confirmed: boolean}, {ok: boolean}];
   'files.download': [HostPath & {token: string}, {ok: boolean}];
+  'files.transfer': [{sourceHostId: string; sourcePath: string; targetHostId: string; targetPath: string; mode: 'copy'|'move'; overwrite?: boolean; confirmed: boolean}, {ok: boolean; files: number; dirs: number; bytes: number}];
+  'files.archive': [HostPath & {destination: string; overwrite?: boolean; confirmed: boolean}, {ok: boolean; path: string; files: number; bytes: number}];
+  'files.extract': [HostPath & {destination: string; overwrite?: boolean; confirmed: boolean}, {ok: boolean; path: string; files: number; dirs: number}];
   'custom.list': [Empty, CustomApp[]];
   'custom.save': [CustomApp, CustomApp];
   'custom.delete': [{id: string}, {ok: boolean}];
@@ -136,7 +139,7 @@ export const coreMethods = [
   'operation.validate','operation.start','operation.batch','operation.list','operation.get','operation.cancel','operation.clearLogs',
   'resource.list','resource.inspect','resource.import',
   'terminal.open','terminal.input','terminal.resize','terminal.close',
-  'files.list','files.read','files.write','files.mkdir','files.rename','files.delete','files.upload','files.download',
+  'files.list','files.read','files.write','files.mkdir','files.rename','files.delete','files.upload','files.download','files.transfer','files.archive','files.extract',
   'custom.list','custom.save','custom.delete','custom.run',
   'settings.get','settings.save','settings.updateCheck','migration.preview','migration.apply','migration.history',
 ] as const satisfies readonly (keyof CoreMethods)[];

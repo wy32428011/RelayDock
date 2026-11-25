@@ -113,8 +113,11 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
   const [drawer, setDrawer] = useState<'hosts' | 'tasks'>();
   const [feedback, setFeedback] = useState('');
   const [updateState, setUpdateState] = useState<UpdateState>();
+  const [terminalRequest, setTerminalRequest] = useState<{ hostId: string; nonce: number; forceNew?: boolean }>();
   const small = useMedia('(max-width: 760px)');
   const tasksInDrawer = useMedia('(max-width: 1120px)');
+  const terminalMode = page === 'terminal';
+  const hideTaskRail = tasksInDrawer || terminalMode;
   const systemLight = useMedia('(prefers-color-scheme: light)');
   const health = useCoreHealth(api, revision);
   const ready = health.phase === 'ready';
@@ -188,7 +191,16 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
   function selectHost(id: string) {
     setSelectedId(id);
     setDrawer(undefined);
+    if (page === 'terminal') {
+      setTerminalRequest((prev) => ({ hostId: id, nonce: (prev?.nonce ?? 0) + 1, forceNew: false }));
+    }
     if (toolPages.some((item) => item.id === page)) setPage('overview');
+  }
+
+  function openNewTerminal(id: string) {
+    setSelectedId(id);
+    setDrawer(undefined);
+    setTerminalRequest((prev) => ({ hostId: id, nonce: (prev?.nonce ?? 0) + 1, forceNew: true }));
   }
 
   function startAdd() {
@@ -228,7 +240,7 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
   }
 
   const hostRail = <HostRail hosts={hosts} selectedId={host?.id} ready={ready} loading={ready && loading}
-    error={hostError} onAdd={startAdd} onSelect={selectHost} tools={
+    error={hostError} onAdd={startAdd} onSelect={selectHost} onOpenTerminal={terminalMode ? openNewTerminal : undefined} tools={
       <nav className="tool-nav" aria-label="全局工具">{toolPages.map(({ id, label, icon: Icon }) =>
         <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={17} aria-hidden="true" />{label}</button>)}</nav>
     } />;
@@ -255,7 +267,7 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
             <span>{updateState.status === 'downloaded' ? `安装 v${updateState.latestVersion}` : `新版本 v${updateState.latestVersion}`}</span>
           </button>
         )}
-        {tasksInDrawer && <button className="rd-button topbar-queue" aria-label={`打开任务队列，${activeCount} 项活动任务`} aria-haspopup="dialog" onClick={() => setDrawer('tasks')}>
+        {hideTaskRail && <button className="rd-button topbar-queue" aria-label={`打开任务队列，${activeCount} 项活动任务`} aria-haspopup="dialog" onClick={() => setDrawer('tasks')}>
           <ListTodo size={17} aria-hidden="true" /><span>任务</span>{activeCount > 0 && <span className="rail-count">{activeCount}</span>}
         </button>}
         <button className="rd-icon" disabled={!api} onClick={refresh} aria-label="刷新工作台" title="刷新工作台"><RefreshCw size={16} aria-hidden="true" /></button>
@@ -265,12 +277,12 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
       </div>
     </header>
 
-    <div className="rd-frame" data-host-drawer={small} data-task-drawer={tasksInDrawer}>
+    <div className="rd-frame" data-host-drawer={small} data-task-drawer={hideTaskRail}>
       {!small && hostRail}
       <div className="workspace-frame">
         <nav className="work-nav" aria-label="主机工作区功能">{workPages.map(({ id, label, icon: Icon }) =>
           <button key={id} aria-current={page === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={17} aria-hidden="true" /><span>{label}</span></button>)}</nav>
-        <main id="workspace-main" className="workspace-main" tabIndex={-1}>
+        <main id="workspace-main" className="workspace-main" data-terminal={terminalMode} tabIndex={-1}>
           {feedback && <div className="feedback-strip"><div role="status"><CircleCheck size={17} aria-hidden="true" />{feedback}</div><button className="rd-button text-button" onClick={() => setFeedback('')}>关闭提示</button></div>}
           {page === 'overview' ? <>
             <header className="workspace-heading"><div><h1>主机工作区</h1><p>检测、安装和卸载选定主机上的组件。</p></div>
@@ -285,14 +297,16 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
           </> : <>
             <h1 className="sr-only">{pageLabel}</h1>
             {ready && api ? <>
-              {remotePane && targetRestriction && <Notice tone="warn">{targetRestriction}。<button className="rd-button text-button" onClick={() => { if (host) setHostAction({ kind: 'edit', host }); }}>编辑 / 测试主机</button></Notice>}
-              <WorkspacePane pane={page} api={api} host={remotePane && targetRestriction ? undefined : host} tasks={feed.tasks} catalog={catalog} onTheme={setTheme}
+              {remotePane && !terminalMode && targetRestriction && <Notice tone="warn">{targetRestriction}。<button className="rd-button text-button" onClick={() => { if (host) setHostAction({ kind: 'edit', host }); }}>编辑 / 测试主机</button></Notice>}
+              <WorkspacePane pane={page} api={api} host={remotePane && !terminalMode && targetRestriction ? undefined : host}
+                hosts={hosts} terminalOpenRequest={terminalRequest} onSelectHost={setSelectedId}
+                tasks={feed.tasks} catalog={catalog} onTheme={setTheme}
                 onImport={() => setDataRevision((value) => value + 1)} />
             </> : <section className="pane-unavailable"><h2>{pageLabel}</h2><EmptyState icon={<CircleAlert size={22} />} title={statusLabel}>{offlineText}</EmptyState></section>}
           </>}
         </main>
       </div>
-      {!tasksInDrawer && taskRail}
+      {!hideTaskRail && taskRail}
     </div>
 
     <footer className="rd-statusbar" aria-label="工作台状态">
@@ -309,7 +323,7 @@ export function App({ api = readBridge() }: { api?: Bridge }) {
     </footer>
 
     {drawer === 'hosts' && small && <Modal title="主机与工具" onDismiss={() => setDrawer(undefined)} className="rail-drawer drawer-left">{hostRail}</Modal>}
-    {drawer === 'tasks' && tasksInDrawer && <Modal title="任务与事件" onDismiss={() => setDrawer(undefined)} className="rail-drawer drawer-right">{taskRail}</Modal>}
+    {drawer === 'tasks' && hideTaskRail && <Modal title="任务与事件" onDismiss={() => setDrawer(undefined)} className="rail-drawer drawer-right">{taskRail}</Modal>}
     {api && hostAction && (hostAction.kind === 'remove'
       ? <RemoveHostDialog api={api} host={hostAction.host} available={ready} onCancel={() => setHostAction(undefined)} onRemoved={() => hostRemoved(hostAction.host)} />
       : <HostDialog api={api} host={hostAction.kind === 'edit' ? hostAction.host : undefined} available={ready} onCancel={() => setHostAction(undefined)} onSaved={hostSaved} />)}
