@@ -102,7 +102,7 @@ try {
     await expect(window.getByRole('heading', { level: 2, name: heading, exact: true })).toBeVisible();
     if (button === '自定义部署') {
       await window.getByRole('button', { name: '新建', exact: true }).click();
-      const kind = window.getByLabel('类型', { exact: true });
+      const kind = window.getByRole('combobox', { name: '类型', exact: true });
       await expect(kind).toHaveValue('GENERIC');
       await expect(kind.getByRole('option', { name: '通用服务', exact: true })).toHaveText('通用服务');
     }
