@@ -84,6 +84,13 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
     steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          lfs: false
+          sparse-checkout: |
+            version.md
+          sparse-checkout-cone-mode: false
       - uses: actions/download-artifact@v5
         with:
           path: downloaded
@@ -96,6 +103,44 @@ jobs:
           ls -la release-dist
           (cd release-dist && sha256sum RelayDock-*-win-*.exe > SHA256SUMS.txt)
           cat release-dist/SHA256SUMS.txt
+      - name: Extract release notes from version.md
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'EOF'
+          const fs = require("node:fs");
+          const tag = (process.env.RELEASE_TAG || "").trim();
+          const file = "version.md";
+          if (!fs.existsSync(file)) {
+            console.log("::warning::未找到 version.md，将回退到 GitHub 自动生成说明。");
+            process.exit(0);
+          }
+          const lines = fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n").split("\n");
+          const escapedTag = tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const headingRe = new RegExp(`^##\\s+${escapedTag}(?:$|[\\s（(])`);
+          const startIdx = lines.findIndex((line) => headingRe.test(line.trim()));
+          if (startIdx === -1) {
+            console.log(`::warning::未在 version.md 中找到 ${tag} 对应章节，将回退到 GitHub 自动生成说明。`);
+            process.exit(0);
+          }
+          const section = [];
+          for (let i = startIdx + 1; i < lines.length; i++) {
+            if (/^##\s+/.test(lines[i])) break;
+            section.push(lines[i]);
+          }
+          while (section.length && section[0].trim() === "") section.shift();
+          while (section.length && (section[section.length - 1].trim() === "" || /^-{3,}$/.test(section[section.length - 1].trim()))) {
+            section.pop();
+          }
+          const notes = section.join("\n").trim();
+          if (!notes) {
+            console.log(`::warning::version.md 中 ${tag} 章节内容为空，将回退到 GitHub 自动生成说明。`);
+            process.exit(0);
+          }
+          fs.writeFileSync("release-notes.md", `${notes}\n`, "utf8");
+          console.log(`已从 version.md 提取 ${tag} 更新说明（${notes.length} 字符）：`);
+          console.log(notes);
+          EOF
       - name: Create or update GitHub Release
         shell: bash
         run: |
@@ -103,9 +148,22 @@ jobs:
           TAG="${RELEASE_TAG}"
           if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release upload "$TAG" release-dist/* --repo "${{ github.repository }}" --clobber
+            if [ -s release-notes.md ]; then
+              gh release edit "$TAG" \
+                --repo "${{ github.repository }}" \
+                --title "RelayDock $TAG" \
+                --notes-file release-notes.md
+            fi
           else
-            gh release create "$TAG" release-dist/* \
-              --repo "${{ github.repository }}" \
-              --title "RelayDock $TAG" \
-              --generate-notes
+            if [ -s release-notes.md ]; then
+              gh release create "$TAG" release-dist/* \
+                --repo "${{ github.repository }}" \
+                --title "RelayDock $TAG" \
+                --notes-file release-notes.md
+            else
+              gh release create "$TAG" release-dist/* \
+                --repo "${{ github.repository }}" \
+                --title "RelayDock $TAG" \
+                --generate-notes
+            fi
           fi

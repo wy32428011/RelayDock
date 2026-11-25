@@ -58,8 +58,8 @@ export function userDataPath(appData: string, override?: string): string {
     try {
       const input = localPath(override);
       if (!input) throw new Error();
-      const target = realpathSync(input);
-      if (!below(realpathSync(tmpdir()), target) || !basename(target).startsWith('relaydock-smoke-') || !statSync(target).isDirectory()) {
+      const target = realpathSync.native(input);
+      if (!below(realpathSync.native(tmpdir()), target) || !basename(target).startsWith('relaydock-smoke-') || !statSync(target).isDirectory()) {
         throw new Error();
       }
       return target;
