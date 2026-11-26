@@ -187,6 +187,7 @@ export function TerminalFilePanel({
   const rowRefs = useRef<Map<string, HTMLTableRowElement>>(new Map());
   const windowRefocusedAt = useRef<number>(0);
   const menuRef = useRef<HTMLDivElement>(null);
+  const submenuCloseTimerRef = useRef<number | undefined>(undefined);
   const action = useAction();
   const { confirm, dialog } = useConfirmation();
 
@@ -270,12 +271,14 @@ export function TerminalFilePanel({
     if (!menu) return;
     function onPointerDown(event: PointerEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        cancelSubmenuClose();
         setMenu(undefined);
         setOpenSubmenu(undefined);
       }
     }
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
+        cancelSubmenuClose();
         setMenu(undefined);
         setOpenSubmenu(undefined);
       }
@@ -283,6 +286,7 @@ export function TerminalFilePanel({
     window.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('keydown', onKeyDown);
     return () => {
+      cancelSubmenuClose();
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('keydown', onKeyDown);
     };
@@ -400,7 +404,28 @@ export function TerminalFilePanel({
     }
   }
 
+  function cancelSubmenuClose() {
+    if (submenuCloseTimerRef.current !== undefined) {
+      window.clearTimeout(submenuCloseTimerRef.current);
+      submenuCloseTimerRef.current = undefined;
+    }
+  }
+
+  function openSubmenuNow(target: 'scp' | 'more') {
+    cancelSubmenuClose();
+    setOpenSubmenu(target);
+  }
+
+  function scheduleSubmenuClose(target: 'scp' | 'more') {
+    cancelSubmenuClose();
+    submenuCloseTimerRef.current = window.setTimeout(() => {
+      submenuCloseTimerRef.current = undefined;
+      setOpenSubmenu(prev => (prev === target ? undefined : prev));
+    }, 100);
+  }
+
   function closeMenu() {
+    cancelSubmenuClose();
     setMenu(undefined);
     setOpenSubmenu(undefined);
   }
@@ -415,6 +440,7 @@ export function TerminalFilePanel({
     const menuHeight = 430;
     const x = Math.max(8, Math.min(event.clientX, window.innerWidth - menuWidth - 8));
     const y = Math.max(8, Math.min(event.clientY, window.innerHeight - menuHeight - 8));
+    cancelSubmenuClose();
     setOpenSubmenu(undefined);
     setMenu({ x, y, entry });
   }
@@ -1328,11 +1354,12 @@ export function TerminalFilePanel({
           <FolderUp size={14} aria-hidden="true" /><span>上传文件夹...</span>
         </button>
 
-        <div className={`rd-tf-menu-subwrap${openSubmenu === 'scp' ? ' is-open' : ''}`}
-          onMouseEnter={() => menuEntryValid && setOpenSubmenu('scp')}>
+        <div className={`rd-tf-menu-subwrap${openSubmenu === 'scp' ? ' is-open' : ''}${submenuAlignLeft ? ' is-left' : ''}`}
+          onMouseEnter={() => { if (menuEntryValid) openSubmenuNow('scp'); }}
+          onMouseLeave={() => scheduleSubmenuClose('scp')}>
           <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded={openSubmenu === 'scp'}
             className="rd-tf-menu-item" disabled={!menuEntryValid || action.busy}
-            onClick={() => setOpenSubmenu(prev => (prev === 'scp' ? undefined : 'scp'))}>
+            onClick={() => { cancelSubmenuClose(); setOpenSubmenu(prev => (prev === 'scp' ? undefined : 'scp')); }}>
             <Send size={14} aria-hidden="true" /><span>SCP</span><ChevronRight size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
           </button>
           {openSubmenu === 'scp' && menuEntry && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="SCP 跨服务器传输">
@@ -1382,11 +1409,12 @@ export function TerminalFilePanel({
           onClick={() => { closeMenu(); if (menuTargets.length > 0) handleDelete(menuTargets); }}>
           <Trash2 size={14} aria-hidden="true" /><span>{menuTargets.length > 1 ? `删除 (${menuTargets.length} 项)` : '删除'}</span><kbd>Delete</kbd>
         </button>
-        <div className={`rd-tf-menu-subwrap${openSubmenu === 'more' ? ' is-open' : ''}`}
-          onMouseEnter={() => setOpenSubmenu('more')}>
+        <div className={`rd-tf-menu-subwrap${openSubmenu === 'more' ? ' is-open' : ''}${submenuAlignLeft ? ' is-left' : ''}`}
+          onMouseEnter={() => openSubmenuNow('more')}
+          onMouseLeave={() => scheduleSubmenuClose('more')}>
           <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded={openSubmenu === 'more'}
             className="rd-tf-menu-item"
-            onClick={() => setOpenSubmenu(prev => (prev === 'more' ? undefined : 'more'))}>
+            onClick={() => { cancelSubmenuClose(); setOpenSubmenu(prev => (prev === 'more' ? undefined : 'more')); }}>
             <ChevronDown size={14} aria-hidden="true" /><span>更多</span><MoreHorizontal size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
           </button>
           {openSubmenu === 'more' && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="更多文件操作">

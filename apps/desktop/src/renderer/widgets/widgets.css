@@ -694,6 +694,16 @@
 }
 .rd-widgets .rd-tf-menu-arrow { color: var(--rd-w-muted); flex-shrink: 0; }
 .rd-widgets .rd-tf-menu-subwrap { position: relative; }
+.rd-widgets .rd-tf-menu-subwrap.is-open > .rd-tf-menu-item:not(:disabled) { background: var(--rd-w-tint); color: var(--rd-w-accent); }
+.rd-widgets .rd-tf-menu-subwrap.is-open::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: 100%;
+  width: 8px;
+}
+.rd-widgets .rd-tf-menu-subwrap.is-open.is-left::after { left: auto; right: 100%; }
 .rd-widgets .rd-tf-submenu {
   position: absolute;
   top: -4px;
