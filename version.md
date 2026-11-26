@@ -4,6 +4,25 @@
 
 ---
 
+## v0.1.6（2026-11-26）
+
+### 变更内容：右侧远端文件列表支持多选、键盘快捷键与本机剪贴板文件/文件夹粘贴
+
+1. **右侧文件列表支持多选与鼠标/焦点交互增强**
+   - 在终端右侧远端文件列表（`terminal-files.tsx`、`widgets.css`）新增单选、`Ctrl/Cmd + 单击` 多选、`Shift + 单击` 连续范围选择与点击空白区域清空选择，顶部统计栏实时展示 `已选 N 项`，焦点行带有左侧高亮标识。
+   - 右键菜单保留多选集合并支持批量复制、剪切与删除，在「更多」子菜单补充 `全选 (Ctrl+A)`，将删除快捷键提示更新为 `Delete`。
+2. **补齐完整键盘导航与常用快捷键**
+   - 支持 `Ctrl+A` / `Cmd+A` 全选、`Delete`（macOS 兼容 `Cmd+Backspace`）删除单个或批量删除已选条目（含二次确认）、`↑`/`↓`/`Home`/`End` 移动焦点行（配合 `Shift` 连续扩选并自动滚动）。
+   - 支持 `Enter` 打开目录/编辑文件、`Backspace` 返回上级目录、`F2` 重命名、`F5`/`Ctrl+R` 刷新、`Ctrl+F` 聚焦筛选框、`Ctrl+Alt+E` 编辑、`Esc` 关闭菜单或取消选择，以及 `Ctrl+C` / `Ctrl+X` / `Ctrl+V` 远端多选复制、剪切与跨服务器粘贴。
+3. **新增本机剪贴板文件/文件夹直接复制粘贴上传**
+   - 新增受控桌面端协议方法 `clipboard.readFiles`（`packages/protocol/index.ts`、`channels.ts`、`validation.ts`、`file-grants.ts`、`desktop.ts`、`clipboard-files.ts`），主进程读取系统剪贴板中的本地文件与文件夹（兼容 Windows `FileNameW` / `GetFileDropList()`、macOS `NSFilenamesPboardType` / `public.file-url` 与 Linux `x-special/gnome-copied-files` / `text/uri-list`），并通过 `FileGrants` 签发不透明授权令牌。
+   - 在文件面板按 `Ctrl+V` 或点击右键「粘贴」时自动识别本机剪贴板文件/文件夹，经弹窗核对目标目录与同名冲突后逐项上传。
+4. **补充配套单测并升级版本号至 `0.1.6`**
+   - 补充剪贴板协议校验与跨平台格式解析单测（`boundary.test.ts`）以及前端全选、方向键导航、批量删除与本机剪贴板粘贴上传单测（`widgets.test.tsx`）。
+   - 统一将版本号升级至 `0.1.6`（`package.json`、`apps/desktop/package.json`、`package-lock.json`、`backend/internal/state/store.go`）。
+
+---
+
 ## v0.1.5（2026-11-25）
 
 ### 变更内容：右侧远端文件列表右键菜单新增「终端切到当前目录」功能

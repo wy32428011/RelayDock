@@ -436,6 +436,7 @@
   background: var(--rd-w-panel);
   border-inline-start: 1px solid var(--divider, var(--rd-w-line));
 }
+.rd-widgets .rd-tf-panel:focus { outline: none; }
 .rd-widgets .rd-tf-toolbar {
   display: flex;
   align-items: center;
@@ -497,10 +498,15 @@
   font-family: var(--rd-w-mono);
   color: var(--rd-w-accent);
 }
+.rd-widgets .rd-tf-selected-badge {
+  margin-inline-start: 8px;
+  color: var(--rd-w-accent);
+  font-weight: 600;
+}
 .rd-widgets .rd-tf-notice { padding: 6px 8px 0; flex-shrink: 0; }
 .rd-widgets .rd-tf-list-wrap { flex: 1 1 0; min-height: 0; overflow: auto; }
 .rd-widgets .rd-tf-empty { height: 100%; display: grid; place-items: center; padding: 16px; }
-.rd-widgets .rd-tf-table { width: 100%; border-collapse: collapse; font-size: .78rem; table-layout: fixed; }
+.rd-widgets .rd-tf-table { width: 100%; border-collapse: collapse; font-size: .78rem; table-layout: fixed; user-select: none; }
 .rd-widgets .rd-tf-table thead th {
   position: sticky;
   top: 0;
@@ -531,6 +537,7 @@
 .rd-widgets .rd-tf-row { cursor: pointer; border-bottom: 1px solid color-mix(in srgb, var(--divider, var(--rd-w-line)) 50%, transparent); }
 .rd-widgets .rd-tf-row:hover { background: var(--surface-raised, var(--rd-w-field)); }
 .rd-widgets .rd-tf-row.is-selected { background: var(--rd-w-tint); }
+.rd-widgets .rd-tf-row.is-active { box-shadow: inset 2px 0 0 var(--rd-w-accent); }
 .rd-widgets .rd-tf-row td { padding: 6px; vertical-align: middle; }
 .rd-widgets .rd-tf-name-cell { overflow: hidden; }
 .rd-widgets .rd-tf-name { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; }

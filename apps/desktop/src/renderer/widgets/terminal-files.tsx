@@ -12,14 +12,21 @@ type Directory = Methods['files.list'][1];
 type SortKey = 'name' | 'modifiedAt' | 'size';
 type SortDir = 'asc' | 'desc';
 
-export interface FileClipboard {
-  hostId: string;
-  hostName: string;
+export interface FileClipboardItem {
   path: string;
   name: string;
   directory: boolean;
-  mode: 'copy' | 'move';
 }
+
+export interface FileClipboard {
+  hostId: string;
+  hostName: string;
+  items: FileClipboardItem[];
+  mode: 'copy' | 'move';
+  copiedAt: number;
+}
+
+type LocalClipboardFile = Methods['clipboard.readFiles'][1][number];
 
 interface ContextMenuState {
   x: number;
@@ -160,7 +167,9 @@ export function TerminalFilePanel({
   const [filter, setFilter] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
-  const [selected, setSelected] = useState<FileEntry>();
+  const [selectedPaths, setSelectedPaths] = useState<string[]>([]);
+  const [activePath, setActivePath] = useState<string>();
+  const [anchorPath, setAnchorPath] = useState<string>();
   const [inlineMode, setInlineMode] = useState<'mkdir' | 'rename' | undefined>();
   const [inlineValue, setInlineValue] = useState('');
   const [loadedHostId, setLoadedHostId] = useState<string>();
@@ -173,6 +182,10 @@ export function TerminalFilePanel({
   const [scpDialog, setScpDialog] = useState<ScpDialogState>();
   const [archiveDialog, setArchiveDialog] = useState<ArchiveDialogState>();
   const [chmodDialog, setChmodDialog] = useState<ChmodDialogState>();
+  const panelRef = useRef<HTMLElement>(null);
+  const filterInputRef = useRef<HTMLInputElement>(null);
+  const rowRefs = useRef<Map<string, HTMLTableRowElement>>(new Map());
+  const windowRefocusedAt = useRef<number>(0);
   const menuRef = useRef<HTMLDivElement>(null);
   const action = useAction();
   const { confirm, dialog } = useConfirmation();
@@ -198,6 +211,22 @@ export function TerminalFilePanel({
   const hasParent = Boolean(activeDir && parentPath !== activeDir.path);
   const hostBookmarks = useMemo(() => (hostId ? (bookmarks[hostId] ?? []) : []), [bookmarks, hostId]);
 
+  function clearSelection() {
+    setSelectedPaths([]);
+    setActivePath(undefined);
+    setAnchorPath(undefined);
+  }
+
+  function selectSingle(entry: FileEntry) {
+    setSelectedPaths([entry.path]);
+    setActivePath(entry.path);
+    setAnchorPath(entry.path);
+  }
+
+  function focusPanel() {
+    panelRef.current?.focus({ preventScroll: true });
+  }
+
   function loadDirectory(targetHostId: string, targetPath: string) {
     if (!targetPath.trim()) return;
     void action.run(async current => {
@@ -207,13 +236,19 @@ export function TerminalFilePanel({
       setLoadedHostId(targetHostId);
       setDirectory(result);
       setPathInput(result.path);
-      setSelected(undefined);
+      clearSelection();
       setInlineMode(undefined);
     });
   }
 
   useEffect(() => {
-    setSelected(undefined);
+    const onFocus = () => { windowRefocusedAt.current = Date.now(); };
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, []);
+
+  useEffect(() => {
+    clearSelection();
     setInlineMode(undefined);
     setFilter('');
     setMenu(undefined);
@@ -281,6 +316,82 @@ export function TerminalFilePanel({
     return list;
   }, [entries, filter, sortKey, sortDir]);
 
+  const selectedSet = useMemo(() => new Set(selectedPaths), [selectedPaths]);
+  const selectedEntries = useMemo(
+    () => visibleEntries.filter(item => selectedSet.has(item.path)),
+    [visibleEntries, selectedSet],
+  );
+  const selected = useMemo(
+    () => selectedEntries.find(item => item.path === activePath) ?? selectedEntries[0],
+    [selectedEntries, activePath],
+  );
+
+  function selectAllVisible() {
+    if (visibleEntries.length === 0) return;
+    setSelectedPaths(visibleEntries.map(item => item.path));
+    if (!activePath || !visibleEntries.some(item => item.path === activePath)) {
+      setActivePath(visibleEntries[0].path);
+    }
+    setAnchorPath(visibleEntries[0].path);
+  }
+
+  function scrollRowIntoView(path: string) {
+    const row = rowRefs.current.get(path);
+    if (row && typeof row.scrollIntoView === 'function') {
+      row.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function moveSelection(targetIndex: number, extend: boolean) {
+    if (visibleEntries.length === 0) return;
+    const clamped = Math.max(0, Math.min(visibleEntries.length - 1, targetIndex));
+    const target = visibleEntries[clamped];
+    if (!target) return;
+    if (extend) {
+      const anchorIdx = anchorPath ? visibleEntries.findIndex(item => item.path === anchorPath) : -1;
+      const start = anchorIdx >= 0 ? anchorIdx : clamped;
+      const [lo, hi] = start <= clamped ? [start, clamped] : [clamped, start];
+      setSelectedPaths(visibleEntries.slice(lo, hi + 1).map(item => item.path));
+      setActivePath(target.path);
+      if (anchorIdx < 0) setAnchorPath(target.path);
+    } else {
+      selectSingle(target);
+    }
+    scrollRowIntoView(target.path);
+  }
+
+  function handleRowClick(event: ReactMouseEvent<HTMLTableRowElement>, entry: FileEntry) {
+    focusPanel();
+    if (event.shiftKey) {
+      const targetIdx = visibleEntries.findIndex(item => item.path === entry.path);
+      const anchorKey = anchorPath ?? activePath;
+      const anchorIdx = anchorKey ? visibleEntries.findIndex(item => item.path === anchorKey) : -1;
+      if (targetIdx >= 0 && anchorIdx >= 0) {
+        const [lo, hi] = anchorIdx <= targetIdx ? [anchorIdx, targetIdx] : [targetIdx, anchorIdx];
+        const range = visibleEntries.slice(lo, hi + 1).map(item => item.path);
+        if (event.ctrlKey || event.metaKey) {
+          setSelectedPaths(prev => Array.from(new Set([...prev, ...range])));
+        } else {
+          setSelectedPaths(range);
+        }
+        setActivePath(entry.path);
+        return;
+      }
+      selectSingle(entry);
+      return;
+    }
+    if (event.ctrlKey || event.metaKey) {
+      setSelectedPaths(prev => {
+        if (prev.includes(entry.path)) return prev.filter(item => item !== entry.path);
+        return [...prev, entry.path];
+      });
+      setActivePath(entry.path);
+      setAnchorPath(entry.path);
+      return;
+    }
+    selectSingle(entry);
+  }
+
   function toggleSort(key: SortKey) {
     if (sortKey === key) setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'));
     else {
@@ -298,7 +409,8 @@ export function TerminalFilePanel({
     if (!hostId || !activeDir) return;
     event.preventDefault();
     event.stopPropagation();
-    if (entry) setSelected(entry);
+    focusPanel();
+    if (entry && !selectedSet.has(entry.path)) selectSingle(entry);
     const menuWidth = 236;
     const menuHeight = 430;
     const x = Math.max(8, Math.min(event.clientX, window.innerWidth - menuWidth - 8));
@@ -317,7 +429,7 @@ export function TerminalFilePanel({
       setLoadedHostId(targetHostId);
       setDirectory(result);
       setPathInput(result.path);
-      setSelected(undefined);
+      clearSelection();
     } catch (error) {
       if (current()) action.setNotice({ tone: 'info', text: `${message} 目录未能刷新：${faultText(error)}` });
     }
@@ -355,20 +467,57 @@ export function TerminalFilePanel({
     });
   }
 
-  function handleDelete(entry: FileEntry) {
+  function handleDelete(targetsInput: FileEntry | FileEntry[]) {
     if (!host || !hostId || !activeDir) return;
+    const targets = Array.isArray(targetsInput) ? targetsInput : [targetsInput];
+    if (targets.length === 0) return;
     const dir = activeDir.path;
-    const recursive = Boolean(entry.directory && !entry.link);
+    if (targets.length === 1) {
+      const entry = targets[0];
+      const recursive = Boolean(entry.directory && !entry.link);
+      confirm({
+        title: recursive ? '删除远程目录？' : '删除远程条目？',
+        description: recursive ? '将递归删除该目录及其中的全部子目录和文件，且不可撤销。' : '将删除此远端条目，且不可撤销。',
+        acceptLabel: '确认删除',
+        danger: true,
+        info: [['主机', remoteTarget(host)], ['目标路径', <code>{entry.path}</code>], ['类型', entry.link ? '符号链接' : entry.directory ? '目录（递归）' : '文件']],
+        perform: () => {
+          void action.run(async current => {
+            requireOk(await api.call('files.delete', { hostId, path: entry.path, recursive, confirmed: true }), '核心未确认删除结果。');
+            await refreshAfterMutation(hostId, dir, current, `已删除 ${entry.path}。`);
+          });
+        },
+      });
+      return;
+    }
+    const dirCount = targets.filter(item => item.directory && !item.link).length;
+    const preview = targets.slice(0, 4).map(item => item.name).join('、') + (targets.length > 4 ? ` 等共 ${targets.length} 项` : '');
     confirm({
-      title: recursive ? '删除远程目录？' : '删除远程条目？',
-      description: recursive ? '将递归删除该目录及其中的全部子目录和文件，且不可撤销。' : '将删除此远端条目，且不可撤销。',
-      acceptLabel: '确认删除',
+      title: `删除 ${targets.length} 个远程条目？`,
+      description: dirCount > 0
+        ? `将永久删除所选 ${targets.length} 个条目（包含 ${dirCount} 个目录，将递归删除其中全部内容），且不可撤销。`
+        : `将永久删除所选 ${targets.length} 个远端条目，且不可撤销。`,
+      acceptLabel: `确认删除 (${targets.length})`,
       danger: true,
-      info: [['主机', remoteTarget(host)], ['目标路径', <code>{entry.path}</code>], ['类型', entry.link ? '符号链接' : entry.directory ? '目录（递归）' : '文件']],
+      info: [['主机', remoteTarget(host)], ['所在目录', <code>{dir}</code>], ['待删除项', preview]],
       perform: () => {
         void action.run(async current => {
-          requireOk(await api.call('files.delete', { hostId, path: entry.path, recursive, confirmed: true }), '核心未确认删除结果。');
-          await refreshAfterMutation(hostId, dir, current, `已删除 ${entry.path}。`);
+          let deleted = 0;
+          const failed: string[] = [];
+          for (const entry of targets) {
+            if (!current()) return;
+            try {
+              const recursive = Boolean(entry.directory && !entry.link);
+              requireOk(await api.call('files.delete', { hostId, path: entry.path, recursive, confirmed: true }), '核心未确认删除结果。');
+              deleted++;
+            } catch (error) {
+              failed.push(`${entry.name}（${faultText(error)}）`);
+            }
+          }
+          const summary = failed.length > 0
+            ? `已删除 ${deleted} 个条目，${failed.length} 个失败：${failed.slice(0, 2).join('；')}`
+            : `已批量删除 ${deleted} 个远程条目。`;
+          await refreshAfterMutation(hostId, dir, current, summary);
         });
       },
     });
@@ -446,67 +595,224 @@ export function TerminalFilePanel({
     else handleEdit(entry);
   }
 
-  function setClipboardFromEntry(entry: FileEntry, mode: 'copy' | 'move') {
-    if (!host || !hostId || entry.link) return;
+  function setClipboardFromEntries(targetsInput: FileEntry | FileEntry[], mode: 'copy' | 'move') {
+    if (!host || !hostId) return;
+    const targets = (Array.isArray(targetsInput) ? targetsInput : [targetsInput]).filter(item => !item.link);
+    if (targets.length === 0) {
+      action.setNotice({ tone: 'info', text: '符号链接暂不支持复制或剪切。' });
+      return;
+    }
     const label = host.name || host.address;
+    const items: FileClipboardItem[] = targets.map(item => ({
+      path: item.path,
+      name: item.name,
+      directory: item.directory,
+    }));
     setClipboard({
       hostId,
       hostName: label,
-      path: entry.path,
-      name: entry.name,
-      directory: entry.directory,
+      items,
       mode,
+      copiedAt: Date.now(),
     });
+    const verb = mode === 'copy' ? '复制' : '剪切';
     action.setNotice({
       tone: 'info',
-      text: `已${mode === 'copy' ? '复制' : '剪切'}「${entry.name}」（${label}），可粘贴到本机或其他服务器目录。`,
+      text: items.length === 1
+        ? `已${verb}「${items[0].name}」（${label}），可按 Ctrl+V 粘贴到本机或其他服务器目录。`
+        : `已${verb} ${items.length} 个条目（${label}），可按 Ctrl+V 粘贴到当前或其他服务器目录。`,
     });
   }
 
-  function handlePaste(overwrite = false) {
-    if (!host || !hostId || !activeDir || !clipboard) return;
+  function confirmLocalPaste(localItems: LocalClipboardFile[], overwrite = false) {
+    if (!host || !hostId || !activeDir) return;
+    const validItems = localItems.filter(item => validLeaf(item.name));
+    if (validItems.length === 0) {
+      action.setNotice({ tone: 'info', text: '本机剪贴板中的文件名无法作为远端条目名称。' });
+      return;
+    }
     const dir = activeDir.path;
-    const targetPath = joinRemotePath(dir, clipboard.name);
-    const crossHost = clipboard.hostId !== hostId;
-    const verb = clipboard.mode === 'move' ? '移动' : '复制';
-    const scopeLabel = crossHost ? `跨服务器${verb}` : verb;
+    const existingNames = new Set(activeDir.entries.map(item => item.name));
+    const conflicts = validItems.filter(item => existingNames.has(item.name));
+    const hasConflict = conflicts.length > 0;
+    const preview = validItems
+      .slice(0, 4)
+      .map(item => `${item.name}${item.directory ? '（文件夹）' : ''}`)
+      .join('、') + (validItems.length > 4 ? ` 等共 ${validItems.length} 项` : '');
+    const title = validItems.length === 1
+      ? (validItems[0].directory ? '粘贴本地文件夹到远端？' : '粘贴本地文件到远端？')
+      : `粘贴 ${validItems.length} 个本地条目到远端？`;
+    const description = hasConflict
+      ? `目标目录中已存在 ${conflicts.length} 个同名条目（${conflicts.slice(0, 3).map(item => item.name).join('、')}），确认后将覆盖同名文件或合并目录。`
+      : '将把从本机电脑复制的文件或文件夹上传到当前远端目录。';
     confirm({
-      title: `${scopeLabel}到当前目录？`,
-      description: crossHost
-        ? `将通过双端 SFTP 把「${clipboard.name}」从 ${clipboard.hostName} ${verb}到 ${host.name || host.address}。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止以防止误覆盖。'}`
-        : `将把「${clipboard.name}」${verb}到当前目录。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止。'}`,
-      acceptLabel: overwrite ? `确认${scopeLabel}（覆盖）` : `确认${scopeLabel}`,
-      danger: overwrite || clipboard.mode === 'move',
+      title,
+      description,
+      acceptLabel: hasConflict || overwrite ? '确认粘贴并覆盖' : '确认粘贴上传',
+      danger: hasConflict || overwrite,
       info: [
-        ['来源服务器', clipboard.hostName],
-        ['来源路径', <code>{clipboard.path}</code>],
-        ['目标服务器', host.name || host.address],
-        ['目标路径', <code>{targetPath}</code>],
-        ['类型', clipboard.directory ? '文件夹（递归）' : '文件'],
+        ['主机', remoteTarget(host)],
+        ['目标目录', <code>{dir}</code>],
+        ['本地来源', preview],
       ],
       perform: () => {
-        const item = clipboard;
         void action.run(async current => {
-          const res = await api.call('files.transfer', {
-            sourceHostId: item.hostId,
-            sourcePath: item.path,
-            targetHostId: hostId,
-            targetPath,
-            mode: item.mode,
-            overwrite,
-            confirmed: true,
-          });
-          requireOk(res, `核心未确认${scopeLabel}完成。`);
-          if (current() && item.mode === 'move') setClipboard(undefined);
-          await refreshAfterMutation(
-            hostId,
-            dir,
-            current,
-            `已完成${scopeLabel}：${item.name}（${res.files} 个文件${res.dirs ? `，${res.dirs} 个目录` : ''}，${formatBytes(res.bytes)}）。`,
-          );
+          let uploaded = 0;
+          const failed: string[] = [];
+          for (const item of validItems) {
+            if (!current()) return;
+            const targetPath = joinRemotePath(dir, item.name);
+            try {
+              requireOk(
+                await api.call('files.upload', {
+                  hostId,
+                  path: targetPath,
+                  token: item.token,
+                  overwrite: true,
+                  confirmed: true,
+                }),
+                '核心未确认上传完成。',
+              );
+              uploaded++;
+            } catch (error) {
+              failed.push(`${item.name}（${faultText(error)}）`);
+            }
+          }
+          const summary = failed.length > 0
+            ? `已从本地粘贴上传 ${uploaded} 个条目，${failed.length} 个失败：${failed.slice(0, 2).join('；')}`
+            : validItems.length === 1
+              ? `已从本地粘贴上传 ${validItems[0].name} 到 ${dir}。`
+              : `已从本地粘贴上传 ${uploaded} 个条目到 ${dir}。`;
+          await refreshAfterMutation(hostId, dir, current, summary);
         });
       },
     });
+  }
+
+  function handleRemotePaste(overwrite = false) {
+    if (!host || !hostId || !activeDir || !clipboard || clipboard.items.length === 0) return;
+    const dir = activeDir.path;
+    const items = clipboard.items;
+    const crossHost = clipboard.hostId !== hostId;
+    const verb = clipboard.mode === 'move' ? '移动' : '复制';
+    const scopeLabel = crossHost ? `跨服务器${verb}` : verb;
+    if (items.length === 1) {
+      const single = items[0];
+      const targetPath = joinRemotePath(dir, single.name);
+      confirm({
+        title: `${scopeLabel}到当前目录？`,
+        description: crossHost
+          ? `将通过双端 SFTP 把「${single.name}」从 ${clipboard.hostName} ${verb}到 ${host.name || host.address}。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止以防止误覆盖。'}`
+          : `将把「${single.name}」${verb}到当前目录。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止。'}`,
+        acceptLabel: overwrite ? `确认${scopeLabel}（覆盖）` : `确认${scopeLabel}`,
+        danger: overwrite || clipboard.mode === 'move',
+        info: [
+          ['来源服务器', clipboard.hostName],
+          ['来源路径', <code>{single.path}</code>],
+          ['目标服务器', host.name || host.address],
+          ['目标路径', <code>{targetPath}</code>],
+          ['类型', single.directory ? '文件夹（递归）' : '文件'],
+        ],
+        perform: () => {
+          const snapshot = clipboard;
+          void action.run(async current => {
+            const res = await api.call('files.transfer', {
+              sourceHostId: snapshot.hostId,
+              sourcePath: single.path,
+              targetHostId: hostId,
+              targetPath,
+              mode: snapshot.mode,
+              overwrite,
+              confirmed: true,
+            });
+            requireOk(res, `核心未确认${scopeLabel}完成。`);
+            if (current() && snapshot.mode === 'move') setClipboard(undefined);
+            await refreshAfterMutation(
+              hostId,
+              dir,
+              current,
+              `已完成${scopeLabel}：${single.name}（${res.files} 个文件${res.dirs ? `，${res.dirs} 个目录` : ''}，${formatBytes(res.bytes)}）。`,
+            );
+          });
+        },
+      });
+      return;
+    }
+    const preview = items.slice(0, 4).map(item => item.name).join('、') + (items.length > 4 ? ` 等共 ${items.length} 项` : '');
+    confirm({
+      title: `${scopeLabel} ${items.length} 个条目到当前目录？`,
+      description: crossHost
+        ? `将通过双端 SFTP 把 ${items.length} 个条目从 ${clipboard.hostName} ${verb}到 ${host.name || host.address}。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止。'}`
+        : `将把 ${items.length} 个条目${verb}到当前目录。${overwrite ? '允许覆盖同名条目。' : '遇到同名条目时将停止。'}`,
+      acceptLabel: overwrite ? `确认${scopeLabel}（覆盖）` : `确认${scopeLabel} (${items.length})`,
+      danger: overwrite || clipboard.mode === 'move',
+      info: [
+        ['来源服务器', clipboard.hostName],
+        ['目标服务器', host.name || host.address],
+        ['目标目录', <code>{dir}</code>],
+        ['条目列表', preview],
+      ],
+      perform: () => {
+        const snapshot = clipboard;
+        void action.run(async current => {
+          let totalFiles = 0;
+          let totalDirs = 0;
+          let totalBytes = 0;
+          let doneCount = 0;
+          const failed: string[] = [];
+          for (const item of snapshot.items) {
+            if (!current()) return;
+            try {
+              const targetPath = joinRemotePath(dir, item.name);
+              const res = await api.call('files.transfer', {
+                sourceHostId: snapshot.hostId,
+                sourcePath: item.path,
+                targetHostId: hostId,
+                targetPath,
+                mode: snapshot.mode,
+                overwrite,
+                confirmed: true,
+              });
+              requireOk(res, `核心未确认${scopeLabel}完成。`);
+              doneCount++;
+              totalFiles += res.files;
+              totalDirs += res.dirs;
+              totalBytes += res.bytes;
+            } catch (error) {
+              failed.push(`${item.name}（${faultText(error)}）`);
+            }
+          }
+          if (current() && snapshot.mode === 'move' && failed.length === 0) setClipboard(undefined);
+          const summary = failed.length > 0
+            ? `已完成${scopeLabel} ${doneCount} 项，${failed.length} 项失败：${failed.slice(0, 2).join('；')}`
+            : `已完成${scopeLabel} ${doneCount} 个条目（${totalFiles} 个文件${totalDirs ? `，${totalDirs} 个目录` : ''}，${formatBytes(totalBytes)}）。`;
+          await refreshAfterMutation(hostId, dir, current, summary);
+        });
+      },
+    });
+  }
+
+  async function handleSmartPaste(overwrite = false, forceRemote = false) {
+    if (!host || !hostId || !activeDir || action.busy) return;
+    const hasRemote = Boolean(clipboard && clipboard.items.length > 0);
+    const preferLocal = !forceRemote && (!hasRemote || windowRefocusedAt.current > (clipboard?.copiedAt ?? 0));
+    if (preferLocal) {
+      let localItems: LocalClipboardFile[] = [];
+      try {
+        localItems = await api.call('clipboard.readFiles', {});
+      } catch {
+        localItems = [];
+      }
+      if (localItems.length > 0) {
+        confirmLocalPaste(localItems, overwrite);
+        return;
+      }
+    }
+    if (hasRemote) {
+      handleRemotePaste(overwrite);
+      return;
+    }
+    action.setNotice({ tone: 'info', text: '剪贴板中没有可粘贴的文件或文件夹。' });
   }
 
   function openScpDialog(entry: FileEntry, targetHostId?: string) {
@@ -651,36 +957,108 @@ export function TerminalFilePanel({
 
   function handleKeyDown(event: ReactKeyboardEvent<HTMLElement>) {
     if (!hostId || !activeDir || action.busy) return;
+    if (editor || scpDialog || archiveDialog || chmodDialog) return;
     const target = event.target as HTMLElement | null;
-    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')) return;
+    const isEditable = Boolean(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable));
+    if (isEditable) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (inlineMode) {
+          setInlineMode(undefined);
+          setInlineValue('');
+          focusPanel();
+        } else if (filterOpen) {
+          setFilterOpen(false);
+          setFilter('');
+          focusPanel();
+        }
+      }
+      return;
+    }
 
-    if (event.key === 'F5') {
+    const mod = event.ctrlKey || event.metaKey;
+    const lower = event.key.toLowerCase();
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      if (menu) closeMenu();
+      else if (inlineMode) { setInlineMode(undefined); setInlineValue(''); }
+      else if (filterOpen) { setFilterOpen(false); setFilter(''); }
+      else if (selectedPaths.length > 0) clearSelection();
+      return;
+    }
+
+    if (event.key === 'F5' || (mod && !event.shiftKey && !event.altKey && lower === 'r')) {
       event.preventDefault();
       loadDirectory(hostId, currentPath);
-    } else if (event.key === 'Enter' && selected) {
+      return;
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Home' || event.key === 'End') {
+      if (visibleEntries.length === 0) return;
+      event.preventDefault();
+      const currentIdx = activePath ? visibleEntries.findIndex(item => item.path === activePath) : -1;
+      if (event.key === 'ArrowDown') {
+        moveSelection(currentIdx < 0 ? 0 : currentIdx + 1, event.shiftKey);
+      } else if (event.key === 'ArrowUp') {
+        moveSelection(currentIdx < 0 ? visibleEntries.length - 1 : currentIdx - 1, event.shiftKey);
+      } else if (event.key === 'Home') {
+        moveSelection(0, event.shiftKey);
+      } else {
+        moveSelection(visibleEntries.length - 1, event.shiftKey);
+      }
+      return;
+    }
+
+    if (event.key === 'Enter' && selected) {
       event.preventDefault();
       handleOpenEntry(selected);
-    } else if (event.key === 'F2' && selected) {
+      return;
+    }
+
+    if (event.key === 'F2' && selected) {
       event.preventDefault();
+      selectSingle(selected);
       setInlineMode('rename');
       setInlineValue(selected.name);
-    } else if ((event.key === 'Backspace' || event.key === 'Delete') && selected) {
+      return;
+    }
+
+    if ((event.key === 'Delete' || (event.metaKey && event.key === 'Backspace')) && selectedEntries.length > 0) {
       event.preventDefault();
-      handleDelete(selected);
-    } else if (event.ctrlKey && event.altKey && event.key.toLowerCase() === 'e' && selected && !selected.directory && !selected.link) {
+      handleDelete(selectedEntries);
+      return;
+    }
+
+    if (event.key === 'Backspace' && !mod && !event.shiftKey && !event.altKey && hasParent) {
+      event.preventDefault();
+      loadDirectory(hostId, parentPath);
+      return;
+    }
+
+    if (event.ctrlKey && event.altKey && lower === 'e' && selected && !selected.directory && !selected.link) {
       event.preventDefault();
       handleEdit(selected);
-    } else if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey) {
-      const lower = event.key.toLowerCase();
-      if (lower === 'c' && selected && !selected.link) {
+      return;
+    }
+
+    if (mod && !event.shiftKey && !event.altKey) {
+      if (lower === 'a') {
         event.preventDefault();
-        setClipboardFromEntry(selected, 'copy');
-      } else if (lower === 'x' && selected && !selected.link) {
+        selectAllVisible();
+      } else if (lower === 'c' && selectedEntries.length > 0) {
         event.preventDefault();
-        setClipboardFromEntry(selected, 'move');
-      } else if (lower === 'v' && clipboard) {
+        setClipboardFromEntries(selectedEntries, 'copy');
+      } else if (lower === 'x' && selectedEntries.length > 0) {
         event.preventDefault();
-        handlePaste(false);
+        setClipboardFromEntries(selectedEntries, 'move');
+      } else if (lower === 'v') {
+        event.preventDefault();
+        void handleSmartPaste(false);
+      } else if (lower === 'f') {
+        event.preventDefault();
+        setFilterOpen(true);
+        window.setTimeout(() => filterInputRef.current?.focus(), 0);
       }
     }
   }
@@ -691,14 +1069,23 @@ export function TerminalFilePanel({
   }
 
   const menuEntry = menu?.entry;
+  const menuTargets = useMemo(() => {
+    if (!menuEntry) return [] as FileEntry[];
+    if (selectedSet.has(menuEntry.path) && selectedEntries.length > 1) return selectedEntries;
+    return [menuEntry];
+  }, [menuEntry, selectedSet, selectedEntries]);
   const menuEntryEditable = Boolean(menuEntry && !menuEntry.directory && !menuEntry.link);
   const menuEntryValid = Boolean(menuEntry && !menuEntry.link);
+  const menuTargetsCopyable = menuTargets.some(item => !item.link);
   const menuEntryExtractable = Boolean(menuEntryEditable && menuEntry && isArchiveFile(menuEntry.name));
   const bookmarkTarget = menuEntry && menuEntry.directory && !menuEntry.link ? menuEntry.path : currentPath;
   const isBookmarked = hostBookmarks.includes(bookmarkTarget);
   const submenuAlignLeft = Boolean(menu && menu.x + 420 > window.innerWidth);
+  const clipboardSummary = clipboard && clipboard.items.length > 0
+    ? (clipboard.items.length === 1 ? clipboard.items[0].name : `${clipboard.items[0].name} 等 ${clipboard.items.length} 项`)
+    : '';
 
-  return <aside className="rd-tf-panel" aria-label="服务器文件列表" tabIndex={-1} onKeyDown={handleKeyDown}>
+  return <aside ref={panelRef} className="rd-tf-panel" aria-label="服务器文件列表" tabIndex={-1} onKeyDown={handleKeyDown}>
     <header className="rd-tf-toolbar">
       <button type="button" className="rd-tf-icon-btn" title="返回上级目录" aria-label="返回上级目录"
         disabled={!hostId || !hasParent || action.busy} onClick={() => hostId && loadDirectory(hostId, parentPath)}>
@@ -754,14 +1141,14 @@ export function TerminalFilePanel({
           </ul>}
     </div>}
 
-    {clipboard && hostId && <div className="rd-tf-clipboard-bar" role="status">
-      <span className="rd-tf-clipboard-text" title={`${clipboard.hostName}:${clipboard.path}`}>
-        {clipboard.mode === 'move' ? '剪切' : '复制'}：<strong>{clipboard.name}</strong>
+    {clipboard && clipboard.items.length > 0 && hostId && <div className="rd-tf-clipboard-bar" role="status">
+      <span className="rd-tf-clipboard-text" title={clipboard.items.map(item => `${clipboard.hostName}:${item.path}`).join('\n')}>
+        {clipboard.mode === 'move' ? '剪切' : '复制'}：<strong>{clipboardSummary}</strong>
         {clipboard.hostId !== hostId && <em>（来自 {clipboard.hostName}）</em>}
       </span>
       <div className="rd-tf-clipboard-actions">
         <button type="button" className="rd-tf-mini-btn is-primary" disabled={!activeDir || action.busy}
-          onClick={() => handlePaste(false)}>
+          onClick={() => handleRemotePaste(false)}>
           粘贴到此处
         </button>
         <button type="button" className="rd-tf-icon-btn" title="清空剪贴板" aria-label="清空剪贴板"
@@ -773,7 +1160,7 @@ export function TerminalFilePanel({
 
     {filterOpen && hostId && <div className="rd-tf-inline-bar">
       <Search size={14} aria-hidden="true" />
-      <input aria-label="按名称筛选文件" placeholder="筛选当前目录文件名…" value={filter} onChange={e => setFilter(e.currentTarget.value)} />
+      <input ref={filterInputRef} aria-label="按名称筛选文件" placeholder="筛选当前目录文件名…" value={filter} onChange={e => setFilter(e.currentTarget.value)} />
       {filter && <button type="button" className="rd-tf-icon-btn" aria-label="清空筛选" onClick={() => setFilter('')}><X size={13} aria-hidden="true" /></button>}
     </div>}
 
@@ -786,13 +1173,21 @@ export function TerminalFilePanel({
     </form>}
 
     {hostId && <div className="rd-tf-summary" role="status">
-      <span>共 {stats.fileCount} 个文件，{stats.dirCount} 个文件夹，{formatBytes(stats.totalBytes)}</span>
+      <span>
+        共 {stats.fileCount} 个文件，{stats.dirCount} 个文件夹，{formatBytes(stats.totalBytes)}
+        {selectedEntries.length > 0 && <strong className="rd-tf-selected-badge">已选 {selectedEntries.length} 项</strong>}
+      </span>
       {host && <span className="rd-tf-host-tag" title={remoteTarget(host)}>{host.name || host.address}</span>}
     </div>}
 
     {action.notice && <div className="rd-tf-notice"><Notice value={action.notice} /></div>}
 
-    <div className="rd-tf-list-wrap" onContextMenu={event => openContextMenu(event, undefined)}>
+    <div className="rd-tf-list-wrap"
+      onClick={event => {
+        focusPanel();
+        if (event.target === event.currentTarget) clearSelection();
+      }}
+      onContextMenu={event => openContextMenu(event, undefined)}>
       {!hostId ? <div className="rd-tf-empty">
         <Empty icon={<Folder size={22} />} title="未选择服务器" description="在左侧服务器列表选择已验证的主机后，此处将显示该服务器的文件列表。" />
       </div> : <table className="rd-tf-table" aria-label="远端目录条目">
@@ -805,16 +1200,23 @@ export function TerminalFilePanel({
           </tr>
         </thead>
         <tbody>
-          {hasParent && <tr className="rd-tf-row" onDoubleClick={() => loadDirectory(hostId, parentPath)} onClick={() => loadDirectory(hostId, parentPath)}>
+          {hasParent && <tr className="rd-tf-row" onDoubleClick={() => loadDirectory(hostId, parentPath)} onClick={() => { focusPanel(); loadDirectory(hostId, parentPath); }}>
             <td className="rd-tf-name-cell"><span className="rd-tf-name"><Folder size={15} aria-hidden="true" className="rd-tf-folder-icon" /><span>..</span></span></td>
             <td className="rd-tf-col-date">—</td>
             <td className="rd-tf-col-size">—</td>
             <td className="rd-tf-col-ops" />
           </tr>}
           {visibleEntries.map(entry => {
-            const isSelected = selected?.path === entry.path;
-            return <tr key={entry.path} className={`rd-tf-row${isSelected ? ' is-selected' : ''}`}
-              onClick={() => setSelected(entry)}
+            const isSelected = selectedSet.has(entry.path);
+            const isActive = activePath === entry.path;
+            return <tr key={entry.path}
+              ref={el => {
+                if (el) rowRefs.current.set(entry.path, el);
+                else rowRefs.current.delete(entry.path);
+              }}
+              aria-selected={isSelected}
+              className={`rd-tf-row${isSelected ? ' is-selected' : ''}${isActive ? ' is-active' : ''}`}
+              onClick={event => handleRowClick(event, entry)}
               onContextMenu={event => openContextMenu(event, entry)}
               onDoubleClick={() => handleOpenEntry(entry)}>
               <td className="rd-tf-name-cell" title={entry.path}>
@@ -834,7 +1236,7 @@ export function TerminalFilePanel({
                     <Download size={13} aria-hidden="true" />
                   </button>}
                   <button type="button" className="rd-tf-op-btn" title={`重命名 ${entry.name}`} aria-label={`重命名 ${entry.name}`}
-                    disabled={action.busy} onClick={() => { setSelected(entry); setInlineMode('rename'); setInlineValue(entry.name); }}>
+                    disabled={action.busy} onClick={() => { selectSingle(entry); setInlineMode('rename'); setInlineValue(entry.name); }}>
                     <Pencil size={13} aria-hidden="true" />
                   </button>
                   <button type="button" className="rd-tf-op-btn is-danger" title={`删除 ${entry.name}`} aria-label={`删除 ${entry.name}`}
@@ -846,7 +1248,7 @@ export function TerminalFilePanel({
             </tr>;
           })}
           {!action.busy && visibleEntries.length === 0 && <tr>
-            <td colSpan={4} className="rd-tf-empty-row">{filter ? '当前筛选无匹配文件' : '目录为空（右键可新建文件夹、上传或粘贴）'}</td>
+            <td colSpan={4} className="rd-tf-empty-row">{filter ? '当前筛选无匹配文件' : '目录为空（右键可新建文件夹、上传或按 Ctrl+V 粘贴）'}</td>
           </tr>}
         </tbody>
       </table>}
@@ -868,20 +1270,20 @@ export function TerminalFilePanel({
             <LocateFixed size={14} aria-hidden="true" />
           </button>
           <button type="button" className="rd-tf-menu-qbtn"
-            title={clipboard ? `粘贴 ${clipboard.name}（来自 ${clipboard.hostName}）` : '粘贴（剪贴板为空）'}
+            title={clipboard && clipboard.items.length > 0 ? `粘贴 ${clipboardSummary}（来自 ${clipboard.hostName}）或本机剪贴板文件` : '粘贴（支持 Ctrl+V 粘贴本机或远端文件）'}
             aria-label="粘贴"
-            disabled={!clipboard || action.busy}
-            onClick={() => { closeMenu(); handlePaste(false); }}>
+            disabled={!activeDir || action.busy}
+            onClick={() => { closeMenu(); void handleSmartPaste(false); }}>
             <ClipboardPaste size={14} aria-hidden="true" />
           </button>
-          <button type="button" className="rd-tf-menu-qbtn" title="剪切（支持跨服务器移动）" aria-label="剪切"
-            disabled={!menuEntryValid || action.busy}
-            onClick={() => { if (menuEntry) setClipboardFromEntry(menuEntry, 'move'); closeMenu(); }}>
+          <button type="button" className="rd-tf-menu-qbtn" title="剪切（Ctrl+X，支持多选与跨服务器移动）" aria-label="剪切"
+            disabled={!menuTargetsCopyable || action.busy}
+            onClick={() => { if (menuTargets.length > 0) setClipboardFromEntries(menuTargets, 'move'); closeMenu(); }}>
             <Scissors size={14} aria-hidden="true" />
           </button>
-          <button type="button" className="rd-tf-menu-qbtn" title="复制（支持跨服务器传输）" aria-label="复制"
-            disabled={!menuEntryValid || action.busy}
-            onClick={() => { if (menuEntry) setClipboardFromEntry(menuEntry, 'copy'); closeMenu(); }}>
+          <button type="button" className="rd-tf-menu-qbtn" title="复制（Ctrl+C，支持多选与跨服务器传输）" aria-label="复制"
+            disabled={!menuTargetsCopyable || action.busy}
+            onClick={() => { if (menuTargets.length > 0) setClipboardFromEntries(menuTargets, 'copy'); closeMenu(); }}>
             <Copy size={14} aria-hidden="true" />
           </button>
         </div>
@@ -971,14 +1373,14 @@ export function TerminalFilePanel({
           disabled={!menuEntry || action.busy}
           onClick={() => {
             closeMenu();
-            if (menuEntry) { setSelected(menuEntry); setInlineMode('rename'); setInlineValue(menuEntry.name); }
+            if (menuEntry) { selectSingle(menuEntry); setInlineMode('rename'); setInlineValue(menuEntry.name); }
           }}>
           <Pencil size={14} aria-hidden="true" /><span>重命名</span><kbd>F2</kbd>
         </button>
         <button type="button" role="menuitem" className="rd-tf-menu-item is-danger"
-          disabled={!menuEntry || action.busy}
-          onClick={() => { closeMenu(); if (menuEntry) handleDelete(menuEntry); }}>
-          <Trash2 size={14} aria-hidden="true" /><span>删除</span><kbd>Backspace</kbd>
+          disabled={menuTargets.length === 0 || action.busy}
+          onClick={() => { closeMenu(); if (menuTargets.length > 0) handleDelete(menuTargets); }}>
+          <Trash2 size={14} aria-hidden="true" /><span>{menuTargets.length > 1 ? `删除 (${menuTargets.length} 项)` : '删除'}</span><kbd>Delete</kbd>
         </button>
         <div className={`rd-tf-menu-subwrap${openSubmenu === 'more' ? ' is-open' : ''}`}
           onMouseEnter={() => setOpenSubmenu('more')}>
@@ -988,6 +1390,11 @@ export function TerminalFilePanel({
             <ChevronDown size={14} aria-hidden="true" /><span>更多</span><MoreHorizontal size={13} aria-hidden="true" className="rd-tf-menu-arrow" />
           </button>
           {openSubmenu === 'more' && <div className={`rd-tf-submenu${submenuAlignLeft ? ' is-left' : ''}`} role="menu" aria-label="更多文件操作">
+            <button type="button" role="menuitem" className="rd-tf-menu-item"
+              disabled={visibleEntries.length === 0}
+              onClick={() => { closeMenu(); selectAllVisible(); }}>
+              <Check size={13} aria-hidden="true" /><span>全选</span><kbd>Ctrl+A</kbd>
+            </button>
             <button type="button" role="menuitem" className="rd-tf-menu-item"
               disabled={action.busy}
               onClick={() => { closeMenu(); setInlineMode('mkdir'); setInlineValue(''); }}>
@@ -1001,9 +1408,9 @@ export function TerminalFilePanel({
               onClick={() => { closeMenu(); void copyText(menuEntry.name, '名称'); }}>
               <Copy size={13} aria-hidden="true" /><span>复制名称</span>
             </button>}
-            {clipboard && <button type="button" role="menuitem" className="rd-tf-menu-item"
+            {clipboard && clipboard.items.length > 0 && <button type="button" role="menuitem" className="rd-tf-menu-item"
               disabled={action.busy}
-              onClick={() => { closeMenu(); handlePaste(true); }}>
+              onClick={() => { closeMenu(); handleRemotePaste(true); }}>
               <ClipboardPaste size={13} aria-hidden="true" /><span>粘贴并覆盖同名项</span>
             </button>}
           </div>}

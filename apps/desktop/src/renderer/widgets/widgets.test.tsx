@@ -276,6 +276,56 @@ describe('RelayDock 工作区 · 合成桥接', () => {
     expect(await screen.findByText('已切换终端到 /mnt/disk02/my app')).toBeTruthy();
   });
 
+  it('右侧文件列表支持 Ctrl+A 全选、方向键导航、Delete 批量删除与 Ctrl+V 粘贴本机文件/文件夹', async () => {
+    const { api, call } = fixture({
+      'terminal.open': () => ({ sessionId: 'pty-kb' }),
+      'terminal.close': () => ({ ok: true }),
+      'files.list': () => ({
+        path: '/mnt/disk02/webapp',
+        entries: [
+          { name: 'assets', path: '/mnt/disk02/webapp/assets', size: 0, directory: true },
+          { name: 'a.js', path: '/mnt/disk02/webapp/a.js', size: 1024, directory: false },
+          { name: 'b.css', path: '/mnt/disk02/webapp/b.css', size: 512, directory: false },
+        ],
+      }),
+      'files.delete': () => ({ ok: true }),
+      'files.upload': () => ({ ok: true }),
+      'clipboard.readFiles': () => ([
+        { token: 'clip-file-token', name: 'index.html', directory: false },
+        { token: 'clip-dir-token', name: 'static', directory: true },
+      ]),
+    });
+    render(pane(api, 'terminal', { host, hosts: [host] }));
+    const panel = screen.getByLabelText('服务器文件列表');
+    const fileCell = await screen.findByText('a.js');
+
+    // Click row, then ArrowDown moves to b.css.
+    fireEvent.click(fileCell);
+    expect(screen.getByText('已选 1 项')).toBeTruthy();
+    fireEvent.keyDown(panel, { key: 'ArrowDown' });
+    expect(screen.getByText('b.css').closest('tr')?.getAttribute('aria-selected')).toBe('true');
+
+    // Ctrl+A selects all 3 visible entries, then Delete triggers batch deletion.
+    fireEvent.keyDown(panel, { key: 'a', ctrlKey: true });
+    expect(screen.getByText('已选 3 项')).toBeTruthy();
+    fireEvent.keyDown(panel, { key: 'Delete' });
+    accept('确认删除 (3)');
+    await waitFor(() => expect(call.mock.calls.filter(([m]) => m === 'files.delete')).toEqual([
+      ['files.delete', { hostId: host.id, path: '/mnt/disk02/webapp/assets', recursive: true, confirmed: true }],
+      ['files.delete', { hostId: host.id, path: '/mnt/disk02/webapp/a.js', recursive: false, confirmed: true }],
+      ['files.delete', { hostId: host.id, path: '/mnt/disk02/webapp/b.css', recursive: false, confirmed: true }],
+    ]));
+
+    // Ctrl+V reads local OS clipboard files/folders and uploads them after confirmation.
+    fireEvent.keyDown(panel, { key: 'v', ctrlKey: true });
+    await screen.findByText('粘贴 2 个本地条目到远端？');
+    accept('确认粘贴上传');
+    await waitFor(() => expect(call.mock.calls.filter(([m]) => m === 'files.upload')).toEqual([
+      ['files.upload', { hostId: host.id, path: '/mnt/disk02/webapp/index.html', token: 'clip-file-token', overwrite: true, confirmed: true }],
+      ['files.upload', { hostId: host.id, path: '/mnt/disk02/webapp/static', token: 'clip-dir-token', overwrite: true, confirmed: true }],
+    ]));
+  });
+
   it('文本写入提交原摘要并保留 CRLF；远端冲突后保留草稿', async () => {
     const { api, call } = fixture({ 'files.read': () => ({ content: '# 注释\r\nport=1\r\n', digest: oldDigest }),
       'files.write': () => { throw { code: 'FILE_CHANGED', message: '远端文件已经变化' }; } });

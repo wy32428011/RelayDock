@@ -77,6 +77,7 @@ const schemas = {
   'core.status': empty,
   'dialog.pick': shape({ purpose: oneOf(purposes) }),
   'dialog.export': shape({ token, text }),
+  'clipboard.readFiles': empty,
   'update.status': empty,
   'update.check': empty,
   'update.download': empty,

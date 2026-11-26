@@ -10,7 +10,7 @@ import type { Purpose } from './validation';
 import { localPath } from './paths';
 
 const TOKEN_TTL = 10 * 60_000;
-const MAX_GRANTS = 64;
+const MAX_GRANTS = 256;
 /** A distinct scope for the window's current document, not a renderer-supplied ID. */
 export type GrantScope = object;
 interface Selection {

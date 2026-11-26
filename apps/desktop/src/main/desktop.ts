@@ -1,10 +1,12 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, session } from 'electron';
+import { app, BrowserWindow, clipboard, dialog, ipcMain, Menu, session } from 'electron';
 import type { IpcMainInvokeEvent, OpenDialogOptions, Session } from 'electron';
 import { lstatSync, mkdirSync } from 'node:fs';
+import { lstat } from 'node:fs/promises';
 import { join } from 'node:path';
 import { activeStates, MAX_FRAME } from '@relaydock/protocol';
 import type { CoreEvent, CoreMethods, Result } from '@relaydock/protocol';
 import { CALL_CHANNEL, EVENT_CHANNEL } from '../preload/channels';
+import { readClipboardFilePaths } from './clipboard-files';
 import { CoreProcess } from './core';
 import { BridgeError, publicFault } from './faults';
 import { FileGrants } from './file-grants';
@@ -163,6 +165,33 @@ async function pick(context: WindowContext, purpose: Purpose, stillAllowed: () =
   }
 }
 
+async function readClipboardFiles(
+  scope: GrantScope,
+  stillAllowed: () => boolean,
+): Promise<{ token: string; name: string; directory: boolean }[]> {
+  const paths = await readClipboardFilePaths(clipboard);
+  if (paths.length === 0) return [];
+  if (!stillAllowed()) throw new BridgeError('BAD_SENDER', '当前窗口授权已失效，请重新操作。');
+  const results: { token: string; name: string; directory: boolean }[] = [];
+  for (const filePath of paths) {
+    try {
+      const info = await lstat(filePath);
+      if (info.isSymbolicLink()) continue;
+      const directory = info.isDirectory();
+      if (!directory && !info.isFile()) continue;
+      const granted = await fileGrants.issue(scope, directory ? 'uploadDirectory' : 'upload', filePath);
+      results.push({ ...granted, directory });
+    } catch {
+      // Skip vanished or unreadable entries from the OS clipboard.
+    }
+  }
+  if (!stillAllowed()) {
+    fileGrants.revoke(scope);
+    throw new BridgeError('BAD_SENDER', '当前窗口授权已失效，请重新操作。');
+  }
+  return results;
+}
+
 function registerCalls(): void {
   ipcMain.handle(CALL_CHANNEL, async (event, ...args: unknown[]): Promise<Result> => {
     try {
@@ -208,6 +237,9 @@ function registerCalls(): void {
         if (Buffer.byteLength(text, 'utf8') >= MAX_FRAME) throw new BridgeError('FRAME_LIMIT', '导出文本过大，请缩小日志范围。');
         await fileGrants.export(scope, input.token, text, stillAllowed);
         return { ok: true, result: { ok: true } };
+      }
+      if (method === 'clipboard.readFiles') {
+        return { ok: true, result: await readClipboardFiles(scope, stillAllowed) };
       }
       if (!core.status.ready) throw new BridgeError('CORE_UNAVAILABLE', core.status.detail ?? '本地核心尚未就绪。');
       const params = await fileGrants.translate(method, input, scope);

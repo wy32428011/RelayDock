@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
 import { test } from 'vitest';
 import { MAX_FRAME, VERSION } from '@relaydock/protocol';
 import { BridgeError, coreFault } from './faults';
+import { parseMacPlistFilenames, parseUriList, parseUtf16PathBuffer } from './clipboard-files';
 import { FileGrants } from './file-grants';
 import { corePaths, rendererRequestAllowed, userDataPath } from './paths';
 import { FrameReader, encodeRequest } from './protocol';
@@ -48,10 +49,17 @@ test('NDJSON supports split UTF-8 and rejects overlong, invalid or unfinished fr
 test('method and argument validation permits optional fields, not local paths or unknown keys', () => {
   assert.equal(isMethod('hello'), false);
   assert.equal(isMethod('dialog.pick'), true);
+  assert.equal(isMethod('clipboard.readFiles'), true);
   assert.equal(isMethod('core.status'), true);
   assert.equal(isMethod('update.check'), true);
   assert.equal(isMethod('update.download'), true);
   assert.equal(isMethod('update.install'), true);
+  assert.throws(() => validate('clipboard.readFiles', { extra: 'x' }), code('BAD_PARAMS'));
+  assert.doesNotThrow(() => validate('clipboard.readFiles', {}));
+  assert.deepEqual(parseUtf16PathBuffer(Buffer.from('C:\\demo\\a.txt\0C:\\demo\\dir\0\0', 'utf16le')), ['C:\\demo\\a.txt', 'C:\\demo\\dir']);
+  assert.deepEqual(parseMacPlistFilenames('<plist><array><string>/tmp/a &amp; b.txt</string><string>/tmp/dir</string></array></plist>'), ['/tmp/a & b.txt', '/tmp/dir']);
+  const sampleUri = pathToFileURL(join(tmpdir(), 'demo file.txt')).href;
+  assert.deepEqual(parseUriList(`copy\n${sampleUri}\n# comment\n`), [join(tmpdir(), 'demo file.txt')]);
   assert.throws(() => validate('update.check', { extra: 'x' }), code('BAD_PARAMS'));
   const draft = { name: '测试', address: 'local.invalid', port: 22, username: 'fixture', group: '', auth: 'password', keyToken: undefined };
   assert.doesNotThrow(() => validate('host.probe', { host: draft, hostId: undefined }));

@@ -86,6 +86,7 @@ export interface ElectronMethods {
   'core.status': [Empty, {ready: boolean; version?: string; platform: string; arch: string; detail?: string}];
   'dialog.pick': [{purpose: 'key'|'upload'|'uploadDirectory'|'download'|'resource'|'migration'|'export'}, {token: string; name: string}|null];
   'dialog.export': [{token: string; text: string}, {ok: boolean}];
+  'clipboard.readFiles': [Empty, {token: string; name: string; directory: boolean}[]];
   'update.status': [Empty, UpdateState];
   'update.check': [Empty, UpdateState];
   'update.download': [Empty, UpdateState];
